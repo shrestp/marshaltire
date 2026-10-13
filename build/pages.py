@@ -24,7 +24,7 @@ def shell(page, title, desc, body, extra_head='', extra_js=''):
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 {extra_head}<link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body data-page="{page}">
@@ -359,10 +359,42 @@ contact = f'''
   </div>
 </section>'''
 
+HERO_ALT = f'''
+<section class="hero hero--full" data-slider aria-roledescription="carousel" aria-label="Marshal Tire highlights">
+  <div class="slides">
+    <div class="slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 2" style="background-image:url(assets/img/hero-alt-truck.jpg);--m-size:220% auto;--m-pos:85% 0">
+      <div class="slide-copy">
+        <p class="eyebrow">Marshal Tire</p>
+        <h1>Built to perform.</h1>
+        <p>Practical tires with the right balance of performance, durability and value. Made for the driving you do every day.</p>
+        <div class="actions"><a class="btn btn--primary btn--lg" href="#range">EXPLORE LINEUP {ARROW}</a></div>
+      </div>
+      <div class="stats" aria-label="Lineup at a glance"><div><strong>4</strong><span>tire lines</span></div><div><strong>122</strong><span>fitments</span></div><div><strong>14–22"</strong><span>rim sizes</span></div></div>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="2 of 2" style="background-image:url(assets/img/hero-alt-tires.jpg);--m-size:200% auto;--m-pos:78% 0">
+      <div class="slide-copy">
+        <p class="eyebrow">Mileage warranty</p>
+        <h2>Confidence for the miles ahead.</h2>
+        <p>Every Marshal tire carries a limited treadwear warranty.</p>
+        <div class="actions"><a class="btn btn--primary btn--lg" href="#warranty">VIEW WARRANTY DETAILS {ARROW}</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-controls">
+    <div class="dots" role="group" aria-label="Choose slide"></div>
+    <button class="ctrl" data-pause type="button" aria-label="Pause slideshow"></button>
+    <button class="ctrl" data-prev type="button" aria-label="Previous slide">{ARROW_L}</button>
+    <button class="ctrl" data-next type="button" aria-label="Next slide">{ARROW_R}</button>
+  </div>
+</section>'''
+_a = home.index('<section class="hero" data-slider'); _b = home.index('</section>', _a) + len('</section>')
+home_alt = home[:_a] + HERO_ALT.strip() + home[_b:]
+
 LEAFLET_CSS = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">\n'
 LEAFLET_JS = '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>\n'
 pages = {
   'index.html': ('home', 'Marshal Tire | Built to perform', 'Practical tires with the right balance of performance, durability and value.', home, '', ''),
+  'index-alt.html': ('home', 'Marshal Tire | Built to perform (alt hero)', 'Practical tires with the right balance of performance, durability and value.', home_alt, '', ''),
   'about.html': ('about', 'About Us | Marshal Tire', 'Built around your everyday drive.', about, '', ''),
   'tire-details.html': ('tire-details', 'Marshal All Terrain MF41 | Marshal Tire', 'Marshal All Terrain MF41: technology, sample vehicles and all 25 available sizes.', details, '', '<script src="assets/js/mf41.js"></script>\n'),
   'dealers.html': ('dealers', 'Find a Dealer | Marshal Tire', 'Find authorized Marshal Tire dealers near you.', dealers, LEAFLET_CSS, LEAFLET_JS),

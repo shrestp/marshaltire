@@ -5,6 +5,7 @@ This is a clickable website mockup built from the Figma frames in *Marshal Tires
 | Page | File | Figma frame |
 |---|---|---|
 | Landing with slider | `index.html` | 415:3705 |
+| Landing, alternate full-bleed hero | `index-alt.html` | 455:7457 |
 | About Us | `about.html` | 326:581 |
 | Tire Details · ver. 2 (MF41 All Terrain) | `tire-details.html` | 326:1002 |
 | Dealer Finder | `dealers.html` | 326:1310 |
