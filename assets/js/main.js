@@ -96,11 +96,14 @@
       bars[i].classList.add('run');
     };
     bars.forEach((b, k) => b.addEventListener('animationend', () => { if (k === i) go(i + 1); }));
-    const setPaused = p => { paused = p; hero.classList.toggle('is-paused', p); pause.innerHTML = p ? icon.play : icon.pause; pause.setAttribute('aria-label', p ? 'Play slideshow' : 'Pause slideshow'); };
+    const setPaused = p => { paused = p; hero.classList.toggle('is-paused', p); if (pause) { pause.innerHTML = p ? icon.play : icon.pause; pause.setAttribute('aria-label', p ? 'Play slideshow' : 'Pause slideshow'); } };
     $$('button', dots).forEach((d, k) => d.addEventListener('click', () => { if (k !== i) go(k); }));
     prev.addEventListener('click', () => go(i - 1));
     next.addEventListener('click', () => go(i + 1));
-    pause.addEventListener('click', () => setPaused(!paused));
+    if (pause) pause.addEventListener('click', () => setPaused(!paused));
+    // hold progress while the pointer is over the hero
+    hero.addEventListener('mouseenter', () => hero.classList.add('is-hovering'));
+    hero.addEventListener('mouseleave', () => hero.classList.remove('is-hovering'));
     // hold progress while a keyboard user is inside the hero
     hero.addEventListener('focusin', e => { if (e.target.matches(':focus-visible')) hero.classList.add('is-holding'); });
     hero.addEventListener('focusout', e => { if (!hero.contains(e.relatedTarget)) hero.classList.remove('is-holding'); });

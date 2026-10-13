@@ -170,11 +170,12 @@ p { margin: 0; }
 .dots button[aria-current="true"] { width: 100px; height: 8px; border-radius: 4px; cursor: default; }
 .dots .fill { position: absolute; inset: 0; width: 0; background: var(--brand-4); border-radius: inherit; }
 .dots button[aria-current="true"] .fill.run { animation: slide-progress var(--slide-ms, 7000ms) linear forwards; }
-.hero.is-paused .dots .fill.run, .hero.is-holding .dots .fill.run { animation-play-state: paused; }
+.hero.is-paused .dots .fill.run, .hero.is-holding .dots .fill.run, .hero.is-hovering .dots .fill.run { animation-play-state: paused; }
 @keyframes slide-progress { from { width: 0; } to { width: 100%; } }
 .ctrl { width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(0,0,0,.4); color: #fff; display: grid; place-items: center; cursor: pointer; transition: background .15s; }
 .ctrl:hover { background: rgba(0,0,0,.6); }
 .ctrl svg { width: 20px; height: 20px; }
+.ctrl-group { display: flex; gap: 8px; }
 /* warranty badge (shield) */
 .shield { width: min(280px, 20vw); height: auto; display: block; filter: drop-shadow(0 20px 40px rgba(0,0,0,.3)); }
 .slide-art--shield { top: auto; bottom: 32px; transform: translateX(-50%); }

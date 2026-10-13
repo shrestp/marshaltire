@@ -91,9 +91,10 @@ home = f'''
   </div>
   <div class="hero-controls">
     <div class="dots" role="group" aria-label="Choose slide"></div>
-    <button class="ctrl" data-pause type="button" aria-label="Pause slideshow"></button>
-    <button class="ctrl" data-prev type="button" aria-label="Previous slide">{ARROW_L}</button>
-    <button class="ctrl" data-next type="button" aria-label="Next slide">{ARROW_R}</button>
+    <div class="ctrl-group">
+      <button class="ctrl" data-prev type="button" aria-label="Previous slide">{ARROW_L}</button>
+      <button class="ctrl" data-next type="button" aria-label="Next slide">{ARROW_R}</button>
+    </div>
   </div>
 </section>
 
@@ -382,9 +383,10 @@ HERO_ALT = f'''
   </div>
   <div class="hero-controls">
     <div class="dots" role="group" aria-label="Choose slide"></div>
-    <button class="ctrl" data-pause type="button" aria-label="Pause slideshow"></button>
-    <button class="ctrl" data-prev type="button" aria-label="Previous slide">{ARROW_L}</button>
-    <button class="ctrl" data-next type="button" aria-label="Next slide">{ARROW_R}</button>
+    <div class="ctrl-group">
+      <button class="ctrl" data-prev type="button" aria-label="Previous slide">{ARROW_L}</button>
+      <button class="ctrl" data-next type="button" aria-label="Next slide">{ARROW_R}</button>
+    </div>
   </div>
 </section>'''
 _a = home.index('<section class="hero" data-slider'); _b = home.index('</section>', _a) + len('</section>')
