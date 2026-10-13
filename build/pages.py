@@ -2,6 +2,9 @@
 import pathlib, re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 LOGO = (ROOT / 'assets/img/logo.svg').read_text().strip()
+import hashlib
+def ver(rel):  # cache-busting tag: changes whenever the file changes
+    return hashlib.md5((ROOT / rel).read_bytes()).hexdigest()[:8]
 
 ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>'
 ARROW_R = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>'
@@ -25,7 +28,7 @@ def shell(page, title, desc, body, extra_head='', extra_js=''):
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-{extra_head}<link rel="stylesheet" href="assets/css/styles.css">
+{extra_head}<link rel="stylesheet" href="assets/css/styles.css?v={ver('assets/css/styles.css')}">
 </head>
 <body data-page="{page}">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -35,7 +38,7 @@ def shell(page, title, desc, body, extra_head='', extra_js=''):
 {body}
 </main>
 <footer id="site-footer"></footer>
-{extra_js}<script src="assets/js/main.js"></script>
+{extra_js}<script src="assets/js/main.js?v={ver('assets/js/main.js')}"></script>
 </body>
 </html>
 '''
@@ -398,7 +401,7 @@ pages = {
   'index.html': ('home', 'Marshal Tire | Built to perform', 'Practical tires with the right balance of performance, durability and value.', home, '', ''),
   'index-alt.html': ('home', 'Marshal Tire | Built to perform (alt hero)', 'Practical tires with the right balance of performance, durability and value.', home_alt, '', ''),
   'about.html': ('about', 'About Us | Marshal Tire', 'Built around your everyday drive.', about, '', ''),
-  'tire-details.html': ('tire-details', 'Marshal All Terrain MF41 | Marshal Tire', 'Marshal All Terrain MF41: technology, sample vehicles and all 25 available sizes.', details, '', '<script src="assets/js/mf41.js"></script>\n'),
+  'tire-details.html': ('tire-details', 'Marshal All Terrain MF41 | Marshal Tire', 'Marshal All Terrain MF41: technology, sample vehicles and all 25 available sizes.', details, '', f'<script src="assets/js/mf41.js?v={ver("assets/js/mf41.js")}"></script>\n'),
   'dealers.html': ('dealers', 'Find a Dealer | Marshal Tire', 'Find authorized Marshal Tire dealers near you.', dealers, LEAFLET_CSS, LEAFLET_JS),
   'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: general and business inquiries.', contact, '', ''),
 }
