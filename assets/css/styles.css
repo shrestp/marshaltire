@@ -411,3 +411,32 @@ p { margin: 0; }
   .hero--full .stats { top: 16px; left: 16px; right: auto; bottom: auto; }
   .hero--full .hero-controls { position: absolute; left: var(--gutter); bottom: 32px; padding: 0; background: none; }
 }
+
+/* ---------- Full-bleed hero motion ---------- */
+.hero--full .slide { background: #000; }
+.hero--full .slide-bg { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; background-position: var(--bg-pos, center); transform-origin: 60% 60%; will-change: transform; }
+.hero--full .slide::before { z-index: 1; }
+.hero--full .slide-copy { z-index: 2; }
+.hero--full .slide.is-active .slide-bg { animation: hero-drive-in 8s cubic-bezier(.16,.84,.3,1) both; }
+@keyframes hero-drive-in {
+  0%   { transform: translateX(6%) scale(1.12); filter: brightness(.6); }
+  22%  { transform: translateX(0) scale(1.05); filter: brightness(1); }
+  100% { transform: translateX(0) scale(1); filter: brightness(1); }
+}
+.hero--full .slide-copy > * { opacity: 0; transform: translateY(28px); }
+.hero--full .slide.is-active .slide-copy > * { animation: hero-rise .9s cubic-bezier(.2,.8,.2,1) both; }
+.hero--full .slide.is-active .slide-copy > :nth-child(1) { animation-delay: .35s; }
+.hero--full .slide.is-active .slide-copy > :nth-child(2) { animation-delay: .5s; }
+.hero--full .slide.is-active .slide-copy > :nth-child(3) { animation-delay: .65s; }
+.hero--full .slide.is-active .slide-copy > :nth-child(4) { animation-delay: .8s; }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+.hero--full .slide.is-active .slide-copy .eyebrow { animation-name: hero-eyebrow; }
+@keyframes hero-eyebrow { from { opacity: 0; transform: translateY(12px); letter-spacing: .3em; } to { opacity: 1; transform: none; letter-spacing: 0; } }
+.hero--full .hero-controls { animation: hero-rise .8s 1s cubic-bezier(.2,.8,.2,1) both; }
+@media (max-width: 900px) {
+  .hero--full .slide-bg { background-size: var(--m-size, cover); background-position: var(--m-pos, center); background-color: #000; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero--full .slide.is-active .slide-bg, .hero--full .slide.is-active .slide-copy > *, .hero--full .hero-controls { animation: none; }
+  .hero--full .slide-copy > * { opacity: 1; transform: none; }
+}
