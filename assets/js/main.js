@@ -83,23 +83,29 @@
   const hero = $('.hero[data-slider]');
   if (hero) {
     const slides = $$('.slide', hero), dots = $('.dots', hero), prev = $('[data-prev]', hero), next = $('[data-next]', hero), pause = $('[data-pause]', hero);
-    let i = 0, timer = null, paused = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    dots.innerHTML = slides.map((_, n) => `<button type="button" aria-label="Go to slide ${n + 1}"></button>`).join('');
+    let i = 0, paused = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    dots.innerHTML = slides.map((_, n) => `<button type="button" aria-label="Go to slide ${n + 1}"><span class="fill"></span></button>`).join('');
+    const bars = $$('.fill', dots);
     const go = n => {
       i = (n + slides.length) % slides.length;
       slides.forEach((s, k) => { s.classList.toggle('is-active', k === i); s.setAttribute('aria-hidden', k !== i); s.inert = k !== i; });
       $$('button', dots).forEach((d, k) => d.setAttribute('aria-current', k === i));
+      // restart the progress bar on the active dot; when it fills, advance
+      bars.forEach(b => b.classList.remove('run'));
+      void bars[i].offsetWidth;
+      bars[i].classList.add('run');
     };
-    const play = () => { clearInterval(timer); if (!paused) timer = setInterval(() => go(i + 1), 7000); };
-    const setPaused = p => { paused = p; pause.innerHTML = p ? icon.play : icon.pause; pause.setAttribute('aria-label', p ? 'Play slideshow' : 'Pause slideshow'); play(); };
-    $$('button', dots).forEach((d, k) => d.addEventListener('click', () => { go(k); play(); }));
-    prev.addEventListener('click', () => { go(i - 1); play(); });
-    next.addEventListener('click', () => { go(i + 1); play(); });
+    bars.forEach((b, k) => b.addEventListener('animationend', () => { if (k === i) go(i + 1); }));
+    const setPaused = p => { paused = p; hero.classList.toggle('is-paused', p); pause.innerHTML = p ? icon.play : icon.pause; pause.setAttribute('aria-label', p ? 'Play slideshow' : 'Pause slideshow'); };
+    $$('button', dots).forEach((d, k) => d.addEventListener('click', () => { if (k !== i) go(k); }));
+    prev.addEventListener('click', () => go(i - 1));
+    next.addEventListener('click', () => go(i + 1));
     pause.addEventListener('click', () => setPaused(!paused));
-    hero.addEventListener('focusin', () => clearInterval(timer));
-    hero.addEventListener('focusout', play);
+    // hold progress while a keyboard user is inside the hero
+    hero.addEventListener('focusin', e => { if (e.target.matches(':focus-visible')) hero.classList.add('is-holding'); });
+    hero.addEventListener('focusout', e => { if (!hero.contains(e.relatedTarget)) hero.classList.remove('is-holding'); });
     let x0 = null; hero.addEventListener('touchstart', e => (x0 = e.touches[0].clientX), { passive: true });
-    hero.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) { go(i + (dx < 0 ? 1 : -1)); play(); } x0 = null; });
+    hero.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) go(i + (dx < 0 ? 1 : -1)); x0 = null; });
     go(0); setPaused(paused);
   }
 
