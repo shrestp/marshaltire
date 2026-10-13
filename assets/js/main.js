@@ -83,7 +83,7 @@
   const hero = $('.hero[data-slider]');
   if (hero) {
     const slides = $$('.slide', hero), dots = $('.dots', hero), prev = $('[data-prev]', hero), next = $('[data-next]', hero), pause = $('[data-pause]', hero);
-    let i = 0, paused = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let i = 0, paused = false;
     dots.innerHTML = slides.map((_, n) => `<button type="button" aria-label="Go to slide ${n + 1}"><span class="fill"></span></button>`).join('');
     const bars = $$('.fill', dots);
     const go = n => {
@@ -101,9 +101,6 @@
     prev.addEventListener('click', () => go(i - 1));
     next.addEventListener('click', () => go(i + 1));
     if (pause) pause.addEventListener('click', () => setPaused(!paused));
-    // hold progress while the pointer is over the hero
-    hero.addEventListener('mouseenter', () => hero.classList.add('is-hovering'));
-    hero.addEventListener('mouseleave', () => hero.classList.remove('is-hovering'));
     // hold progress while a keyboard user is inside the hero
     hero.addEventListener('focusin', e => { if (e.target.matches(':focus-visible')) hero.classList.add('is-holding'); });
     hero.addEventListener('focusout', e => { if (!hero.contains(e.relatedTarget)) hero.classList.remove('is-holding'); });

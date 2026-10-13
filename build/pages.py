@@ -373,7 +373,6 @@ HERO_ALT = f'''
         <p>Practical tires with the right balance of performance, durability and value. Made for the driving you do every day.</p>
         <div class="actions"><a class="btn btn--primary btn--lg" href="#range">EXPLORE LINEUP {ARROW}</a></div>
       </div>
-      <div class="stats" aria-label="Lineup at a glance"><div><strong>4</strong><span>tire lines</span></div><div><strong>122</strong><span>fitments</span></div><div><strong>14–22"</strong><span>rim sizes</span></div></div>
     </div>
     <div class="slide" role="group" aria-roledescription="slide" aria-label="2 of 2" style="background-image:url(assets/img/hero-alt-tires.jpg);--m-size:200% auto;--m-pos:78% 0">
       <div class="slide-copy">
