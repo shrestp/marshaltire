@@ -367,7 +367,7 @@ HERO_ALT = f'''
 <section class="hero hero--full" data-slider aria-roledescription="carousel" aria-label="Marshal Tire highlights">
   <div class="slides">
     <div class="slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 2" style="--m-size:220% auto;--m-pos:85% 0">
-      <div class="slide-bg" style="background-image:url(assets/img/hero-alt-truck.jpg)" aria-hidden="true"></div>
+      <div class="slide-bg slide-bg--truck" aria-hidden="true"></div>
       <div class="slide-copy">
         <p class="eyebrow">Marshal Tire</p>
         <h1>Built to perform.</h1>
@@ -376,7 +376,7 @@ HERO_ALT = f'''
       </div>
     </div>
     <div class="slide" role="group" aria-roledescription="slide" aria-label="2 of 2" style="--m-size:200% auto;--m-pos:78% 0">
-      <div class="slide-bg" style="background-image:url(assets/img/hero-alt-tires.jpg)" aria-hidden="true"></div>
+      <div class="slide-bg slide-bg--tires" aria-hidden="true"></div>
       <div class="slide-copy">
         <p class="eyebrow">Mileage warranty</p>
         <h2>Confidence for the miles ahead.</h2>

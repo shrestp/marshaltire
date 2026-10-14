@@ -440,3 +440,18 @@ p { margin: 0; }
   .hero--full .slide.is-active .slide-bg, .hero--full .slide.is-active .slide-copy > *, .hero--full .hero-controls { animation: none; }
   .hero--full .slide-copy > * { opacity: 1; transform: none; }
 }
+
+/* ---------- Hero photos: AVIF with JPG fallback; 21:9 versions for wide monitors ---------- */
+.slide-bg--truck { background-image: url("../img/hero-alt-truck.jpg"); background-image: image-set(url("../img/hero-alt-truck.avif") type("image/avif"), url("../img/hero-alt-truck.jpg") type("image/jpeg")); }
+.slide-bg--tires { background-image: url("../img/hero-alt-tires.jpg"); background-image: image-set(url("../img/hero-alt-tires.avif") type("image/avif"), url("../img/hero-alt-tires.jpg") type("image/jpeg")); }
+@media (min-width: 1680px) {
+  .hero--full .slides { height: clamp(700px, 42.7vw, 820px); }
+  .slide-bg--truck { background-image: url("../img/hero-wide-truck.jpg"); background-image: image-set(url("../img/hero-wide-truck.avif") type("image/avif"), url("../img/hero-wide-truck.jpg") type("image/jpeg")); }
+  .slide-bg--tires { background-image: url("../img/hero-wide-tires.jpg"); background-image: image-set(url("../img/hero-wide-tires.avif") type("image/avif"), url("../img/hero-wide-tires.jpg") type("image/jpeg")); }
+}
+/* Ultra-wide: stop zooming. Fit the photo to the hero's height, anchor it right, fade its left edge into black */
+@media (min-width: 2400px) {
+  .hero--full .slide-bg { background-size: auto 100%; background-position: right center;
+    -webkit-mask-image: linear-gradient(90deg, transparent calc(100% - 1913px), #000 calc(100% - 1350px)); mask-image: linear-gradient(90deg, transparent calc(100% - 1913px), #000 calc(100% - 1350px)); }
+  /* photo is 820px tall x 21:9 = ~1913px wide; the fade runs over its left ~560px */
+}
