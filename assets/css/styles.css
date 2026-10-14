@@ -459,3 +459,4 @@ p { margin: 0; }
 /* Tire finder fields use the default border (design request) */
 #finder .input, #finder .select { border-color: var(--border-default); }
 #finder .input:hover:not(:disabled), #finder .select:hover:not(:disabled) { border-color: var(--border-strong); }
+#finder .input:focus, #finder .select:focus { border-color: var(--brand-4); }
