@@ -480,10 +480,10 @@ p { margin: 0; }
 .mission { padding: 96px 0; }
 .mission .dash { display: block; width: 52px; height: 6px; margin-bottom: 12px; }
 .mission .eyebrow { font-size: 14px; font-weight: 500; color: var(--brand-6); margin-bottom: 24px; letter-spacing: .04em; }
-.mission-quote { max-width: 1180px; margin: 0; padding-left: 32px; border-left: 3px solid var(--brand-4); font-size: clamp(22px, 2.6vw, 36px); line-height: 1.4; letter-spacing: -.01em; color: var(--text-strong); }
+.mission-quote { max-width: 1180px; margin: 0; padding-left: 32px; border-left: 3px solid var(--brand-4); font-size: 24px; line-height: 1.5; letter-spacing: -.01em; color: var(--text-strong); }
 .mission-quote strong { font-weight: 700; }
 .dealer-band form .input { flex: 1; height: 44px; }
-@media (max-width: 900px) { .mission { padding: 64px 0; } .mission-quote { padding-left: 20px; } }
+@media (max-width: 900px) { .mission { padding: 64px 0; } .mission-quote { padding-left: 20px; font-size: 20px; } }
 
 /* tire details */
 .benefits-title { font-size: 16px; font-weight: 600; letter-spacing: 0; margin: 0 0 8px; }
