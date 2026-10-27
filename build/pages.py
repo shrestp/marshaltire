@@ -13,6 +13,8 @@ DOWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 INFO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.5"/></svg>'
 SEARCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>'
 UPCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>'
+SHIELD_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>'
+EXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>'
 DLD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>'
 
 def shell(page, title, desc, body, extra_head='', extra_js=''):
@@ -57,11 +59,11 @@ SHIELD = '''<svg class="shield" viewBox="0 0 280 349" role="img" aria-label="Lim
     <text x="140" y="266.4" font-size="21.34" font-weight="800" letter-spacing=".43">WARRANTY</text>
   </g></svg>'''
 
-def card(code, name, line, img, tag):
+def card(name, line, img, tag):
     return f'''<article class="pcard">
   <span class="badge">{tag}</span>
-  <h3>MARSHAL {code}</h3><p class="sub">{line}</p>
-  <img src="assets/img/{img}" alt="Marshal {line} tire" width="220" height="250" loading="lazy">
+  <h3>Marshal {name}</h3><p class="sub">{line}</p>
+  <img src="assets/img/{img}" alt="Marshal {name} tire" width="220" height="250" loading="lazy">
   <a class="btn btn--outline-brand" href="tire-details.html">View Tire {ARROW}</a>
 </article>'''
 
@@ -72,7 +74,7 @@ home = f'''
       <div class="slide-copy">
         <p class="eyebrow">Marshal Tire</p>
         <h1>Built to perform.</h1>
-        <p>Practical tires with the right balance of performance, durability and value. Made for the driving you do every day.</p>
+        <div class="slide-text"><p>Dependable performance. Extensive coverage. Backed by US support.</p><p>Marshal is built around what matters most on the road: <strong>confidence, safety, and dependable performance.</strong> Engineered to deliver reliable handling, braking, and control across everyday driving conditions, Marshal gives drivers the assurance they need mile after mile.</p></div>
         <div class="actions"><a class="btn btn--primary btn--lg" href="#range">EXPLORE LINEUP {ARROW}</a></div>
       </div>
       <div class="slide-photo" style="background-image:url(assets/img/hero-truck.jpg)">
@@ -83,9 +85,9 @@ home = f'''
     <div class="slide" role="group" aria-roledescription="slide" aria-label="2 of 2">
       <div class="slide-copy">
         <p class="eyebrow">Mileage warranty</p>
-        <h2>Miles you can count on.</h2>
-        <p>Every Marshal tire carries a limited treadwear warranty of up to 60,000 miles, depending on the tire line and size.</p>
-        <div class="actions"><a class="btn btn--primary btn--lg" href="#warranty">SEE WHAT’S COVERED {ARROW}</a></div>
+        <h2>Confidence for the miles ahead.</h2>
+        <p>Dependable performance. Extensive coverage. Backed by US support.</p>
+        <div class="actions"><a class="btn btn--primary btn--lg" href="#warranty">VIEW WARRANTY DETAILS {ARROW}</a></div>
       </div>
       <div class="slide-photo" style="background-image:url(assets/img/hero-warranty.jpg)"></div>
       <div class="slide-art slide-art--shield">{SHIELD}</div>
@@ -134,14 +136,14 @@ home = f'''
 <section class="section" id="range">
   <div class="container">
     <div class="range-head">
-      <div><span class="badge badge--dot">Product Catalog</span><h2>Explore the range</h2><p>From daily commuters to all-terrain SUVs, the current Marshal lineup, built for how you actually drive.</p></div>
+      <div><span class="badge badge--dot">Product Catalog</span><h2>Explore the range</h2><p>Whether it’s your daily commute or your next adventure, Marshal has the right tires for your journey.</p></div>
       <a class="link" href="#range" style="display:inline-flex;gap:6px;align-items:center;font-size:14px">View all tires <span style="display:inline-flex;width:16px">{ARROW_R}</span></a>
     </div>
     <div class="cards-4">
-      {card('MU41', 'Sport A/S', 'Sport A/S', 'tire-mu41.webp', 'All Season')}
-      {card('MH41', 'Tour A/S', 'Tour A/S', 'tire-mh41.webp', 'All Season')}
-      {card('ML41', 'Highway Terrain', 'Highway Terrain', 'tire-ml41.webp', 'Summer')}
-      {card('MF41', 'All Terrain', 'All Terrain', 'tire-mf41.webp', 'Summer')}
+      {card('Sport A/S', 'All-Season', 'tire-mu41.webp', 'All Season')}
+      {card('Tour A/S', 'Touring', 'tire-mh41.webp', 'All Season')}
+      {card('Highway Terrain', 'Highway Terrain', 'tire-ml41.webp', 'Summer')}
+      {card('All Terrain', 'All Terrain', 'tire-mf41.webp', 'Summer')}
     </div>
   </div>
 </section>
@@ -149,7 +151,8 @@ home = f'''
 <section class="cta-dark">
   <div class="container">
     <h2>Let’s stay connected</h2>
-    <p>Have a question for us, need warranty info or to submit a claim? Let us know. We’re here to support you, on and off the road.</p>
+    <p>Have a question about Marshal tires, warranty coverage, or anything else? We’re here to help.</p>
+    <p>Count on Marshal Tire for reliable tire information, warranty guidance, and customer support, every mile of the way.</p>
     <a class="btn btn--primary btn--lg" href="contact.html">CONTACT US</a>
   </div>
 </section>'''
@@ -159,45 +162,25 @@ about = f'''
 <section class="about-hero">
   <div class="container">
     <p class="eyebrow">About Marshal</p>
-    <h1>Built around your everyday drive.</h1>
-    <p>Reliable performance. Dependable quality. Smart value.</p>
+    <h1>Built to Perform.</h1>
+    <p>Whether it’s your daily commute or your next adventure, Marshal has the right tires for your journey.</p>
     <a class="btn btn--primary" href="index.html#range">EXPLORE OUR TIRES {ARROW}</a>
   </div>
 </section>
-<section class="section">
+<section class="section mission" aria-labelledby="mission-title">
   <div class="container">
-    <div class="split-head"><h2>What<br>drives us.</h2><p class="lede" style="font-size:16px">To provide reliable performance and quality for customers seeking smart value, delivering a dependable everyday driving experience.</p></div>
-    <div class="pillars">
-      <div><h3><span class="dash"></span>Performance</h3><p>Confidence for everyday driving.</p></div>
-      <div><h3><span class="dash"></span>Quality</h3><p>A focus on dependable products.</p></div>
-      <div><h3><span class="dash"></span>Value</h3><p>A good choice for your next set of tires.</p></div>
-    </div>
-  </div>
-</section>
-<section class="section section--muted">
-  <div class="container media-split">
-    <img src="assets/img/rnd-tread.jpg" alt="Close-up of Marshal All Terrain tread" width="581" height="350" loading="lazy">
-    <div><p class="eyebrow" style="color:var(--text-secondary)">Research &amp; Development</p><h2>Progress starts with a research.</h2><p>Research and development help shape our tires, from tread design to product quality.</p></div>
-  </div>
-</section>
-<section class="section">
-  <div class="container">
-    <h2 style="font-size:clamp(36px,4vw,52px);margin-bottom:16px">Three priorities.<br>One considered approach</h2>
-    <p class="muted" style="margin-bottom:40px">Marshal’s development priorities include reducing fuel consumption, noise, and tire wear.</p>
-    <div class="pillars">
-      <div><p class="num">01</p><h4>Lower fuel consumption</h4><p>A focus on efficiency.</p></div>
-      <div><p class="num">02</p><h4>Lower noise</h4><p>A focus on quieter journeys.</p></div>
-      <div><p class="num">03</p><h4>Lower wear</h4><p>A focus on durability.</p></div>
-    </div>
+    <span class="dash" aria-hidden="true"></span>
+    <h2 class="eyebrow" id="mission-title">Our mission</h2>
+    <p class="mission-quote">Marshal is built around what matters most on the road: <strong>confidence, safety, and dependable performance</strong>. Engineered to deliver reliable handling, braking, and control across everyday driving conditions, Marshal gives drivers the assurance they need mile after mile.</p>
   </div>
 </section>
 <section class="dealer-band">
   <div class="container">
     <div><h2>Closer than you think.</h2><p style="opacity:.85;margin-top:8px">Find a Marshal dealer near you.</p></div>
     <form action="dealers.html" method="get">
-      <label class="sr-only" for="about-city">City</label>
-      <select class="select" id="about-city" name="q" required><option value="">Select City</option><option>Denver</option><option>Boulder</option><option>Aurora</option><option>Lakewood</option><option>Colorado Springs</option><option>Durango</option></select>
-      <button class="btn btn--primary" type="submit">FIND DEALER</button>
+      <label class="sr-only" for="about-zip">ZIP code</label>
+      <input class="input" id="about-zip" name="q" type="text" inputmode="numeric" placeholder="Enter your zipcode." autocomplete="postal-code" required>
+      <button class="btn btn--primary" type="submit">SEARCH</button>
     </form>
   </div>
 </section>'''
@@ -214,18 +197,19 @@ details = f'''
       <button class="thumb" type="button" aria-pressed="true" data-src="assets/img/tire-mf41.webp" data-alt="Marshal All Terrain MF41, angled view"><img src="assets/img/tire-mf41.webp" alt="Angled view"></button>
       <button class="thumb" type="button" aria-pressed="false" data-src="assets/img/thumb-mf41-side.webp" data-alt="Marshal All Terrain MF41, side view"><img src="assets/img/thumb-mf41-side.webp" alt="Side view"></button>
       <button class="thumb" type="button" aria-pressed="false" data-src="assets/img/thumb-mf41-tread.webp" data-alt="Marshal All Terrain MF41, tread view"><img src="assets/img/thumb-mf41-tread.webp" alt="Tread view"></button>
+      <button class="thumb thumb--dark" type="button" aria-pressed="false" data-overlay="off" data-src="assets/img/warranty-badges-dark.png" data-alt="Limited treadwear warranty: 55,000 miles on P-metric sizes, 50,000 miles on LT metric sizes"><img src="assets/img/warranty-badges-dark.png" alt="Warranty badges"></button>
       <button class="thumb-nav" data-dir="1" type="button" aria-label="Next image" style="transform:rotate(180deg)">{UPCH}</button>
     </div>
-    <div class="main-image"><img id="main-image" src="assets/img/tire-mf41.webp" alt="Marshal All Terrain MF41, angled view" width="260" height="380"></div>
+    <div class="main-image"><img id="main-image" src="assets/img/tire-mf41.webp" alt="Marshal All Terrain MF41, angled view" width="260" height="380"><img class="badge-overlay" src="assets/img/warranty-badges-dark.png" alt="Limited treadwear warranty: 55,000 miles P-metric, 50,000 miles LT metric" width="141" height="107"></div>
     <div class="td-info">
-      <h1>MARSHAL ALL TERRAIN | MF41</h1>
-      <p class="segment">SEGMENT | TOURING</p>
-      <ul class="bul"><li>All-season performance</li><li>Improved highway ride</li><li>Off-road capability</li><li>Enhanced mileage</li></ul>
+      <h1>MARSHAL ALL TERRAIN</h1>
+      <p class="segment">SEGMENT | ALL TERRAIN</p>
+      <h2 class="benefits-title">Key benefits</h2>
+      <ul class="bul"><li>All-season performance</li><li>Improved highway ride</li><li>Off-road capability</li><li>Enhanced mileage</li><li>Enhanced wet &amp; snow performance</li></ul>
       <div class="td-attrs">
-        <div><h2><span class="dash"></span>Model</h2><div class="icon-row">{icons([('sedan','Sedan'),('big-sedan','Big sedan')])}</div></div>
-        <div><h2><span class="dash"></span>Character</h2><div class="icon-row">{icons([('all-season','All season'),('handling','Handling'),('wet-braking','Wet braking'),('dry-braking','Dry braking')])}</div></div>
+        <div><h2><span class="dash"></span>Vehicle Type</h2><div class="icon-row">{icons([('sedan','Sedan'),('big-sedan','Big sedan')])}</div></div>
       </div>
-      <p class="size-hint">{INFO}<span>Your size is on your tire’s sidewall, like 225/35 R18.</span><a href="#available-sizes">See available sizes {DOWN}</a></p>
+      <div class="size-hint">{INFO}<div><p>Your size is on your tire’s sidewall, like 225/35 R18 or check the vehicle manual.</p><a href="#available-sizes">See available sizes {DOWN}</a></div></div>
       <div><a class="btn btn--primary btn--sm" href="dealers.html">DEALER LOCATOR {ARROW}</a></div>
     </div>
   </div>
@@ -241,21 +225,29 @@ details = f'''
     </div>
   </div>
 </section>
-<section class="section section--muted">
+<section class="section section--subtle" id="warranty-coverage">
   <div class="container">
-    <h2 class="section-title" style="margin-bottom:32px">Sample Vehicles</h2>
-    <div class="vehicles"><div><img src="assets/img/logo-chevrolet.png" alt="Chevrolet" width="175" height="30"></div><div><img src="assets/img/logo-dodge.png" alt="Dodge" width="175" height="21"></div><div><img src="assets/img/logo-ford.png" alt="Ford" width="175" height="26"></div></div>
+    <h2 class="section-title" style="margin-bottom:40px">Warranty &amp; coverage</h2>
+    <div class="warranty-band">
+      <img class="wb-badges" src="assets/img/warranty-badges.png" alt="Limited treadwear warranty: 55,000 miles on P-metric sizes, 50,000 miles on LT metric sizes" width="285" height="204" loading="lazy">
+      <div class="wb-copy">
+        <img class="wb-wordmark" src="assets/img/wordmark-all-terrain.png" alt="Marshal All Terrain" width="193" height="34" loading="lazy">
+        <h3>Limited treadwear warranty</h3>
+        <p>Marshal All Terrain comes with a limited treadwear warranty. P-metric and LT sizes carry different mileage, so check the size chart for yours.</p>
+        <a class="link wb-link" href="#warranty">See full warranty terms <span aria-hidden="true">{ARROW_R}</span></a>
+      </div>
+    </div>
   </div>
 </section>
-<section class="section section--subtle" id="available-sizes">
+<section class="section" id="available-sizes">
   <div class="container">
-    <div class="sizes-head"><h2 class="section-title">Available sizes</h2><button class="btn btn--outline btn--sm" id="download-data" type="button">Download full data {DLD}</button></div>
+    <div class="sizes-head"><h2 class="section-title">Available sizes</h2></div>
     <div class="filter-row">
-      <div class="field"><label for="size-filter" style="font-weight:400">Filter by tire size</label><div class="filter-wrap"><input class="input" id="size-filter" type="search" placeholder="e.g. 265 or R18 or 265/70 R17" autocomplete="off">{SEARCH}</div></div>
+      <div class="field"><label for="size-filter" style="font-weight:400">Filter by tire size</label><div class="filter-wrap"><input class="input" id="size-filter" type="search" placeholder="e.g. 225 or R18 or 225/35 R18" autocomplete="off">{SEARCH}</div></div>
       <button class="howto-toggle" id="howto-toggle" type="button" aria-expanded="true" aria-controls="howto">Where can I find my tire size? {UPCH}</button>
     </div>
     <div class="howto" id="howto">
-      <div><h3>Check the side of your tire.</h3><p class="muted">Look for a marking like the one shown.</p></div>
+      <div><h3>Check the side of your tire.</h3><p class="muted">Or check the vehicle manual.</p></div>
       <div class="code" aria-label="Example size 225/35 R18"><div><b>225</b><small>Width</small></div><span class="slash">/</span><div><b>35</b><small>Profile</small></div><div><b>R18</b><small>Rim diameter</small></div></div>
       <img src="assets/img/sidewall.png" alt="" width="295" height="120">
     </div>
@@ -266,19 +258,46 @@ details = f'''
 # ---------------------------------------------------------------- DEALERS
 dealers = f'''
 <section class="page-intro" style="background:var(--surface-subtle);padding-bottom:24px">
-  <div class="container"><span class="badge badge--dot">Find Dealer</span><h1>Find a Marshal dealer</h1><p>Use your location to find authorized Marshal Tire dealers within 15 miles.</p></div>
+  <div class="container"><span class="badge badge--dot">Find Dealer</span><h1>Find a Marshal dealer</h1><p>Use your location to find authorized Marshal Tire dealers.</p></div>
 </section>
 <section style="background:var(--surface-subtle);padding-bottom:80px">
   <div class="container dealer-layout">
     <div id="map" role="region" aria-label="Map of Marshal dealers"></div>
     <div class="dealer-panel">
       <form class="dealer-search" id="dealer-form">
-        <label for="dealer-q" style="font-size:14px">Search address</label>
-        <div class="inline"><input class="input" id="dealer-q" type="search" placeholder="ZIP code, city or address" autocomplete="postal-code"><button class="btn btn--primary" type="submit">SEARCH</button></div>
+        <label for="dealer-q" style="font-size:14px">Search Address</label>
+        <div class="inline"><input class="input" id="dealer-q" type="search" placeholder="Enter your address" autocomplete="postal-code"><button class="btn btn--primary" type="submit">SEARCH</button></div>
         <button class="link geo" id="use-location" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>Use my location</button>
       </form>
       <p class="dealer-status" id="dealer-status" role="status">Showing all dealers. Search to sort by distance.</p>
       <ul class="dealer-list" id="dealer-list"></ul>
+    </div>
+  </div>
+</section>
+<section class="shop-online" aria-labelledby="shop-title">
+  <div class="container">
+    <span class="badge badge--dot">Shop online</span>
+    <h2 id="shop-title">Buy Marshal tires online</h2>
+    <p class="shop-sub">Pick your tire and shop it at a trusted online retailer.</p>
+    <div class="shop-panel">
+      <div class="shop-step">
+        <h3><span class="step-num" aria-hidden="true">1</span><label for="shop-tire">Choose your tire</label></h3>
+        <select class="select" id="shop-tire">
+          <option value="Marshal All Terrain">Marshal All Terrain</option>
+          <option value="Marshal Highway Terrain">Marshal Highway Terrain</option>
+          <option value="Marshal Tour A/S">Marshal Tour A/S</option>
+          <option value="Marshal Sport A/S">Marshal Sport A/S</option>
+        </select>
+        <p class="help">All four Marshal tire lines are listed.</p>
+      </div>
+      <div class="shop-step shop-step--retailers">
+        <h3><span class="step-num" aria-hidden="true">2</span>Pick a retailer</h3>
+        <div class="retailers">
+          <a class="retailer" data-retailer="discounttire" href="https://www.discounttire.com/" target="_blank" rel="noopener"><span class="retailer-logo"><img src="assets/img/retailer-discount-tire.png" alt="" width="200" height="58"></span><span class="retailer-action">Shop at Discount Tire {EXT}<span class="sr-only">(opens in a new tab)</span></span></a>
+          <a class="retailer" data-retailer="tirerack" href="https://www.tirerack.com/" target="_blank" rel="noopener"><span class="retailer-logo"><img src="assets/img/retailer-tire-rack.png" alt="" width="200" height="42"></span><span class="retailer-action">Shop at Tire Rack {EXT}<span class="sr-only">(opens in a new tab)</span></span></a>
+        </div>
+        <p class="help">Prices, stock and shipping are set by each retailer.</p>
+      </div>
     </div>
   </div>
 </section>'''
@@ -322,7 +341,7 @@ contact = f'''
             <div class="row-2">{fld('g-first','First name',inp('g-first',ph='ex. James',auto='given-name'))}{fld('g-last','Last name',inp('g-last',ph='ex. Smith',auto='family-name'))}</div>
             <div class="row-2">{fld('g-email','Email',inp('g-email','email','name@example.com',auto='email'))}{fld('g-phone','Phone',inp('g-phone','tel','(555) 555-0123',False,'tel'),False)}</div>
           </div>
-          <div class="form-section panel" id="tire-details"><h2>Tire details</h2><p class="muted">Shown for technical support and warranty claims.</p>
+          <div class="form-section panel" id="tire-details"><h2>Tire details</h2><p class="muted">Shown for warranty claims and product questions.</p>
             <div class="row-2">{fld('g-line','Tire line',sel('g-line',[('mf41','All Terrain (MF41)'),('ml41','Highway Terrain (ML41)'),('mh41','Tour A/S (MH41)'),('mu41','Sport A/S (MU41)')],'Choose tire line'))}
             <div class="field"><label for="g-size">Tire size</label>{inp('g-size',ph='ex. 265/70R17',req=False,help_=True)}<p class="help" id="g-size-help">Printed on the sidewall. <a class="link" href="tire-details.html#available-sizes" style="font-weight:600">Not sure?</a></p></div></div>
             <div class="row-2" id="warranty-extra" hidden>{fld('g-date','Purchase date',inp('g-date','date'))}{fld('g-dealer','Where you bought them',inp('g-dealer',ph='Dealer name and city',req=False),False)}</div>
@@ -370,7 +389,7 @@ HERO_ALT = f'''
       <div class="slide-copy">
         <p class="eyebrow">Marshal Tire</p>
         <h1>Built to perform.</h1>
-        <p>Practical tires with the right balance of performance, durability and value. Made for the driving you do every day.</p>
+        <div class="slide-text"><p>Dependable performance. Extensive coverage. Backed by US support.</p><p>Marshal is built around what matters most on the road: <strong>confidence, safety, and dependable performance.</strong> Engineered to deliver reliable handling, braking, and control across everyday driving conditions, Marshal gives drivers the assurance they need mile after mile.</p></div>
         <div class="actions"><a class="btn btn--primary btn--lg" href="#range">EXPLORE LINEUP {ARROW}</a></div>
       </div>
     </div>
@@ -379,9 +398,11 @@ HERO_ALT = f'''
       <div class="slide-copy">
         <p class="eyebrow">Mileage warranty</p>
         <h2>Confidence for the miles ahead.</h2>
-        <p>Every Marshal tire carries a limited treadwear warranty.</p>
+        <p>Dependable performance. Extensive coverage. Backed by US support.</p>
         <div class="actions"><a class="btn btn--primary btn--lg" href="#warranty">VIEW WARRANTY DETAILS {ARROW}</a></div>
+        <p class="warranty-chip">{SHIELD_SM}<span>Up to 60,000-mile warranty</span><a href="#warranty">See coverage</a></p>
       </div>
+      <div class="hero-shield" aria-hidden="true">{SHIELD}</div>
     </div>
   </div>
   <div class="hero-controls">
@@ -401,7 +422,7 @@ pages = {
   'index.html': ('home', 'Marshal Tire | Built to perform', 'Practical tires with the right balance of performance, durability and value.', home_alt, '', ''),
   'index-alt.html': ('home', 'Marshal Tire | Built to perform (split hero)', 'Practical tires with the right balance of performance, durability and value.', home, '', ''),
   'about.html': ('about', 'About Us | Marshal Tire', 'Built around your everyday drive.', about, '', ''),
-  'tire-details.html': ('tire-details', 'Marshal All Terrain MF41 | Marshal Tire', 'Marshal All Terrain MF41: technology, sample vehicles and all 25 available sizes.', details, '', f'<script src="assets/js/mf41.js?v={ver("assets/js/mf41.js")}"></script>\n'),
+  'tire-details.html': ('tire-details', 'Marshal All Terrain MF41 | Marshal Tire', 'Marshal All Terrain: technology, warranty and all 25 available sizes.', details, '', f'<script src="assets/js/mf41.js?v={ver("assets/js/mf41.js")}"></script>\n'),
   'dealers.html': ('dealers', 'Find a Dealer | Marshal Tire', 'Find authorized Marshal Tire dealers near you.', dealers, LEAFLET_CSS, LEAFLET_JS),
   'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: general and business inquiries.', contact, '', ''),
 }

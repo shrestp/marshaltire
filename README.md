@@ -1,6 +1,6 @@
 # Marshal Tire: web mockup
 
-This is a clickable website mockup built from the Figma frames in *Marshal Tires* (page 326:580). It's meant for client review.
+This is a clickable website mockup built from the Figma frames in *Marshal Tires* (updated to the Desktop rd5 page, 578:474). It's meant for client review.
 
 | Page | File | Figma frame |
 |---|---|---|
@@ -16,6 +16,7 @@ This is a clickable website mockup built from the Figma frames in *Marshal Tires
 - **Tire finder:** By Vehicle / By Size tabs. A size search opens the Tire Details size chart already filtered.
 - **Tire Details:** size accordions grouped by rim size, a size filter with highlighting, horizontally scrolling spec tables and a CSV download. All 25 MF41 sizes come from MS_Spec.xlsx.
 - **Dealer Finder:** you can search by ZIP or city, or use your location. Results are sorted by distance (15-mile radius) on an OpenStreetMap map.
+- **Shop online (Dealer Finder page):** pick a tire, then a retailer; the retailer's site opens in a new tab with that tire searched.
 - **Contact:** Drivers and Business tabs, plus conditional warranty fields. The form validates input and shows a success state.
 - **Layout:** works on desktop and mobile, and includes a mobile menu.
 
@@ -23,6 +24,7 @@ This is a clickable website mockup built from the Figma frames in *Marshal Tires
 - The dealers are 8 sample Colorado locations.
 - The contact form doesn't send anything.
 - Every "View tire" link opens the MF41 page.
+- The Discount Tire and Tire Rack search-link formats are unconfirmed (set in `RETAILERS` in `assets/js/main.js`).
 - Pages for Warranty, Privacy and the other footer links show a "not part of this mockup" notice.
 
 ## Run locally

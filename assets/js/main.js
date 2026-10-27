@@ -23,7 +23,7 @@
   /* ---------- header + footer ---------- */
   const page = document.body.dataset.page;
   const menus = [
-    { id: 'tires', label: 'Tires', links: [['Marshal All Terrain - MF41', 'tire-details.html'], ['Marshal Highway Terrain - ML41', 'tire-details.html'], ['Marshal Sport A/S - MU41', 'tire-details.html'], ['Marshal Tour A/S - MH41', 'tire-details.html']], all: ['View All Tires', 'index.html#range'] },
+    { id: 'tires', label: 'Tires', links: [['Marshal All Terrain', 'tire-details.html'], ['Marshal Highway Terrain', 'tire-details.html'], ['Marshal Sport A/S', 'tire-details.html'], ['Marshal Tour A/S', 'tire-details.html']], all: ['View All Tires', 'index.html#range'] },
     { id: 'marshal', label: 'Marshal', links: [['About Us', 'about.html'], ['General Contact Us', 'contact.html'], ['Business Contact Us', 'contact.html?type=business']] },
     { id: 'support', label: 'Support', links: [['Warranty', '#warranty'], ['Privacy Policy', '#privacy']] },
   ];
@@ -61,12 +61,12 @@
     footer.className = 'site-footer';
     footer.innerHTML = `<div class="container">
       <div class="footer-top">
-        <div class="footer-brand">${LOGO}<a class="footer-phone" href="tel:18005550142">1-800-555-0142</a><p><a href="mailto:info@marshaltire.com">info@marshaltire.com</a></p><p style="margin-top:12px">1482 Wazee Street<br>Denver, CO 80202</p></div>
-        <div class="footer-col"><h3>Tires</h3><ul><li><a href="tire-details.html">Marshal All Terrain MF41</a></li><li><a href="tire-details.html">Marshal Highway Terrain ML41</a></li><li><a href="tire-details.html">Marshal Tour A/S MH41</a></li><li><a href="tire-details.html">Marshal Sport A/S MU41</a></li><li><a href="index.html#finder">Tire Search</a></li></ul></div>
+        <div class="footer-brand">${LOGO}<a class="footer-phone" href="tel:18444936277">1-844-493-6277</a><p><a href="mailto:info@marshaltire.com">info@marshaltire.com</a></p><p style="margin-top:12px">1001 Summit Blvd NE,<br>Suite 1800, Atlanta, GA 30319</p></div>
+        <div class="footer-col"><h3>Tires</h3><ul><li><a href="tire-details.html">Marshal All Terrain</a></li><li><a href="tire-details.html">Marshal Highway Terrain</a></li><li><a href="tire-details.html">Marshal Tour A/S</a></li><li><a href="tire-details.html">Marshal Sport A/S</a></li><li><a href="index.html#finder">Tire Search</a></li></ul></div>
         <div class="footer-col"><h3>Marshal</h3><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">General Contact Us</a></li><li><a href="contact.html?type=business">Business Contact Us</a></li></ul></div>
         <div class="footer-col"><h3>Support</h3><ul><li><a href="#warranty">Warranty</a></li><li><a href="#privacy">Privacy Policy</a></li></ul></div>
       </div>
-      <div class="footer-bottom"><span>© 2026 Marshal Tire. All rights reserved.</span><a href="#youtube" aria-label="Marshal Tire on YouTube">${icon.youtube}</a></div></div>`;
+      <div class="footer-bottom"><span>COPYRIGHT © MARSHAL TIRE. All rights reserved.</span><a href="#youtube" aria-label="Marshal Tire on YouTube">${icon.youtube}</a></div></div>`;
   }
   // pages not in this mockup
   document.addEventListener('click', e => {
@@ -186,7 +186,7 @@
     $$('a[href="#available-sizes"]').forEach(a => a.addEventListener('click', () => setTimeout(() => input.focus({ preventScroll: true }), 500)));
     // thumbnails
     const main = $('#main-image');
-    $$('.thumb').forEach(t => t.addEventListener('click', () => { $$('.thumb').forEach(x => x.setAttribute('aria-pressed', x === t)); main.src = t.dataset.src; main.alt = t.dataset.alt; }));
+    $$('.thumb').forEach(t => t.addEventListener('click', () => { $$('.thumb').forEach(x => x.setAttribute('aria-pressed', x === t)); main.src = t.dataset.src; main.alt = t.dataset.alt; main.parentElement.classList.toggle('no-overlay', t.dataset.overlay === 'off'); }));
     $$('.thumb-nav').forEach(b => b.addEventListener('click', () => { const th = $$('.thumb'); const cur = th.findIndex(x => x.getAttribute('aria-pressed') === 'true'); th[(cur + (+b.dataset.dir) + th.length) % th.length].click(); }));
     // CSV download of the real data
     $('#download-data')?.addEventListener('click', () => {
@@ -307,5 +307,17 @@
     });
     setTab(new URLSearchParams(location.search).get('type') === 'business' ? 'business' : 'general', false);
     syncTire();
+  }
+
+  /* ---------- dealers: shop online ---------- */
+  // Each retailer's search page with the chosen tire filled in. Placeholder URL formats: confirm with each retailer.
+  const RETAILERS = {
+    discounttire: q => `https://www.discounttire.com/search?q=${encodeURIComponent(q)}`,
+    tirerack: q => `https://www.tirerack.com/search?q=${encodeURIComponent(q)}`,
+  };
+  const shopTire = $('#shop-tire');
+  if (shopTire) {
+    const sync = () => $$('.retailer').forEach(a => { a.href = RETAILERS[a.dataset.retailer](shopTire.value); });
+    shopTire.addEventListener('change', sync); sync();
   }
 })();

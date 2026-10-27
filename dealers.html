@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-<link rel="stylesheet" href="assets/css/styles.css?v=2dfb6062">
+<link rel="stylesheet" href="assets/css/styles.css?v=c4462e88">
 </head>
 <body data-page="dealers">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -18,15 +18,15 @@
 <main id="main">
 
 <section class="page-intro" style="background:var(--surface-subtle);padding-bottom:24px">
-  <div class="container"><span class="badge badge--dot">Find Dealer</span><h1>Find a Marshal dealer</h1><p>Use your location to find authorized Marshal Tire dealers within 15 miles.</p></div>
+  <div class="container"><span class="badge badge--dot">Find Dealer</span><h1>Find a Marshal dealer</h1><p>Use your location to find authorized Marshal Tire dealers.</p></div>
 </section>
 <section style="background:var(--surface-subtle);padding-bottom:80px">
   <div class="container dealer-layout">
     <div id="map" role="region" aria-label="Map of Marshal dealers"></div>
     <div class="dealer-panel">
       <form class="dealer-search" id="dealer-form">
-        <label for="dealer-q" style="font-size:14px">Search address</label>
-        <div class="inline"><input class="input" id="dealer-q" type="search" placeholder="ZIP code, city or address" autocomplete="postal-code"><button class="btn btn--primary" type="submit">SEARCH</button></div>
+        <label for="dealer-q" style="font-size:14px">Search Address</label>
+        <div class="inline"><input class="input" id="dealer-q" type="search" placeholder="Enter your address" autocomplete="postal-code"><button class="btn btn--primary" type="submit">SEARCH</button></div>
         <button class="link geo" id="use-location" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>Use my location</button>
       </form>
       <p class="dealer-status" id="dealer-status" role="status">Showing all dealers. Search to sort by distance.</p>
@@ -34,9 +34,36 @@
     </div>
   </div>
 </section>
+<section class="shop-online" aria-labelledby="shop-title">
+  <div class="container">
+    <span class="badge badge--dot">Shop online</span>
+    <h2 id="shop-title">Buy Marshal tires online</h2>
+    <p class="shop-sub">Pick your tire and shop it at a trusted online retailer.</p>
+    <div class="shop-panel">
+      <div class="shop-step">
+        <h3><span class="step-num" aria-hidden="true">1</span><label for="shop-tire">Choose your tire</label></h3>
+        <select class="select" id="shop-tire">
+          <option value="Marshal All Terrain">Marshal All Terrain</option>
+          <option value="Marshal Highway Terrain">Marshal Highway Terrain</option>
+          <option value="Marshal Tour A/S">Marshal Tour A/S</option>
+          <option value="Marshal Sport A/S">Marshal Sport A/S</option>
+        </select>
+        <p class="help">All four Marshal tire lines are listed.</p>
+      </div>
+      <div class="shop-step shop-step--retailers">
+        <h3><span class="step-num" aria-hidden="true">2</span>Pick a retailer</h3>
+        <div class="retailers">
+          <a class="retailer" data-retailer="discounttire" href="https://www.discounttire.com/" target="_blank" rel="noopener"><span class="retailer-logo"><img src="assets/img/retailer-discount-tire.png" alt="" width="200" height="58"></span><span class="retailer-action">Shop at Discount Tire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg><span class="sr-only">(opens in a new tab)</span></span></a>
+          <a class="retailer" data-retailer="tirerack" href="https://www.tirerack.com/" target="_blank" rel="noopener"><span class="retailer-logo"><img src="assets/img/retailer-tire-rack.png" alt="" width="200" height="42"></span><span class="retailer-action">Shop at Tire Rack <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg><span class="sr-only">(opens in a new tab)</span></span></a>
+        </div>
+        <p class="help">Prices, stock and shipping are set by each retailer.</p>
+      </div>
+    </div>
+  </div>
+</section>
 </main>
 <footer id="site-footer"></footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="assets/js/main.js?v=1e7d6ebc"></script>
+<script src="assets/js/main.js?v=54b5e366"></script>
 </body>
 </html>

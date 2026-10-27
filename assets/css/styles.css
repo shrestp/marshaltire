@@ -231,7 +231,7 @@ p { margin: 0; }
 .about-hero .container { position: relative; }
 .about-hero .eyebrow { color: var(--brand-3); }
 .about-hero h1 { color: #fff; font-size: clamp(40px, 5vw, 60px); margin: 12px 0; max-width: 560px; }
-.about-hero p { margin-bottom: 24px; }
+.about-hero p { margin-bottom: 24px; max-width: 440px; }
 .split-head { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; margin-bottom: 56px; }
 .split-head h2 { font-size: clamp(40px, 4vw, 60px); }
 .pillars { display: grid; grid-template-columns: repeat(3, 1fr); }
@@ -460,3 +460,77 @@ p { margin: 0; }
 #finder .input, #finder .select { border-color: var(--border-default); }
 #finder .input:hover:not(:disabled), #finder .select:hover:not(:disabled) { border-color: var(--border-strong); }
 #finder .input:focus, #finder .select:focus { border-color: var(--brand-4); }
+
+/* ---------- Rd 5 updates ---------- */
+/* home hero */
+.slide-text { display: grid; gap: 18px; }
+.slide-text strong { font-weight: 700; }
+.warranty-chip { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; max-width: none !important; margin: 0; padding: 8px 14px; border: 1px solid var(--border-inverse); border-radius: var(--r-full); background: rgba(0,0,0,.45); backdrop-filter: blur(6px); font-size: 14px; font-weight: 600; color: #fff; }
+.warranty-chip svg { width: 18px; height: 18px; color: var(--brand-4); flex: none; }
+.warranty-chip a { padding-left: 10px; border-left: 1px solid var(--border-inverse); color: #fff; font-weight: 500; text-underline-offset: 3px; }
+.slide:not(.is-active) .warranty-chip { visibility: hidden; }
+.hero-shield { position: absolute; z-index: 2; right: max(var(--gutter), calc((100vw - 1280px) / 2)); bottom: 48px; pointer-events: none; }
+.hero-shield .shield { width: 200px; }
+.hero:not(.hero--full) .slide-art--shield { display: none; }
+.hero--full .slide-copy h2 { font-size: clamp(36px, 4vw, 48px); }
+.cta-dark p + p { margin-top: -16px; }
+@media (max-width: 900px) { .hero-shield { right: var(--gutter); top: 16px; bottom: auto; } .hero-shield .shield { width: 88px; } .warranty-chip { font-size: 13px; } }
+
+/* about: mission */
+.mission { padding: 96px 0; }
+.mission .dash { display: block; width: 52px; height: 6px; margin-bottom: 12px; }
+.mission .eyebrow { font-size: 14px; font-weight: 500; color: var(--brand-6); margin-bottom: 24px; letter-spacing: .04em; }
+.mission-quote { max-width: 1180px; margin: 0; padding-left: 32px; border-left: 3px solid var(--brand-4); font-size: clamp(22px, 2.6vw, 36px); line-height: 1.4; letter-spacing: -.01em; color: var(--text-strong); }
+.mission-quote strong { font-weight: 700; }
+.dealer-band form .input { flex: 1; height: 44px; }
+@media (max-width: 900px) { .mission { padding: 64px 0; } .mission-quote { padding-left: 20px; } }
+
+/* tire details */
+.benefits-title { font-size: 16px; font-weight: 600; letter-spacing: 0; margin: 0 0 8px; }
+.main-image { position: relative; }
+.badge-overlay { position: absolute; right: 16px; bottom: 16px; width: 141px; height: auto; }
+.main-image.no-overlay .badge-overlay { display: none; }
+.thumbs button.thumb--dark { background: #000; padding: 4px; }
+.size-hint { display: flex; flex-wrap: nowrap; align-items: flex-start; max-width: 580px; }
+.size-hint svg { margin-top: 3px; flex: none; }
+.size-hint p { margin: 0 0 6px; }
+.tech { background: var(--gray-1); }
+.warranty-band { display: flex; align-items: center; gap: 64px; padding: 48px 64px; background: #fff; border: 1px solid var(--border-default); border-left: 6px solid var(--brand-4); border-radius: var(--r-md); }
+.wb-badges { width: 285px; height: auto; flex: none; padding-right: 64px; border-right: 1px solid var(--border-default); box-sizing: content-box; }
+.wb-copy { display: grid; gap: 16px; justify-items: start; }
+.wb-wordmark { width: 193px; height: auto; }
+.wb-copy h3 { font-size: 32px; letter-spacing: -.01em; }
+.wb-copy p { color: var(--text-secondary); font-size: 17px; max-width: 640px; margin: 0; }
+.wb-link { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 15px; }
+.wb-link svg { width: 16px; height: 16px; display: block; }
+@media (max-width: 900px) {
+  .warranty-band { flex-direction: column; align-items: flex-start; gap: 28px; padding: 28px 24px; }
+  .wb-badges { width: min(285px, 100%); padding: 0 0 28px; border-right: 0; border-bottom: 1px solid var(--border-default); }
+  .wb-copy h3 { font-size: 24px; }
+}
+
+/* dealers: shop online */
+.shop-online { background: var(--surface-subtle); padding: 0 0 96px; }
+.shop-online h2 { font-size: clamp(30px, 3vw, 36px); margin: 12px 0; }
+.shop-sub { font-size: 18px; color: var(--text-secondary); margin-bottom: 40px; }
+.shop-panel { display: grid; grid-template-columns: 380px 1fr; background: #fff; border: 1px solid var(--gray-3); border-radius: var(--r-md); padding: 40px; }
+.shop-step { display: grid; gap: 16px; align-content: start; }
+.shop-step:first-child { padding-right: 40px; border-right: 1px solid var(--gray-3); }
+.shop-step--retailers { padding-left: 40px; }
+.shop-step h3 { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 600; letter-spacing: 0; }
+.step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--gray-11); color: #fff; font-size: 14px; display: grid; place-items: center; flex: none; }
+.retailers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.retailer { display: grid; grid-template-rows: 120px auto; border: 1px solid var(--gray-3); border-radius: var(--r-md); overflow: hidden; text-decoration: none; color: var(--text-strong); background: #fff; transition: background .15s, border-color .15s; }
+.retailer-logo { display: grid; place-items: center; padding: 20px; }
+.retailer-logo img { max-width: 200px; width: 100%; height: auto; }
+.retailer-action { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 14px 20px; background: var(--gray-2); font-size: 15px; font-weight: 600; transition: background .15s; }
+.retailer-action svg { width: 16px; height: 16px; flex: none; }
+.retailer:hover, .retailer:focus-visible { background: var(--brand-1); border-color: var(--brand-4); }
+.retailer:hover .retailer-action, .retailer:focus-visible .retailer-action { background: var(--brand-4); }
+@media (max-width: 900px) {
+  .shop-online { padding-bottom: 64px; }
+  .shop-panel { grid-template-columns: 1fr; padding: 24px; }
+  .shop-step:first-child { padding: 0 0 24px; border-right: 0; border-bottom: 1px solid var(--gray-3); }
+  .shop-step--retailers { padding: 24px 0 0; }
+  .retailers { grid-template-columns: 1fr; }
+}
