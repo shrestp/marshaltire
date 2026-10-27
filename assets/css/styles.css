@@ -465,19 +465,8 @@ p { margin: 0; }
 /* home hero */
 .slide-text { display: grid; gap: 18px; }
 .slide-text strong { font-weight: 700; }
-.warranty-chip { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; max-width: none !important; margin: 0; padding: 8px 14px; border: 1px solid var(--border-inverse); border-radius: var(--r-full); background: rgba(0,0,0,.45); backdrop-filter: blur(6px); font-size: 14px; font-weight: 600; color: #fff; }
-.warranty-chip svg { width: 18px; height: 18px; color: var(--brand-4); flex: none; }
-.warranty-chip a { padding-left: 10px; border-left: 1px solid var(--border-inverse); color: #fff; font-weight: 500; text-underline-offset: 3px; }
-.slide:not(.is-active) .warranty-chip { visibility: hidden; }
-/* shield sits in the open space between the copy and the tires (positions measured against the hero photos) */
-.hero-shield { position: absolute; z-index: 2; pointer-events: none; top: 48px; right: max(var(--gutter), calc((100vw - 1280px) / 2)); }
-.hero-shield .shield { width: 120px; filter: drop-shadow(0 16px 32px rgba(0,0,0,.6)); }
-@media (min-width: 1680px) { .hero-shield { right: auto; top: 50%; left: calc(50vw - 100px); transform: translate(-50%, -55%); } .hero-shield .shield { width: 136px; } }
-@media (min-width: 2400px) { .hero-shield { left: calc(75vw - 580px); } }
-.hero:not(.hero--full) .slide-art--shield { display: none; }
 .hero--full .slide-copy h2 { font-size: clamp(36px, 4vw, 48px); }
 .cta-dark p + p { margin-top: -16px; }
-@media (max-width: 900px) { .hero-shield { top: 16px; right: var(--gutter); } .hero-shield .shield { width: 80px; } .warranty-chip { font-size: 13px; } }
 
 /* about: mission */
 .mission { padding: 96px 0; }
@@ -537,3 +526,13 @@ p { margin: 0; }
   .shop-step--retailers { padding: 24px 0 0; }
   .retailers { grid-template-columns: 1fr; }
 }
+
+/* hero slide 2: warranty stat box */
+.warranty-stat { display: grid; gap: 6px; width: 310px; max-width: 100%; margin: 0; padding: 16px; border: 1px solid var(--brand-4); border-radius: var(--r-md); color: #fff; }
+.ws-prefix { font-size: 16px; font-weight: 700; line-height: 1; text-transform: uppercase; color: var(--brand-4); }
+.ws-row { display: flex; align-items: flex-end; gap: 8px; }
+.ws-row b { font-size: 38px; font-weight: 900; line-height: 1; letter-spacing: -.04em; }
+.ws-unit { font-size: 14px; font-weight: 700; line-height: 20px; text-transform: uppercase; margin-bottom: -3px; }
+.hero-link { color: #fff; font-size: 15px; font-weight: 500; text-underline-offset: 3px; }
+.hero-link:hover { color: var(--brand-3); }
+@media (max-width: 900px) { .hero--full .slide-copy p br { display: none; } }

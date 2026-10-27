@@ -13,7 +13,6 @@ DOWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 INFO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.5"/></svg>'
 SEARCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>'
 UPCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>'
-SHIELD_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>'
 EXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>'
 DLD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>'
 
@@ -398,11 +397,10 @@ HERO_ALT = f'''
       <div class="slide-copy">
         <p class="eyebrow">Mileage warranty</p>
         <h2>Confidence for the miles ahead.</h2>
-        <p>Dependable performance. Extensive coverage. Backed by US support.</p>
-        <div class="actions"><a class="btn btn--primary btn--lg" href="#warranty">VIEW WARRANTY DETAILS {ARROW}</a></div>
-        <p class="warranty-chip">{SHIELD_SM}<span>Up to 60,000-mile warranty</span><a href="#warranty">See coverage</a></p>
+        <p>Dependable performance. Extensive coverage.<br>Backed by US support.</p>
+        <p class="warranty-stat"><span class="ws-prefix">Up to</span><span class="ws-row"><b>60,000</b><span class="ws-unit">Miles<br>Warranty</span></span></p>
+        <div class="actions"><a class="btn btn--primary btn--lg" href="#warranty">VIEW WARRANTY DETAILS {ARROW}</a><a class="hero-link" href="#warranty">See coverage</a></div>
       </div>
-      <div class="hero-shield" aria-hidden="true">{SHIELD}</div>
     </div>
   </div>
   <div class="hero-controls">
