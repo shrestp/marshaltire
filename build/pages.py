@@ -396,13 +396,13 @@ HERO_ALT = f'''
     <div class="slide" role="group" aria-roledescription="slide" aria-label="2 of 2" style="--m-size:200% auto;--m-pos:78% 0">
       <div class="slide-bg slide-bg--tires" aria-hidden="true"></div>
       <div class="slide-copy">
+        <div class="hero-shield" aria-hidden="true">{SHIELD}</div>
         <p class="eyebrow">Mileage warranty</p>
         <h2>Confidence for the miles ahead.</h2>
         <p>Dependable performance. Extensive coverage. Backed by US support.</p>
         <div class="actions"><a class="btn btn--primary btn--lg" href="#warranty">VIEW WARRANTY DETAILS {ARROW}</a></div>
         <p class="warranty-chip">{SHIELD_SM}<span>Up to 60,000-mile warranty</span><a href="#warranty">See coverage</a></p>
       </div>
-      <div class="hero-shield" aria-hidden="true">{SHIELD}</div>
     </div>
   </div>
   <div class="hero-controls">

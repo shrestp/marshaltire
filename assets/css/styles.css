@@ -393,7 +393,7 @@ p { margin: 0; }
 .hero--full .slide { display: flex; align-items: center; background-color: #111; background-size: cover; background-repeat: no-repeat; background-position: var(--bg-pos, center); }
 .hero--full .slide::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #000 0%, rgba(0,0,0,0) 63%); pointer-events: none; }
 .hero--full .slide-copy { position: relative; z-index: 1; }
-.hero--full .slide-copy { width: 100%; padding: 0 var(--gutter) 64px max(var(--gutter), calc((100vw - 1280px) / 2)); gap: 24px; }
+.hero--full .slide-copy { width: 100%; padding: 0 var(--gutter) 150px max(var(--gutter), calc((100vw - 1280px) / 2)); gap: 24px; }
 .hero--full .slide-copy > * { max-width: 440px; }
 .hero--full .slide-copy .eyebrow { color: #fff; font-size: 16px; letter-spacing: 0; }
 .hero--full .slide-copy h1, .hero--full .slide-copy h2 { color: #fff; line-height: 1; }
@@ -469,12 +469,12 @@ p { margin: 0; }
 .warranty-chip svg { width: 18px; height: 18px; color: var(--brand-4); flex: none; }
 .warranty-chip a { padding-left: 10px; border-left: 1px solid var(--border-inverse); color: #fff; font-weight: 500; text-underline-offset: 3px; }
 .slide:not(.is-active) .warranty-chip { visibility: hidden; }
-.hero-shield { position: absolute; z-index: 2; right: max(var(--gutter), calc((100vw - 1280px) / 2)); bottom: 48px; pointer-events: none; }
-.hero-shield .shield { width: 200px; }
+.hero-shield { margin-bottom: -4px; }
+.hero-shield .shield { width: 92px; filter: drop-shadow(0 12px 24px rgba(0,0,0,.5)); }
 .hero:not(.hero--full) .slide-art--shield { display: none; }
 .hero--full .slide-copy h2 { font-size: clamp(36px, 4vw, 48px); }
 .cta-dark p + p { margin-top: -16px; }
-@media (max-width: 900px) { .hero-shield { right: var(--gutter); top: 16px; bottom: auto; } .hero-shield .shield { width: 88px; } .warranty-chip { font-size: 13px; } }
+@media (max-width: 900px) { .hero-shield .shield { width: 80px; } .warranty-chip { font-size: 13px; } }
 
 /* about: mission */
 .mission { padding: 96px 0; }
