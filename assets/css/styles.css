@@ -358,8 +358,9 @@ p { margin: 0; }
 .aud-tabs button { text-align: left; border: 1px solid transparent; background: none; border-radius: var(--r-sm); padding: 12px 16px; cursor: pointer; display: grid; gap: 2px; }
 .aud-tabs button b { font-size: 16px; font-weight: 600; color: var(--text-secondary); }
 .aud-tabs button span { font-size: 14px; color: var(--text-muted); }
-.aud-tabs button[aria-selected="true"] { background: #fff; border-color: var(--gray-4); box-shadow: var(--shadow-sm); }
-.aud-tabs button[aria-selected="true"] b { color: var(--text-strong); }
+.aud-tabs button[aria-selected="true"] { background: var(--brand-4); border-color: var(--brand-4); box-shadow: var(--shadow-sm); }
+.aud-tabs button[aria-selected="true"] b { color: var(--text-strong); font-weight: 700; }
+.aud-tabs button[aria-selected="true"] span { color: var(--text-strong); }
 .form-section { display: grid; gap: 20px; }
 .form-section h2 { font-size: 20px; letter-spacing: 0; }
 .form-section.panel { background: var(--gray-1); border-radius: var(--r-md); padding: 24px; }
