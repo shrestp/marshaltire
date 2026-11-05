@@ -38,7 +38,7 @@
 .fb-pin.is-active { background: #e3b21e; color: #1e1e1e; z-index: 2; transform: translate(-50%, -50%) scale(1.15); }
 .fb-pin.is-resolved { background: #aaaaaa; }
 
-.fb-banner { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 9002; background: #1e1e1e; color: #fff; font: 500 14px "Inter", sans-serif; padding: 10px 10px 10px 16px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,.25); display: flex; gap: 12px; align-items: center; white-space: nowrap; }
+.fb-banner { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9002; background: #1e1e1e; color: #fff; font: 500 14px "Inter", sans-serif; padding: 10px 10px 10px 16px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,.25); display: flex; gap: 12px; align-items: center; white-space: nowrap; }
 .fb-banner[hidden] { display: none; }
 .fb-banner button { border: 0; background: #393939; color: #fff; border-radius: 999px; padding: 6px 12px; font: 600 13px "Inter", sans-serif; cursor: pointer; }
 .fb-hover { position: fixed; z-index: 8998; pointer-events: none; outline: 2px dashed #e3b21e; outline-offset: 2px; border-radius: 4px; background: rgba(227,178,30,.08); }
@@ -120,3 +120,8 @@ html.fb-picking .fb-root * { cursor: pointer !important; }
 .fbr-ask[hidden] { display: none; }
 .fbr-ask .fbr-del { margin-left: 0; }
 .fbr-no { font-size: 14px; }
+
+/* comment banner sits at the bottom so it never covers the nav; on phones the panel already says commenting is on */
+@media (max-width: 560px) { .fb-banner { display: none !important; } }
+.fb-list:empty { flex: 0 0 auto; }
+.fb-list:empty + .fb-empty { flex: 1; }
