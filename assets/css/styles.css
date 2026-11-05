@@ -558,3 +558,7 @@ p { margin: 0; }
   .sizes-soon { padding: 24px; }
 }
 .td-intro + .benefits-title { margin-top: 24px; }
+.badge-overlay--shield { width: 80px; }
+.wb-badges--shield { display: grid; place-items: center; }
+.wb-badges--shield img { width: 160px; height: auto; }
+.filter-wrap .input:disabled { background: var(--gray-1); cursor: not-allowed; }

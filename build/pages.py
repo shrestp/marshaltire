@@ -254,7 +254,7 @@ details = f'''
       <div class="code" aria-label="Example size 225/35 R18"><div><b>225</b><small>Width</small></div><span class="slash">/</span><div><b>35</b><small>Profile</small></div><div><b>R18</b><small>Rim diameter</small></div></div>
       <img src="assets/img/sidewall.png" alt="" width="295" height="120">
     </div>
-    <div class="acc" id="size-accordion"></div>
+    <div class="acc" id="size-accordion" data-line="MF41" data-name="All Terrain"></div>
   </div>
 </section>'''
 
@@ -262,30 +262,59 @@ details = f'''
 # Copy comes from the "Explore the range" tabs in Figma (Layout page). Their per-size spec sheets
 # aren't in the project yet, so the size chart shows a placeholder until we get them.
 OTHER_TIRES = [
-  dict(file='tire-highway-terrain.html', code='ML41', name='Highway Terrain', img='tire-ml41.webp', segment='HIGHWAY TERRAIN', kind='Light truck',
-       intro='For pickups and SUVs that spend most of their miles on pavement, with a stable, comfortable ride and dependable grip in wet and snowy weather.',
-       bullets=['Stable, comfortable ride', 'Excellent wet and snow performance', 'Enhanced handling and traction', 'Enhanced mileage'],
-       war='60,000', sizes=33, rims='15–22"', vehicles=[('big-sedan', 'Pickup / SUV')]),
-  dict(file='tire-tour-as.html', code='MH41', name='Tour A/S', img='tire-mh41.webp', segment='TOURING ALL-SEASON', kind='Passenger',
-       intro='A comfortable all-season touring tire for sedans, minivans and crossovers, with strong braking on wet and dry roads and confident winter handling.',
-       bullets=['Smooth, comfortable ride', 'Excellent dry and wet braking', 'Exceptional winter handling', 'Dependable mileage'],
-       war='60,000', sizes=46, rims='14–20"', vehicles=[('sedan', 'Sedan'), ('big-sedan', 'Minivan / Crossover')]),
-  dict(file='tire-sport-as.html', code='MU41', name='Sport A/S', img='tire-mu41.webp', segment='SPORT ALL-SEASON', kind='Passenger',
-       intro='Responsive all-season performance for sport sedans and coupes, with precise cornering, strong dry and wet traction and a quieter ride.',
-       bullets=['Precise handling and cornering', 'Enhanced traction in dry and wet', 'Reduced road noise', 'Upgraded mileage'],
-       war='50,000', sizes=18, rims='17–20"', vehicles=[('sedan', 'Sedan / Coupe')]),
+  dict(file='tire-highway-terrain.html', code='ML41', slug='ml41', name='Highway Terrain', segment='HIGHWAY ALL-SEASON', war='60,000',
+       war_note='P-metric sizes carry up to 60,000 miles and LT sizes up to 50,000 miles, so check the size chart for yours.',
+       bullets=['Enhanced handling &amp; traction', 'Stable &amp; comfortable driving', 'Excellent wet &amp; snow performance', 'Improved all-weather capability', 'Enhanced mileage'],
+       vehicles=[('sedan', 'Sedan'), ('big-sedan', 'Big sedan')],
+       tech=[('Side Block Rib Design', 'Provides grip during acceleration and improves braking in wet and dry conditions.'),
+             ('Solid Center Rib', 'Application of a solid center rib tread design enhances stable driving and a comfortable ride.'),
+             ('Special Sipe Design', 'Sipe design provides enhanced wet and snow performance.'),
+             ('Optimal Polymer', 'Optimal polymer blend in the compound improves wear and durability.')]),
+  dict(file='tire-tour-as.html', code='MH41', slug='mh41', name='Tour A/S', segment='GRAND TOURING ALL-SEASON', war='60,000',
+       war_note='Every size carries up to 60,000 miles of coverage.',
+       bullets=['Superb wet traction', 'Smooth, comfortable ride', 'Excellent dry &amp; wet braking', 'Dependable mileage', 'Exceptional winter handling'],
+       vehicles=[('sedan', 'Sedan'), ('big-sedan', 'Big sedan')],
+       tech=[('Wide Grooves', 'Four wide grooves evacuate water quickly for excellent wet traction.'),
+             ('Asymmetric Tread Design', 'Advanced asymmetric tread creates an oversized contact area.'),
+             ('Innovative Compound', 'Innovative compound &amp; balanced contact patch for enhanced wear resistance and even wear across the tread.'),
+             ('Angled Snow Sipes', 'Precisely angled snow sipes create tiny gripping edges that are fine-tuned for traction on cold, slick surfaces.')]),
+  dict(file='tire-sport-as.html', code='MU41', slug='mu41', name='Sport A/S', segment='ULTRA HIGH PERFORMANCE ALL-SEASON', war='50,000',
+       war_note='Every size carries up to 50,000 miles of coverage.',
+       bullets=['Exceptional comfort: reduced noise', 'All-season capability', 'Enhanced traction in dry and wet', 'Precise handling and cornering', 'Excellent dry &amp; wet braking', 'Upgraded mileage'],
+       vehicles=[('sedan', 'Sedan')],
+       tech=[('Groove Angle/Ground Shape', 'Groove angle considering ground shape along with pitch arrangement of different lengths.'),
+             ('Wide Straight Grooves', 'Four wide straight grooves in the driving direction.'),
+             ('Advanced Tie Bars', 'Application of tie bars within the tread design improves handling and stability.'),
+             ('New Generation Polymer', 'New generation polymer to improve wear &amp; grip.')]),
 ]
+
+def shield_file(war):
+    """Write a warranty shield SVG for this mileage (same art as the home hero shield)."""
+    fn = f"warranty-shield-{war.replace(',', '')}.svg"
+    svg = SHIELD.replace('60,000', war).replace('class="shield" ', 'xmlns="http://www.w3.org/2000/svg" ')
+    (ROOT / 'assets/img' / fn).write_text(svg)
+    return 'assets/img/' + fn
 
 def other_details(t):
     full = f"Marshal {t['name']}"
+    shield = shield_file(t['war'])
+    war_alt = f"Limited treadwear warranty: up to {t['war']} miles"
+    img = lambda kind: f"assets/img/thumb-{t['slug']}-{kind}.webp"
     return f'''
 <section class="section section--subtle" style="padding-top:56px">
-  <div class="container td-top td-top--single">
-    <div class="main-image"><img id="main-image" src="assets/img/{t['img']}" alt="{full} {t['code']}, angled view" width="260" height="380"></div>
+  <div class="container td-top">
+    <div class="thumbs" aria-label="Product images">
+      <button class="thumb-nav" data-dir="-1" type="button" aria-label="Previous image">{UPCH}</button>
+      <button class="thumb" type="button" aria-pressed="true" data-src="assets/img/tire-{t['slug']}.webp" data-alt="{full} {t['code']}, angled view"><img src="assets/img/tire-{t['slug']}.webp" alt="Angled view"></button>
+      <button class="thumb" type="button" aria-pressed="false" data-src="{img('side')}" data-alt="{full} {t['code']}, side view"><img src="{img('side')}" alt="Side view"></button>
+      <button class="thumb" type="button" aria-pressed="false" data-src="{img('tread')}" data-alt="{full} {t['code']}, tread view"><img src="{img('tread')}" alt="Tread view"></button>
+      <button class="thumb thumb--dark" type="button" aria-pressed="false" data-overlay="off" data-src="{shield}" data-alt="{war_alt}"><img src="{shield}" alt="Warranty badge"></button>
+      <button class="thumb-nav" data-dir="1" type="button" aria-label="Next image" style="transform:rotate(180deg)">{UPCH}</button>
+    </div>
+    <div class="main-image"><img id="main-image" src="assets/img/tire-{t['slug']}.webp" alt="{full} {t['code']}, angled view" width="260" height="380"><img class="badge-overlay badge-overlay--shield" src="{shield}" alt="{war_alt}" width="80" height="100"></div>
     <div class="td-info">
       <h1>{full.upper()}</h1>
       <p class="segment">SEGMENT | {t['segment']}</p>
-      <p class="td-intro">{t['intro']}</p>
       <h2 class="benefits-title">Key benefits</h2>
       <ul class="bul">{''.join(f'<li>{b}</li>' for b in t['bullets'])}</ul>
       <div class="td-attrs">
@@ -296,15 +325,23 @@ def other_details(t):
     </div>
   </div>
 </section>
-<section class="section section--subtle" id="warranty-coverage" style="padding-top:0">
+<section class="section">
+  <div class="container">
+    <h2 class="section-title" style="margin-bottom:32px">Applied Technology</h2>
+    <div class="tech-grid">
+      {''.join(tech(f"tech-{t['slug']}-{i}.jpg", h, d) for i, (h, d) in enumerate(t['tech'], 1))}
+    </div>
+  </div>
+</section>
+<section class="section section--subtle" id="warranty-coverage">
   <div class="container">
     <h2 class="section-title" style="margin-bottom:40px">Warranty &amp; coverage</h2>
     <div class="warranty-band">
-      <p class="wb-stat"><span>Up to</span><b>{t['war']}</b><span>mile limited<br>treadwear warranty</span></p>
+      <div class="wb-badges wb-badges--shield"><img src="{shield}" alt="{war_alt}" width="160" height="200" loading="lazy"></div>
       <div class="wb-copy">
         <p class="wb-name">{full.upper()}</p>
         <h3>Limited treadwear warranty</h3>
-        <p>{full} comes with a limited treadwear warranty of up to {t['war']} miles. Coverage can vary by size, so check the size chart for yours.</p>
+        <p>{full} comes with a limited treadwear warranty. {t['war_note']}</p>
         <a class="link wb-link" href="#warranty">See full warranty terms <span aria-hidden="true">{ARROW_R}</span></a>
       </div>
     </div>
@@ -313,12 +350,16 @@ def other_details(t):
 <section class="section" id="available-sizes">
   <div class="container">
     <div class="sizes-head"><h2 class="section-title">Available sizes</h2></div>
-    <div class="sizes-soon">
-      <p class="sizes-soon-stats"><span><b>{t['sizes']}</b> sizes</span><span><b>{t['rims']}</b> rim diameters</span></p>
-      <h3>Full size chart coming soon</h3>
-      <p class="muted">We’re adding the complete size and spec table for the {full}. In the meantime, a Marshal dealer can confirm the right size for your vehicle.</p>
-      <a class="btn btn--outline" href="dealers.html">FIND A DEALER {ARROW}</a>
+    <div class="filter-row">
+      <div class="field"><label for="size-filter" style="font-weight:400">Filter by tire size</label><div class="filter-wrap"><input class="input" id="size-filter" type="search" placeholder="e.g. 225 or R18 or 225/35 R18" autocomplete="off">{SEARCH}</div></div>
+      <button class="howto-toggle" id="howto-toggle" type="button" aria-expanded="true" aria-controls="howto">Where can I find my tire size? {UPCH}</button>
     </div>
+    <div class="howto" id="howto">
+      <div><h3>Check the side of your tire.</h3><p class="muted">Or check the vehicle manual.</p></div>
+      <div class="code" aria-label="Example size 225/35 R18"><div><b>225</b><small>Width</small></div><span class="slash">/</span><div><b>35</b><small>Profile</small></div><div><b>R18</b><small>Rim diameter</small></div></div>
+      <img src="assets/img/sidewall.png" alt="" width="295" height="120">
+    </div>
+    <div class="acc" id="size-accordion" data-line="{t['code']}" data-name="{t['name']}"></div>
   </div>
 </section>'''
 
@@ -552,12 +593,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 LEAFLET_CSS = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">\n'
 LEAFLET_JS = '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>\n'
+SPECS_JS = f'<script src="assets/js/specs.js?v={ver("assets/js/specs.js")}"></script>\n'
 pages = {
   'index.html': ('home', 'Marshal Tire | Built to perform', 'Practical tires with the right balance of performance, durability and value.', home_alt, '', ''),
   'index-alt.html': ('home', 'Marshal Tire | Built to perform (split hero)', 'Practical tires with the right balance of performance, durability and value.', home, '', ''),
   'about.html': ('about', 'About Us | Marshal Tire', 'Built around your everyday drive.', about, '', ''),
-  'tire-details.html': ('tire-details', 'Marshal All Terrain MF41 | Marshal Tire', 'Marshal All Terrain: technology, warranty and all 25 available sizes.', details, '', f'<script src="assets/js/mf41.js?v={ver("assets/js/mf41.js")}"></script>\n'),
-  **{t['file']: ('tire-details', f"Marshal {t['name']} {t['code']} | Marshal Tire", f"Marshal {t['name']}: key benefits, warranty and available sizes.", other_details(t), '', '') for t in OTHER_TIRES},
+  'tire-details.html': ('tire-details', 'Marshal All Terrain MF41 | Marshal Tire', 'Marshal All Terrain: technology, warranty and all 25 available sizes.', details, '', SPECS_JS),
+  **{t['file']: ('tire-details', f"Marshal {t['name']} {t['code']} | Marshal Tire", f"Marshal {t['name']}: key benefits, warranty and available sizes.", other_details(t), '', SPECS_JS) for t in OTHER_TIRES},
   'dealers.html': ('dealers', 'Find a Dealer | Marshal Tire', 'Find authorized Marshal Tire dealers near you.', dealers, LEAFLET_CSS, LEAFLET_JS),
   'review.html': ('review', 'Client feedback | Marshal Tire mockup', 'All feedback notes left on the mockup.', review, '', ''),
   'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: general and business inquiries.', contact, '', ''),

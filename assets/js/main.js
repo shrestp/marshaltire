@@ -136,16 +136,17 @@
   /* ---------- TIRE DETAILS ---------- */
   const acc = $('#size-accordion');
   if (acc) {
-    // All Terrain MF41 — from MS_Spec.xlsx
-    const D = window.MF41 || [];
-    const cols = [['Product code', r => r.code], ['Tire size', r => r.size, 'size'], ['Service desc.', r => r.svc], ['Load index', r => r.svc.slice(0, -1)], ['Speed rating', r => r.svc.slice(-1)], ['Construction', r => r.cons], ['Sidewall', () => 'BSW'], ['UTQG', r => r.utqg], ['Rim width range (in.)', r => r.rim], ['Section width on measured rim (in.)', r => r.secw], ['Overall diameter (in.)', r => r.od.toFixed(1)], ['Tire weight (lb)', r => r.wt.toFixed(1)], ['Static loaded radius (in.)', r => r.slr], ['Revs per mile', r => fmt(r.rpm)], ['Tread depth (1/32")', r => r.tread.toFixed(1)], ['Max load single (lb)', r => fmt(r.ls)], ['Max load dual (lb)', r => (r.ld ? fmt(r.ld) : '—')], ['Max inflation (psi)', r => r.psi], ['Mileage warranty', r => fmt(r.war)], ['3PMSF', () => 'Yes'], ['UPC', r => r.upc]];
+    // sizes for this tire line, from MS_Spec.xlsx (assets/js/specs.js)
+    const D = (window.MT_SPECS || {})[acc.dataset.line || 'MF41'] || window.MF41 || [];
+    const lineName = acc.dataset.name || 'All Terrain';
+    const cols = [['Product code', r => r.code], ['Tire size', r => r.size, 'size'], ['Service desc.', r => r.svc], ['Load index', r => r.svc.slice(0, -1)], ['Speed rating', r => r.svc.slice(-1)], ['Construction', r => r.cons], ['Sidewall', r => r.side || 'BSW'], ['UTQG', r => r.utqg], ['Rim width range (in.)', r => r.rim], ['Section width on measured rim (in.)', r => r.secw], ['Overall diameter (in.)', r => r.od.toFixed(1)], ['Tire weight (lb)', r => r.wt.toFixed(1)], ['Static loaded radius (in.)', r => r.slr], ['Revs per mile', r => fmt(r.rpm)], ['Tread depth (1/32")', r => r.tread.toFixed(1)], ['Max load single (lb)', r => fmt(r.ls)], ['Max load dual (lb)', r => (r.ld ? fmt(r.ld) : '—')], ['Max inflation (psi)', r => r.psi], ['Mileage warranty', r => fmt(r.war)], ['3PMSF', r => (r.pmsf === false ? '—' : 'Yes')], ['UPC', r => r.upc]];
     const fmt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     const rimOf = s => +s.match(/R(\d+)/)[1];
     const groups = {}; D.forEach(r => (groups[rimOf(r.size)] ||= []).push(r));
     const label = r => `${r.size} ${r.svc} ${r.cons}`;
     acc.innerHTML = Object.keys(groups).sort((a, b) => a - b).map((rim, gi) => `
       <section class="acc-group" data-rim="${rim}">
-        <h3 style="margin:0"><button class="acc-head" aria-expanded="${gi === 0}" aria-controls="g-${rim}"><span><b>${rim} Inch</b> <span class="count">(${groups[rim].length} sizes)</span></span><span class="acc-icon">${gi === 0 ? icon.minus : icon.plus}</span></button></h3>
+        <h3 style="margin:0"><button class="acc-head" aria-expanded="${gi === 0}" aria-controls="g-${rim}"><span><b>${rim} Inch</b> <span class="count">(${groups[rim].length} size${groups[rim].length === 1 ? '' : 's'})</span></span><span class="acc-icon">${gi === 0 ? icon.minus : icon.plus}</span></button></h3>
         <div class="acc-body" id="g-${rim}" ${gi === 0 ? '' : 'hidden'}>
           ${groups[rim].map((r, k) => `<div class="size-row" data-size="${r.size}">
             <button class="size-btn" aria-expanded="${gi === 0 && k === 0}" aria-controls="s-${r.code}"><span class="lbl">${label(r)}</span>${icon.chevDown}</button>
@@ -153,7 +154,7 @@
               <table class="spec"><thead><tr>${cols.map(c => `<th scope="col">${c[0]}</th>`).join('')}</tr></thead>
               <tbody><tr>${cols.map(c => { const v = c[1](r); return `<td class="${c[2] || ''}${v === '—' ? ' none' : ''}">${v}</td>`; }).join('')}</tr></tbody></table>
             </div></div>`).join('')}
-        </div></section>`).join('') + `<p class="no-results" hidden>No All Terrain sizes match “<span></span>”. Try just the width (e.g. 265) or the rim (e.g. R17).</p>`;
+        </div></section>`).join('') + `<p class="no-results" hidden>No ${lineName} sizes match “<span></span>”. Try just the width (e.g. 265) or the rim (e.g. R17).</p>`;
     const setGroup = (btn, open) => { btn.setAttribute('aria-expanded', open); $('#' + btn.getAttribute('aria-controls')).hidden = !open; $('.acc-icon', btn).innerHTML = open ? icon.minus : icon.plus; };
     const setSize = (btn, open) => { btn.setAttribute('aria-expanded', open); $('#' + btn.getAttribute('aria-controls')).hidden = !open; };
     $$('.acc-head', acc).forEach(b => b.addEventListener('click', () => setGroup(b, b.getAttribute('aria-expanded') !== 'true')));
@@ -173,7 +174,7 @@
           if (q && hit) { const raw = q.toUpperCase().replace(/\s+/g, ''); const idx = size.toUpperCase().indexOf(raw); if (idx >= 0 && raw.length > 1) lbl.innerHTML = `${size.slice(0, idx)}<mark>${size.slice(idx, idx + raw.length)}</mark>${size.slice(idx + raw.length)} ${r.svc} ${r.cons}`; }
         });
         g.hidden = n === 0; any += n;
-        $('.count', g).textContent = q ? `(${n} of ${$$('.size-row', g).length} sizes)` : `(${$$('.size-row', g).length} sizes)`;
+        const tot = $$('.size-row', g).length; $('.count', g).textContent = q ? `(${n} of ${tot} size${tot === 1 ? '' : 's'})` : `(${tot} size${tot === 1 ? '' : 's'})`;
         if (q && n) setGroup($('.acc-head', g), true);
       });
       const nr = $('.no-results', acc); nr.hidden = any > 0; $('span', nr).textContent = q;
