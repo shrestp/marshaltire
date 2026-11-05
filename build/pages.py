@@ -61,12 +61,13 @@ SHIELD = '''<svg class="shield" viewBox="0 0 280 349" role="img" aria-label="Lim
     <text x="140" y="266.4" font-size="21.34" font-weight="800" letter-spacing=".43">WARRANTY</text>
   </g></svg>'''
 
+TIRE_URL = {'All Terrain': 'tire-details.html', 'Highway Terrain': 'tire-highway-terrain.html', 'Tour A/S': 'tire-tour-as.html', 'Sport A/S': 'tire-sport-as.html'}
 def card(name, line, img, tag):
     return f'''<article class="pcard">
   <span class="badge">{tag}</span>
   <h3>Marshal {name}</h3><p class="sub">{line}</p>
   <img src="assets/img/{img}" alt="Marshal {name} tire" width="220" height="250" loading="lazy">
-  <a class="btn btn--outline-brand" href="tire-details.html">View Tire {ARROW}</a>
+  <a class="btn btn--outline-brand" href="{TIRE_URL[name]}">View Tire {ARROW}</a>
 </article>'''
 
 home = f'''
@@ -257,6 +258,70 @@ details = f'''
   </div>
 </section>'''
 
+# ---------------------------------------------------------------- OTHER TIRE LINES
+# Copy comes from the "Explore the range" tabs in Figma (Layout page). Their per-size spec sheets
+# aren't in the project yet, so the size chart shows a placeholder until we get them.
+OTHER_TIRES = [
+  dict(file='tire-highway-terrain.html', code='ML41', name='Highway Terrain', img='tire-ml41.webp', segment='HIGHWAY TERRAIN', kind='Light truck',
+       intro='For pickups and SUVs that spend most of their miles on pavement, with a stable, comfortable ride and dependable grip in wet and snowy weather.',
+       bullets=['Stable, comfortable ride', 'Excellent wet and snow performance', 'Enhanced handling and traction', 'Enhanced mileage'],
+       war='60,000', sizes=33, rims='15–22"', vehicles=[('big-sedan', 'Pickup / SUV')]),
+  dict(file='tire-tour-as.html', code='MH41', name='Tour A/S', img='tire-mh41.webp', segment='TOURING ALL-SEASON', kind='Passenger',
+       intro='A comfortable all-season touring tire for sedans, minivans and crossovers, with strong braking on wet and dry roads and confident winter handling.',
+       bullets=['Smooth, comfortable ride', 'Excellent dry and wet braking', 'Exceptional winter handling', 'Dependable mileage'],
+       war='60,000', sizes=46, rims='14–20"', vehicles=[('sedan', 'Sedan'), ('big-sedan', 'Minivan / Crossover')]),
+  dict(file='tire-sport-as.html', code='MU41', name='Sport A/S', img='tire-mu41.webp', segment='SPORT ALL-SEASON', kind='Passenger',
+       intro='Responsive all-season performance for sport sedans and coupes, with precise cornering, strong dry and wet traction and a quieter ride.',
+       bullets=['Precise handling and cornering', 'Enhanced traction in dry and wet', 'Reduced road noise', 'Upgraded mileage'],
+       war='50,000', sizes=18, rims='17–20"', vehicles=[('sedan', 'Sedan / Coupe')]),
+]
+
+def other_details(t):
+    full = f"Marshal {t['name']}"
+    return f'''
+<section class="section section--subtle" style="padding-top:56px">
+  <div class="container td-top td-top--single">
+    <div class="main-image"><img id="main-image" src="assets/img/{t['img']}" alt="{full} {t['code']}, angled view" width="260" height="380"></div>
+    <div class="td-info">
+      <h1>{full.upper()}</h1>
+      <p class="segment">SEGMENT | {t['segment']}</p>
+      <p class="td-intro">{t['intro']}</p>
+      <h2 class="benefits-title">Key benefits</h2>
+      <ul class="bul">{''.join(f'<li>{b}</li>' for b in t['bullets'])}</ul>
+      <div class="td-attrs">
+        <div><h2><span class="dash"></span>Vehicle Type</h2><div class="icon-row">{icons(t['vehicles'])}</div></div>
+      </div>
+      <div class="size-hint">{INFO}<div><p>Your size is on your tire’s sidewall, like 225/35 R18 or check the vehicle manual.</p><a href="#available-sizes">See available sizes {DOWN}</a></div></div>
+      <div><a class="btn btn--primary btn--sm" href="dealers.html">DEALER LOCATOR {ARROW}</a></div>
+    </div>
+  </div>
+</section>
+<section class="section section--subtle" id="warranty-coverage" style="padding-top:0">
+  <div class="container">
+    <h2 class="section-title" style="margin-bottom:40px">Warranty &amp; coverage</h2>
+    <div class="warranty-band">
+      <p class="wb-stat"><span>Up to</span><b>{t['war']}</b><span>mile limited<br>treadwear warranty</span></p>
+      <div class="wb-copy">
+        <p class="wb-name">{full.upper()}</p>
+        <h3>Limited treadwear warranty</h3>
+        <p>{full} comes with a limited treadwear warranty of up to {t['war']} miles. Coverage can vary by size, so check the size chart for yours.</p>
+        <a class="link wb-link" href="#warranty">See full warranty terms <span aria-hidden="true">{ARROW_R}</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="available-sizes">
+  <div class="container">
+    <div class="sizes-head"><h2 class="section-title">Available sizes</h2></div>
+    <div class="sizes-soon">
+      <p class="sizes-soon-stats"><span><b>{t['sizes']}</b> sizes</span><span><b>{t['rims']}</b> rim diameters</span></p>
+      <h3>Full size chart coming soon</h3>
+      <p class="muted">We’re adding the complete size and spec table for the {full}. In the meantime, a Marshal dealer can confirm the right size for your vehicle.</p>
+      <a class="btn btn--outline" href="dealers.html">FIND A DEALER {ARROW}</a>
+    </div>
+  </div>
+</section>'''
+
 # ---------------------------------------------------------------- DEALERS
 dealers = f'''
 <section class="page-intro" style="background:var(--surface-subtle);padding-bottom:24px">
@@ -438,7 +503,7 @@ review = """
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const store = window.MTFeedbackStore, box = document.querySelector('.fbr-list');
-  const NAMES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'Tire Details', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us' };
+  const NAMES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'All Terrain', 'tire-highway-terrain.html': 'Highway Terrain', 'tire-tour-as.html': 'Tour A/S', 'tire-sport-as.html': 'Sport A/S', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us' };
   document.querySelector('.fbr-mode').textContent = store.shared ? 'Every note your client leaves on the stage site, grouped by page.' : 'Demo mode: this list only shows notes saved in this browser. Connect Supabase in assets/js/feedback-config.js to collect notes from everyone.';
   let notes = [], filter = 'open';
   const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
@@ -492,6 +557,7 @@ pages = {
   'index-alt.html': ('home', 'Marshal Tire | Built to perform (split hero)', 'Practical tires with the right balance of performance, durability and value.', home, '', ''),
   'about.html': ('about', 'About Us | Marshal Tire', 'Built around your everyday drive.', about, '', ''),
   'tire-details.html': ('tire-details', 'Marshal All Terrain MF41 | Marshal Tire', 'Marshal All Terrain: technology, warranty and all 25 available sizes.', details, '', f'<script src="assets/js/mf41.js?v={ver("assets/js/mf41.js")}"></script>\n'),
+  **{t['file']: ('tire-details', f"Marshal {t['name']} {t['code']} | Marshal Tire", f"Marshal {t['name']}: key benefits, warranty and available sizes.", other_details(t), '', '') for t in OTHER_TIRES},
   'dealers.html': ('dealers', 'Find a Dealer | Marshal Tire', 'Find authorized Marshal Tire dealers near you.', dealers, LEAFLET_CSS, LEAFLET_JS),
   'review.html': ('review', 'Client feedback | Marshal Tire mockup', 'All feedback notes left on the mockup.', review, '', ''),
   'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: general and business inquiries.', contact, '', ''),

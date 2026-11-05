@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, nofollow"><link rel="icon" href="/marshaltire/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css?v=6f9d87e4">
+<link rel="stylesheet" href="assets/css/styles.css?v=3ba7d72f">
 <link rel="stylesheet" href="assets/css/feedback.css?v=a5a69703">
 </head>
 <body data-page="review">
@@ -36,7 +36,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const store = window.MTFeedbackStore, box = document.querySelector('.fbr-list');
-  const NAMES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'Tire Details', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us' };
+  const NAMES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'All Terrain', 'tire-highway-terrain.html': 'Highway Terrain', 'tire-tour-as.html': 'Tour A/S', 'tire-sport-as.html': 'Sport A/S', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us' };
   document.querySelector('.fbr-mode').textContent = store.shared ? 'Every note your client leaves on the stage site, grouped by page.' : 'Demo mode: this list only shows notes saved in this browser. Connect Supabase in assets/js/feedback-config.js to collect notes from everyone.';
   let notes = [], filter = 'open';
   const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </main>
 <footer id="site-footer"></footer>
-<script src="assets/js/main.js?v=c6114006"></script>
+<script src="assets/js/main.js?v=99e2bea8"></script>
 <script src="assets/js/feedback-config.js?v=12d93610"></script>
-<script src="assets/js/feedback.js?v=8467a8da"></script>
+<script src="assets/js/feedback.js?v=2c6e7418"></script>
 </body>
 </html>

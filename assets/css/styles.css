@@ -537,3 +537,24 @@ p { margin: 0; }
 .hero-link { color: #fff; font-size: 15px; font-weight: 500; text-underline-offset: 3px; }
 .hero-link:hover { color: var(--brand-3); }
 @media (max-width: 900px) { .hero--full .slide-copy p br { display: none; } }
+
+/* other tire lines (single image, placeholder size chart) */
+.td-top--single { grid-template-columns: 420px 1fr; }
+.td-intro { margin: 16px 0 0; font-size: 18px; color: var(--text-secondary); max-width: 560px; }
+.wb-stat { flex: none; width: 285px; padding-right: 64px; border-right: 1px solid var(--border-default); box-sizing: content-box; margin: 0; display: grid; gap: 4px; }
+.wb-stat span:first-child { color: var(--brand-6); font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: .04em; }
+.wb-stat b { font-size: 64px; font-weight: 900; line-height: 1; letter-spacing: -.03em; }
+.wb-stat span:last-child { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; color: var(--text-secondary); }
+.wb-name { margin: 0 0 8px; font-size: 22px; font-weight: 900; letter-spacing: .02em; color: var(--brand-4); }
+.sizes-soon { margin-top: 24px; padding: 40px; border: 1px dashed var(--gray-4); border-radius: var(--r-md); background: var(--gray-1); display: grid; gap: 12px; justify-items: start; }
+.sizes-soon h3 { font-size: 22px; }
+.sizes-soon p { margin: 0; max-width: 620px; }
+.sizes-soon-stats { display: flex; gap: 32px; font-size: 16px; color: var(--text-secondary); }
+.sizes-soon-stats b { font-size: 28px; font-weight: 800; color: var(--text-primary); margin-right: 4px; }
+@media (max-width: 1024px) { .td-top--single { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .wb-stat { width: auto; padding: 0 0 28px; border-right: 0; border-bottom: 1px solid var(--border-default); }
+  .wb-stat b { font-size: 48px; }
+  .sizes-soon { padding: 24px; }
+}
+.td-intro + .benefits-title { margin-top: 24px; }

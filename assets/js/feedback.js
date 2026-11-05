@@ -90,7 +90,7 @@
   $('.fb-sub').textContent = 'You’re on: ' + document.title.split('|')[0].trim();
   if (!shared) { const m = $('.fb-mode'); m.hidden = false; m.textContent = 'Demo mode: notes are saved in this browser only.'; }
 
-  const PAGES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'Tire Details', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us' };
+  const PAGES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'All Terrain', 'tire-highway-terrain.html': 'Highway Terrain', 'tire-tour-as.html': 'Tour A/S', 'tire-sport-as.html': 'Sport A/S', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us' };
   const SKEY = 'mt-feedback-scope';
   let notes = [], open = false, picking = false, pop = null, active = null;
   let scope = (() => { try { return localStorage.getItem(SKEY) || 'all'; } catch { return 'all'; } })();

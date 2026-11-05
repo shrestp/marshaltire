@@ -8,6 +8,7 @@ This is a clickable website mockup built from the Figma frames in *Marshal Tires
 | Landing, alternate split hero | `index-alt.html` | 415:3705 |
 | About Us | `about.html` | 326:581 |
 | Tire Details · ver. 2 (MF41 All Terrain) | `tire-details.html` | 326:1002 |
+| Highway Terrain ML41, Tour A/S MH41, Sport A/S MU41 (same template, copy from the Figma "Explore the range" tabs) | `tire-highway-terrain.html`, `tire-tour-as.html`, `tire-sport-as.html` | 326:1002 |
 | Dealer Finder | `dealers.html` | 326:1310 |
 | General Contact Us (Drivers / Business tabs) | `contact.html` | 439:5602 |
 | Client feedback review (not in the nav) | `review.html` | n/a |
@@ -24,7 +25,7 @@ This is a clickable website mockup built from the Figma frames in *Marshal Tires
 ## What's placeholder
 - The dealers are 8 sample Colorado locations.
 - The contact form doesn't send anything.
-- Every "View tire" link opens the MF41 page.
+- Highway Terrain, Tour A/S and Sport A/S have no size/spec data yet: their size section is a "coming soon" placeholder, they have one product photo each and no Applied Technology section.
 - The Discount Tire and Tire Rack search-link formats are unconfirmed (set in `RETAILERS` in `assets/js/main.js`).
 - Pages for Warranty, Privacy and the other footer links show a "not part of this mockup" notice.
 
