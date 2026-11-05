@@ -47,21 +47,38 @@ def shell(page, title, desc, body, extra_head='', extra_js=''):
 </html>
 '''
 
-# ---------------------------------------------------------------- HOME
-SHIELD = '''<svg class="shield" viewBox="0 0 280 349" role="img" aria-label="Limited treadwear warranty, up to 60,000 miles">
-  <path d="M142.45 348.24C141.05 348.79 140.01 349.19 138.86 348.75C108.54 337.08 80.66 320.11 56.42 298.38C33.66 277.97 12.57 251.05 4.27 221.41C1.88 212.9 .04 204.52 .04 195.57L0 68.16L.2 52.21C.22 50.86 .83 49.77 1.84 48.95C11.08 41.47 21 35.5 31.7 30.15C65.85 13.2 102.23 5.49 139.96 0C177.83 5.46 214.35 13.32 248.74 30.35C259.12 35.66 268.72 41.54 277.84 48.68C278.78 49.41 279.65 50.54 279.66 51.79L279.84 72.64L279.9 195.99C278.28 234.37 255.19 268.67 227.9 294.3C203.15 317.55 174.12 335.79 142.45 348.23Z" fill="#010101"/>
-  <path transform="translate(6.31 6.3)" d="M133.67 336.17C92.5 320.12 52.23 292 25.98 256.52C11.41 236.83 .05 212.08 .04 187.24L0 67.17L.2 46.82C9 39.92 18.02 34.49 27.84 29.57C61.06 12.98 97.33 5.06 133.97 0C152.94 2.73 171.29 6.15 189.7 10.98C207.67 15.79 224.76 22.12 241.32 30.48C250.42 35.21 259.13 40.42 267.1 46.92L267.31 182.72C267.33 195.92 265.56 208.27 260.96 220.6C256.2 233.37 249.73 245.04 241.64 256.09C232.31 268.74 221.66 280.1 209.7 290.41C187.23 309.78 161.71 325.15 133.67 336.17Z" fill="#fff"/>
-  <path transform="translate(16 15)" d="M126.7 317.32C124.73 318.16 123.52 318.23 121.77 317.48C95.48 306.26 71.23 290.92 50.03 271.68C32.39 255.69 15.77 235.17 7.07 213.02C3.18 203.11 .13 192.95 .12 182.09L0 44.68C0 42.99 .48 41.82 1.7 40.92C8.8 35.64 16.2 31.34 24.2 27.38C55.52 12.22 89.21 5.04 123.81 0C143.21 2.53 162.35 6.27 181.38 11.55C196.34 15.69 210.47 20.86 224.36 27.64C232.06 31.52 239.22 35.57 246.04 40.71C247.38 41.73 248 42.77 248 44.69L247.87 182.11C247.86 194.83 243.9 206.86 238.76 218.22C226.95 244.42 205.27 267.14 182.6 284.56C165.38 297.79 146.78 308.74 126.71 317.33Z" fill="#010101"/>
-  <g fill="#fff"><rect x="78.3" y="69.6" width="19.6" height="1.8"/><rect x="182.1" y="69.6" width="19.6" height="1.8"/><rect x="64.4" y="236.5" width="151.2" height="1.8"/></g>
-  <g font-family="Inter, sans-serif" text-anchor="middle" fill="#fff">
-    <text x="140" y="76.3" font-size="16" font-weight="800" letter-spacing=".64">LIMITED</text>
-    <text x="140" y="108.2" font-size="21.34" font-weight="800" letter-spacing=".43">TREADWEAR</text>
-    <text x="140" y="134" font-size="14.23" font-weight="700" letter-spacing="2.85" fill="#E3B21E">UP TO</text>
-    <text x="140" y="191.5" font-size="53.36" font-weight="900" letter-spacing="-2.13">60,000</text>
-    <text x="140" y="224.9" font-size="20" font-weight="800" letter-spacing="1.2">MILES</text>
-    <text x="140" y="266.4" font-size="21.34" font-weight="800" letter-spacing=".43">WARRANTY</text>
-  </g></svg>'''
+# ---------------------------------------------------------------- WARRANTY BADGES
+# Source art from the client (Images/Badges in Dropbox) lives in build/badges/<slug>.svg, drawn in white.
+# We write two colourways next to the other images:
+#   badge-<slug>-light.svg  dark ink, for light backgrounds (warranty band)
+#   badge-<slug>-dark.svg   brand yellow on black-filled shields, for photos and dark tiles
+BADGE_ALT = {
+  'mf41': 'Limited treadwear warranty: 55,000 miles on P-metric sizes, 50,000 miles on LT metric sizes',
+  'ml41': 'Limited treadwear warranty: 60,000 miles on P-metric sizes, 50,000 miles on LT metric sizes',
+  'mh41': 'Limited treadwear warranty: 60,000 miles',
+  'mu41': 'Limited treadwear warranty: 50,000 miles',
+}
+def badge_files(slug):
+    src = (ROOT / 'build/badges' / f'{slug}.svg').read_text()
+    src = src.replace('#F4F4F4', 'white')
+    w, h = re.search(r'width="([\d.]+)" height="([\d.]+)"', src).groups()
+    light = src.replace('"white"', '"#1a1a1a"')
+    # shield outlines are the stroked curve paths (no fill); fill them black for the dark version
+    dark = re.sub(r'<path d="(M[^"]*C[^"]*)"([^>]*stroke="white")', r'<path d="\1" fill="#000"\2', src)
+    dark = dark.replace('"white"', '"#e3b21e"')
+    if float(w) > float(h):  # P-metric / LT pair: sit it on a black tile so the small labels read over a photo
+        W, H, pad = float(w), float(h), 8
+        dark = dark.replace(f'<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}"', f'<svg width="{W+2*pad:g}" height="{H+2*pad:g}" viewBox="{-pad} {-pad} {W+2*pad:g} {H+2*pad:g}"', 1)
+        dark = dark.replace('xmlns="http://www.w3.org/2000/svg">', f'xmlns="http://www.w3.org/2000/svg">\n<rect x="{-pad}" y="{-pad}" width="{W+2*pad:g}" height="{H+2*pad:g}" rx="10" fill="#000"/>', 1)
+    out = {'w': w, 'h': h}
+    for kind, svg in (('light', light), ('dark', dark)):
+        fn = f'badge-{slug}-{kind}.svg'
+        (ROOT / 'assets/img' / fn).write_text(svg)
+        out[kind] = 'assets/img/' + fn
+    return out
 
+# ---------------------------------------------------------------- HOME
+HERO_BADGE = badge_files('mh41')['dark']
 TIRE_URL = {'All Terrain': 'tire-details.html', 'Highway Terrain': 'tire-highway-terrain.html', 'Tour A/S': 'tire-tour-as.html', 'Sport A/S': 'tire-sport-as.html'}
 def card(name, line, img, tag):
     return f'''<article class="pcard">
@@ -94,7 +111,7 @@ home = f'''
         <div class="actions"><a class="btn btn--primary btn--lg" href="#warranty">VIEW WARRANTY DETAILS {ARROW}</a></div>
       </div>
       <div class="slide-photo" style="background-image:url(assets/img/hero-warranty.jpg)"></div>
-      <div class="slide-art slide-art--shield">{SHIELD}</div>
+      <div class="slide-art slide-art--shield"><img class="shield" src="{HERO_BADGE}" alt="Limited treadwear warranty: up to 60,000 miles" width="100" height="134"></div>
     </div>
   </div>
   <div class="hero-controls">
@@ -193,6 +210,7 @@ about = f'''
 def tech(img, h, p):
     return f'<article class="tech"><img src="assets/img/{img}" alt="" width="250" height="124" loading="lazy"><h3>{h}</h3><p>{p}</p></article>'
 icons = lambda names: ''.join(f'<img src="assets/img/icon-{n}.png" alt="{a}" width="72" height="72">' for n, a in names)
+MF41_BADGE = badge_files('mf41')
 details = f'''
 <section class="section section--subtle" style="padding-top:56px">
   <div class="container td-top">
@@ -201,10 +219,10 @@ details = f'''
       <button class="thumb" type="button" aria-pressed="true" data-src="assets/img/tire-mf41.webp" data-alt="Marshal All Terrain MF41, angled view"><img src="assets/img/tire-mf41.webp" alt="Angled view"></button>
       <button class="thumb" type="button" aria-pressed="false" data-src="assets/img/thumb-mf41-side.webp" data-alt="Marshal All Terrain MF41, side view"><img src="assets/img/thumb-mf41-side.webp" alt="Side view"></button>
       <button class="thumb" type="button" aria-pressed="false" data-src="assets/img/thumb-mf41-tread.webp" data-alt="Marshal All Terrain MF41, tread view"><img src="assets/img/thumb-mf41-tread.webp" alt="Tread view"></button>
-      <button class="thumb thumb--dark" type="button" aria-pressed="false" data-overlay="off" data-src="assets/img/warranty-badges-dark.png" data-alt="Limited treadwear warranty: 55,000 miles on P-metric sizes, 50,000 miles on LT metric sizes"><img src="assets/img/warranty-badges-dark.png" alt="Warranty badges"></button>
+      <button class="thumb thumb--dark" type="button" aria-pressed="false" data-overlay="off" data-src="{MF41_BADGE['dark']}" data-alt="{BADGE_ALT['mf41']}"><img src="{MF41_BADGE['dark']}" alt="Warranty badges"></button>
       <button class="thumb-nav" data-dir="1" type="button" aria-label="Next image" style="transform:rotate(180deg)">{UPCH}</button>
     </div>
-    <div class="main-image"><img id="main-image" src="assets/img/tire-mf41.webp" alt="Marshal All Terrain MF41, angled view" width="260" height="380"><img class="badge-overlay" src="assets/img/warranty-badges-dark.png" alt="Limited treadwear warranty: 55,000 miles P-metric, 50,000 miles LT metric" width="141" height="107"></div>
+    <div class="main-image"><img id="main-image" src="assets/img/tire-mf41.webp" alt="Marshal All Terrain MF41, angled view" width="260" height="380"><img class="badge-overlay" src="{MF41_BADGE['dark']}" alt="{BADGE_ALT['mf41']}" width="189" height="135"></div>
     <div class="td-info">
       <h1>MARSHAL ALL TERRAIN</h1>
       <p class="segment">SEGMENT | ALL TERRAIN</p>
@@ -233,7 +251,7 @@ details = f'''
   <div class="container">
     <h2 class="section-title" style="margin-bottom:40px">Warranty &amp; coverage</h2>
     <div class="warranty-band">
-      <img class="wb-badges" src="assets/img/warranty-badges.png" alt="Limited treadwear warranty: 55,000 miles on P-metric sizes, 50,000 miles on LT metric sizes" width="285" height="204" loading="lazy">
+      <img class="wb-badges" src="{MF41_BADGE['light']}" alt="{BADGE_ALT['mf41']}" width="189" height="135" loading="lazy">
       <div class="wb-copy">
         <img class="wb-wordmark" src="assets/img/wordmark-all-terrain.png" alt="Marshal All Terrain" width="193" height="34" loading="lazy">
         <h3>Limited treadwear warranty</h3>
@@ -289,17 +307,11 @@ OTHER_TIRES = [
              ('New Generation Polymer', 'New generation polymer to improve wear &amp; grip.')]),
 ]
 
-def shield_file(war):
-    """Write a warranty shield SVG for this mileage (same art as the home hero shield)."""
-    fn = f"warranty-shield-{war.replace(',', '')}.svg"
-    svg = SHIELD.replace('60,000', war).replace('class="shield" ', 'xmlns="http://www.w3.org/2000/svg" ')
-    (ROOT / 'assets/img' / fn).write_text(svg)
-    return 'assets/img/' + fn
-
 def other_details(t):
     full = f"Marshal {t['name']}"
-    shield = shield_file(t['war'])
-    war_alt = f"Limited treadwear warranty: up to {t['war']} miles"
+    badge = badge_files(t['slug'])
+    war_alt = BADGE_ALT[t['slug']]
+    pair = ' badge-pair' if t['slug'] == 'ml41' else ''
     img = lambda kind: f"assets/img/thumb-{t['slug']}-{kind}.webp"
     return f'''
 <section class="section section--subtle" style="padding-top:56px">
@@ -309,10 +321,10 @@ def other_details(t):
       <button class="thumb" type="button" aria-pressed="true" data-src="assets/img/tire-{t['slug']}.webp" data-alt="{full} {t['code']}, angled view"><img src="assets/img/tire-{t['slug']}.webp" alt="Angled view"></button>
       <button class="thumb" type="button" aria-pressed="false" data-src="{img('side')}" data-alt="{full} {t['code']}, side view"><img src="{img('side')}" alt="Side view"></button>
       <button class="thumb" type="button" aria-pressed="false" data-src="{img('tread')}" data-alt="{full} {t['code']}, tread view"><img src="{img('tread')}" alt="Tread view"></button>
-      <button class="thumb thumb--dark" type="button" aria-pressed="false" data-overlay="off" data-src="{shield}" data-alt="{war_alt}"><img src="{shield}" alt="Warranty badge"></button>
+      <button class="thumb thumb--dark" type="button" aria-pressed="false" data-overlay="off" data-src="{badge['dark']}" data-alt="{war_alt}"><img src="{badge['dark']}" alt="Warranty badge"></button>
       <button class="thumb-nav" data-dir="1" type="button" aria-label="Next image" style="transform:rotate(180deg)">{UPCH}</button>
     </div>
-    <div class="main-image"><img id="main-image" src="assets/img/tire-{t['slug']}.webp" alt="{full} {t['code']}, angled view" width="260" height="380"><img class="badge-overlay badge-overlay--shield" src="{shield}" alt="{war_alt}" width="80" height="100"></div>
+    <div class="main-image"><img id="main-image" src="assets/img/tire-{t['slug']}.webp" alt="{full} {t['code']}, angled view" width="260" height="380"><img class="badge-overlay{'' if pair else ' badge-overlay--single'}" src="{badge['dark']}" alt="{war_alt}" width="{badge['w']}" height="{badge['h']}"></div>
     <div class="td-info">
       <h1>{full.upper()}</h1>
       <p class="segment">SEGMENT | {t['segment']}</p>
@@ -338,7 +350,7 @@ def other_details(t):
   <div class="container">
     <h2 class="section-title" style="margin-bottom:40px">Warranty &amp; coverage</h2>
     <div class="warranty-band">
-      <div class="wb-badges wb-badges--shield"><img src="{shield}" alt="{war_alt}" width="160" height="200" loading="lazy"></div>
+      <div class="wb-badges wb-badges--shield{pair}"><img src="{badge['light']}" alt="{war_alt}" width="{badge['w']}" height="{badge['h']}" loading="lazy"></div>
       <div class="wb-copy">
         <p class="wb-name">{full.upper()}</p>
         <h3>Limited treadwear warranty</h3>

@@ -177,7 +177,7 @@ p { margin: 0; }
 .ctrl svg { width: 20px; height: 20px; }
 .ctrl-group { display: flex; gap: 8px; }
 /* warranty badge (shield) */
-.shield { width: min(280px, 20vw); height: auto; display: block; filter: drop-shadow(0 20px 40px rgba(0,0,0,.3)); }
+.shield { width: min(220px, 16vw); height: auto; display: block; filter: drop-shadow(0 20px 40px rgba(0,0,0,.3)); }
 .slide-art--shield { top: auto; bottom: 32px; transform: translateX(-50%); }
 @media (max-width: 900px) {
   .slides { height: auto; display: grid; }
@@ -186,7 +186,7 @@ p { margin: 0; }
   .slide-photo { height: 360px; }
   .slide-art { top: auto; bottom: 16px; left: auto; right: 16px; transform: none; }
   .slide-art .tire { width: 110px; transform: none; }
-  .shield { width: 130px; }
+  .shield { width: 104px; }
   .slide-art--shield { bottom: 16px; transform: none; }
   .stats { top: 16px; bottom: auto; left: 16px; right: auto; }
   .stats div { padding: 8px 12px; } .stats strong { font-size: 16px; } .stats span { font-size: 11px; }
@@ -481,7 +481,7 @@ p { margin: 0; }
 /* tire details */
 .benefits-title { font-size: 16px; font-weight: 600; letter-spacing: 0; margin: 0 0 8px; }
 .main-image { position: relative; }
-.badge-overlay { position: absolute; right: 16px; bottom: 16px; width: 141px; height: auto; }
+.badge-overlay { position: absolute; right: 16px; bottom: 16px; width: 150px; height: auto; }
 .main-image.no-overlay .badge-overlay { display: none; }
 .thumbs button.thumb--dark { background: #000; padding: 4px; }
 .size-hint { display: flex; flex-wrap: nowrap; align-items: flex-start; max-width: 580px; }
@@ -558,7 +558,8 @@ p { margin: 0; }
   .sizes-soon { padding: 24px; }
 }
 .td-intro + .benefits-title { margin-top: 24px; }
-.badge-overlay--shield { width: 80px; }
+.badge-overlay--single { width: 80px; }
 .wb-badges--shield { display: grid; place-items: center; }
-.wb-badges--shield img { width: 160px; height: auto; }
+.wb-badges--shield img { width: 150px; height: auto; }
+.wb-badges--shield.badge-pair img { width: 100%; }
 .filter-wrap .input:disabled { background: var(--gray-1); cursor: not-allowed; }
