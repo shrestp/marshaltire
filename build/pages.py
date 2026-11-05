@@ -210,6 +210,16 @@ about = f'''
 def tech(img, h, p):
     return f'<article class="tech"><img src="assets/img/{img}" alt="" width="250" height="124" loading="lazy"><h3>{h}</h3><p>{p}</p></article>'
 icons = lambda names: ''.join(f'<img src="assets/img/icon-{n}.png" alt="{a}" width="72" height="72">' for n, a in names)
+# Vehicle category pictograms (client art, Images/Icons/SVG). Labels are set in HTML so they use the site font.
+# Which tire fits which category comes from MS_Applicable vehicle.xlsx (vehicles listed per size).
+VEHICLE_LABEL = {'compact': 'Compact', 'sedan': 'Sedan', 'truck': 'Truck', 'suv': 'SUV', 'van': 'Van', 'sport': 'Sports'}
+def vehicle_icons(names):
+    out = []
+    for n in sorted(names, key=list(VEHICLE_LABEL).index):
+        vb = re.search(r'viewBox="([^"]+)"', (ROOT / f'assets/img/vehicle-{n}.svg').read_text()).group(1).split()
+        w, h = round(float(vb[2]) / 6.5), round(float(vb[3]) / 6.5)
+        out.append(f'<div class="vt"><img src="assets/img/vehicle-{n}.svg" alt="" width="{w}" height="{h}"><span>{VEHICLE_LABEL[n]}</span></div>')
+    return ''.join(out)
 MF41_BADGE = badge_files('mf41')
 details = f'''
 <section class="section section--subtle" style="padding-top:56px">
@@ -229,7 +239,7 @@ details = f'''
       <h2 class="benefits-title">Key benefits</h2>
       <ul class="bul"><li>All-season performance</li><li>Improved highway ride</li><li>Off-road capability</li><li>Enhanced mileage</li><li>Enhanced wet &amp; snow performance</li></ul>
       <div class="td-attrs">
-        <div><h2><span class="dash"></span>Vehicle Type</h2><div class="icon-row">{icons([('sedan','Sedan'),('big-sedan','Big sedan')])}</div></div>
+        <div><h2><span class="dash"></span>Vehicle Type</h2><div class="icon-row">{vehicle_icons(['truck', 'suv', 'van'])}</div></div>
       </div>
       <div class="size-hint">{INFO}<div><p>Your size is on your tire’s sidewall, like 225/35 R18 or check the vehicle manual.</p><a href="#available-sizes">See available sizes {DOWN}</a></div></div>
       <div><a class="btn btn--primary btn--sm" href="dealers.html">DEALER LOCATOR {ARROW}</a></div>
@@ -284,7 +294,7 @@ OTHER_TIRES = [
   dict(file='tire-highway-terrain.html', code='ML41', slug='ml41', name='Highway Terrain', segment='HIGHWAY ALL-SEASON', war='60,000',
        war_note='P-metric sizes carry up to 60,000 miles and LT sizes up to 50,000 miles, so check the size chart for yours.',
        bullets=['Enhanced handling &amp; traction', 'Stable &amp; comfortable driving', 'Excellent wet &amp; snow performance', 'Improved all-weather capability', 'Enhanced mileage'],
-       vehicles=[('sedan', 'Sedan'), ('big-sedan', 'Big sedan')],
+       vehicles=['truck', 'suv', 'van'],
        tech=[('Side Block Rib Design', 'Provides grip during acceleration and improves braking in wet and dry conditions.'),
              ('Solid Center Rib', 'Application of a solid center rib tread design enhances stable driving and a comfortable ride.'),
              ('Special Sipe Design', 'Sipe design provides enhanced wet and snow performance.'),
@@ -292,7 +302,7 @@ OTHER_TIRES = [
   dict(file='tire-tour-as.html', code='MH41', slug='mh41', name='Tour A/S', segment='GRAND TOURING ALL-SEASON', war='60,000',
        war_note='Every size carries up to 60,000 miles of coverage.',
        bullets=['Superb wet traction', 'Smooth, comfortable ride', 'Excellent dry &amp; wet braking', 'Dependable mileage', 'Exceptional winter handling'],
-       vehicles=[('sedan', 'Sedan'), ('big-sedan', 'Big sedan')],
+       vehicles=['compact', 'sedan', 'suv', 'van'],
        tech=[('Wide Grooves', 'Four wide grooves evacuate water quickly for excellent wet traction.'),
              ('Asymmetric Tread Design', 'Advanced asymmetric tread creates an oversized contact area.'),
              ('Innovative Compound', 'Innovative compound &amp; balanced contact patch for enhanced wear resistance and even wear across the tread.'),
@@ -300,7 +310,7 @@ OTHER_TIRES = [
   dict(file='tire-sport-as.html', code='MU41', slug='mu41', name='Sport A/S', segment='ULTRA HIGH PERFORMANCE ALL-SEASON', war='50,000',
        war_note='Every size carries up to 50,000 miles of coverage.',
        bullets=['Exceptional comfort: reduced noise', 'All-season capability', 'Enhanced traction in dry and wet', 'Precise handling and cornering', 'Excellent dry &amp; wet braking', 'Upgraded mileage'],
-       vehicles=[('sedan', 'Sedan')],
+       vehicles=['sport', 'sedan', 'compact'],
        tech=[('Groove Angle/Ground Shape', 'Groove angle considering ground shape along with pitch arrangement of different lengths.'),
              ('Wide Straight Grooves', 'Four wide straight grooves in the driving direction.'),
              ('Advanced Tie Bars', 'Application of tie bars within the tread design improves handling and stability.'),
@@ -331,7 +341,7 @@ def other_details(t):
       <h2 class="benefits-title">Key benefits</h2>
       <ul class="bul">{''.join(f'<li>{b}</li>' for b in t['bullets'])}</ul>
       <div class="td-attrs">
-        <div><h2><span class="dash"></span>Vehicle Type</h2><div class="icon-row">{icons(t['vehicles'])}</div></div>
+        <div><h2><span class="dash"></span>Vehicle Type</h2><div class="icon-row">{vehicle_icons(t['vehicles'])}</div></div>
       </div>
       <div class="size-hint">{INFO}<div><p>Your size is on your tire’s sidewall, like 225/35 R18 or check the vehicle manual.</p><a href="#available-sizes">See available sizes {DOWN}</a></div></div>
       <div><a class="btn btn--primary btn--sm" href="dealers.html">DEALER LOCATOR {ARROW}</a></div>
