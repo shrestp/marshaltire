@@ -77,6 +77,7 @@
       <p class="fb-add-help"></p>
       <p class="fb-mode" hidden></p>
       <div class="fb-scope" role="tablist" aria-label="Which notes to show"><button type="button" role="tab" data-scope="page">This page <span></span></button><button type="button" role="tab" data-scope="all">All pages <span></span></button></div>
+      <label class="fb-showres"><input type="checkbox" role="switch"><span class="fb-switch" aria-hidden="true"></span>Show resolved <em></em></label>
       <ol class="fb-list"></ol>
       <p class="fb-empty"></p>
       <footer><a href="review.html">See all feedback</a></footer>
@@ -91,9 +92,10 @@
   if (!shared) { const m = $('.fb-mode'); m.hidden = false; m.textContent = 'Demo mode: notes are saved in this browser only.'; }
 
   const PAGES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'All Terrain', 'tire-highway-terrain.html': 'Highway Terrain', 'tire-tour-as.html': 'Tour A/S', 'tire-sport-as.html': 'Sport A/S', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us' };
-  const SKEY = 'mt-feedback-scope';
+  const SKEY = 'mt-feedback-scope', RKEY = 'mt-feedback-show-resolved';
   let notes = [], open = false, picking = false, pop = null, active = null;
   let scope = (() => { try { return localStorage.getItem(SKEY) || 'all'; } catch { return 'all'; } })();
+  let showRes = (() => { try { return localStorage.getItem(RKEY) === '1'; } catch { return false; } })();
   const pinLayer = h('div', 'fb-pins'); document.body.appendChild(pinLayer);
   const numOf = n => notes.filter(x => x.page === n.page).indexOf(n) + 1;
   const isOpenNote = n => n.status !== 'resolved';
@@ -139,20 +141,22 @@
     const c = $('.fb-count'), live = here.filter(isOpenNote).length; c.hidden = !live; c.textContent = live;
     $$('.fb-scope button').forEach(b => { b.setAttribute('aria-selected', b.dataset.scope === scope); b.querySelector('span').textContent = (b.dataset.scope === 'page' ? here : notes).filter(isOpenNote).length || ''; });
     list.innerHTML = ''; pinLayer.innerHTML = '';
-    const shown = scope === 'page' ? here : notes;
+    const vis = n => showRes || isOpenNote(n) || n.id === active;
+    const inScope = scope === 'page' ? here : notes, shown = inScope.filter(vis), hiddenRes = inScope.length - shown.length;
+    const sr = $('.fb-showres'); sr.querySelector('input').checked = showRes; sr.querySelector('em').textContent = inScope.length - inScope.filter(isOpenNote).length || '';
     const empty = $('.fb-empty'); empty.hidden = shown.length > 0;
-    empty.textContent = scope === 'page' && notes.length ? 'No notes on this page yet. Click anywhere on the page to add one.' : 'No notes yet. Click anywhere on the page to add one.';
-    if (scope === 'page') here.forEach(n => list.append(item(n)));
+    empty.textContent = hiddenRes ? `All notes ${scope === 'page' ? 'on this page ' : ''}are resolved. Turn on “Show resolved” to see them.` : scope === 'page' && notes.length ? 'No notes on this page yet. Click anywhere on the page to add one.' : 'No notes yet. Click anywhere on the page to add one.';
+    if (scope === 'page') here.filter(vis).forEach(n => list.append(item(n)));
     else {
       const order = [page, ...Object.keys(PAGES), ...notes.map(n => n.page)].filter((p, i, a) => a.indexOf(p) === i);
       order.forEach(pg => {
-        const grp = notes.filter(n => n.page === pg); if (!grp.length) return;
+        const grp = notes.filter(n => n.page === pg && vis(n)); if (!grp.length) return;
         const head = h('li', 'fb-group'); head.textContent = (PAGES[pg] || pg) + (pg === page ? ' (this page)' : '');
         list.append(head); grp.forEach(n => list.append(item(n)));
       });
     }
     if (!open) return;
-    here.forEach(n => {
+    here.filter(vis).forEach(n => {
       const num = numOf(n), p = where(n), pin = h('button', 'fb-pin' + (isOpenNote(n) ? '' : ' is-resolved') + (active === n.id ? ' is-active' : ''), num);
       pin.type = 'button'; pin.title = `${n.author || 'Guest'}: ${n.body}`; pin.setAttribute('aria-label', `Note ${num} by ${n.author || 'Guest'}`);
       pin.style.left = p.x + 'px'; pin.style.top = p.y + 'px';
@@ -160,6 +164,7 @@
       pinLayer.append(pin);
     });
   };
+  $('.fb-showres input').addEventListener('change', e => { showRes = e.target.checked; try { localStorage.setItem(RKEY, showRes ? '1' : '0'); } catch {} render(); });
   $$('.fb-scope button').forEach(b => b.addEventListener('click', () => { scope = b.dataset.scope; try { localStorage.setItem(SKEY, scope); } catch {} render(); }));
   const focusNote = (id, scrollPage) => {
     active = id; render();
