@@ -71,10 +71,11 @@
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
       <span>Feedback</span><b class="fb-count" hidden></b>
     </button>
-    <aside class="fb-drawer" id="fb-drawer" hidden aria-label="Feedback on this page">
-      <header><div><h2>Feedback on this page</h2><p class="fb-sub"></p></div><button type="button" class="fb-x" aria-label="Close feedback">×</button></header>
+    <aside class="fb-drawer" id="fb-drawer" hidden aria-label="Feedback">
+      <header><div><h2>Feedback</h2><p class="fb-sub"></p></div><button type="button" class="fb-x" aria-label="Close feedback">×</button></header>
       <button type="button" class="fb-add">+ Add a note</button>
       <p class="fb-mode" hidden></p>
+      <div class="fb-scope" role="tablist" aria-label="Which notes to show"><button type="button" role="tab" data-scope="page">This page <span></span></button><button type="button" role="tab" data-scope="all">All pages <span></span></button></div>
       <ol class="fb-list"></ol>
       <p class="fb-empty">No notes yet. Click “Add a note”, then click the spot on the page you want to talk about.</p>
       <footer><a href="review.html">See all feedback</a></footer>
@@ -82,52 +83,78 @@
     <div class="fb-banner" hidden role="status">Click the spot you want to comment on. <button type="button">Cancel</button></div>
     <div class="fb-hover" hidden></div>`;
   document.body.appendChild(root);
-  const $ = s => root.querySelector(s);
+  const $ = s => root.querySelector(s), $$ = s => [...root.querySelectorAll(s)];
   const fab = $('.fb-fab'), drawer = $('.fb-drawer'), list = $('.fb-list'), banner = $('.fb-banner'), hover = $('.fb-hover');
-  $('.fb-sub').textContent = document.title.split('|')[0].trim();
+  $('.fb-sub').textContent = 'You’re on: ' + document.title.split('|')[0].trim();
   if (!shared) { const m = $('.fb-mode'); m.hidden = false; m.textContent = 'Demo mode: notes are saved in this browser only.'; }
 
+  const PAGES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'Tire Details', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us' };
+  const SKEY = 'mt-feedback-scope';
   let notes = [], open = false, picking = false, pop = null, active = null;
+  let scope = (() => { try { return localStorage.getItem(SKEY) || 'all'; } catch { return 'all'; } })();
   const pinLayer = h('div', 'fb-pins'); document.body.appendChild(pinLayer);
+  const numOf = n => notes.filter(x => x.page === n.page).indexOf(n) + 1;
+  const isOpenNote = n => n.status !== 'resolved';
+
+  const item = n => {
+    const num = numOf(n), here = n.page === page;
+    const li = h('li', 'fb-item' + (isOpenNote(n) ? '' : ' is-resolved') + (active === n.id ? ' is-active' : ''));
+    li.dataset.id = n.id;
+    const top = h('div', 'fb-item-top');
+    top.append(h('span', 'fb-num', num), h('b', null, n.author || 'Guest'), h('time', null, when(n.created_at)));
+    if (!isOpenNote(n)) top.append(h('span', 'fb-tag', 'Resolved'));
+    const acts = h('div', 'fb-item-acts');
+    if (!here) { const go = h('a', 'fb-go', 'Go to note'); go.href = `${n.page}#fb-${n.id}`; go.addEventListener('click', e => e.stopPropagation()); acts.append(go); }
+    const del = h('button', 'fb-del', 'Delete'); del.type = 'button'; del.setAttribute('aria-label', `Delete note ${num}`);
+    del.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!confirm('Delete this note? This can’t be undone.')) return;
+      del.disabled = true;
+      store.remove(n.id).then(() => { notes = notes.filter(x => x.id !== n.id); if (active === n.id) active = null; render(); })
+        .catch(() => { del.disabled = false; alert('Couldn’t delete the note. Please try again.'); });
+    });
+    acts.append(del);
+    li.append(top, h('p', null, n.body), acts);
+    li.addEventListener('click', () => { if (here) focusNote(n.id, true); else location.href = `${n.page}#fb-${n.id}`; });
+    return li;
+  };
 
   const render = () => {
-    const live = notes.filter(n => n.status !== 'resolved');
-    const c = $('.fb-count'); c.hidden = !live.length; c.textContent = live.length;
+    const here = notes.filter(n => n.page === page);
+    const c = $('.fb-count'), live = here.filter(isOpenNote).length; c.hidden = !live; c.textContent = live;
+    $$('.fb-scope button').forEach(b => { b.setAttribute('aria-selected', b.dataset.scope === scope); b.querySelector('span').textContent = (b.dataset.scope === 'page' ? here : notes).filter(isOpenNote).length || ''; });
     list.innerHTML = ''; pinLayer.innerHTML = '';
-    $('.fb-empty').hidden = notes.length > 0;
-    notes.forEach((n, i) => {
-      const num = i + 1;
-      const li = h('li', 'fb-item' + (n.status === 'resolved' ? ' is-resolved' : '') + (active === n.id ? ' is-active' : ''));
-      li.dataset.id = n.id;
-      const top = h('div', 'fb-item-top');
-      top.append(h('span', 'fb-num', num), h('b', null, n.author || 'Guest'), h('time', null, when(n.created_at)));
-      if (n.status === 'resolved') top.append(h('span', 'fb-tag', 'Resolved'));
-      const del = h('button', 'fb-del', 'Delete'); del.type = 'button'; del.setAttribute('aria-label', `Delete note ${num}`);
-      del.addEventListener('click', e => {
-        e.stopPropagation();
-        if (!confirm('Delete this note? This can’t be undone.')) return;
-        del.disabled = true;
-        store.remove(n.id).then(() => { notes = notes.filter(x => x.id !== n.id); if (active === n.id) active = null; render(); })
-          .catch(() => { del.disabled = false; alert('Couldn’t delete the note. Please try again.'); });
+    const shown = scope === 'page' ? here : notes;
+    const empty = $('.fb-empty'); empty.hidden = shown.length > 0;
+    empty.textContent = scope === 'page' && notes.length ? 'No notes on this page yet. Click “Add a note”, then click the spot you want to talk about.' : 'No notes yet. Click “Add a note”, then click the spot on the page you want to talk about.';
+    if (scope === 'page') here.forEach(n => list.append(item(n)));
+    else {
+      const order = [page, ...Object.keys(PAGES), ...notes.map(n => n.page)].filter((p, i, a) => a.indexOf(p) === i);
+      order.forEach(pg => {
+        const grp = notes.filter(n => n.page === pg); if (!grp.length) return;
+        const head = h('li', 'fb-group'); head.textContent = (PAGES[pg] || pg) + (pg === page ? ' (this page)' : '');
+        list.append(head); grp.forEach(n => list.append(item(n)));
       });
-      li.append(top, h('p', null, n.body), del);
-      li.addEventListener('click', () => focusNote(n.id, true));
-      list.append(li);
-      if (!open) return;
-      const p = where(n), pin = h('button', 'fb-pin' + (n.status === 'resolved' ? ' is-resolved' : '') + (active === n.id ? ' is-active' : ''), num);
+    }
+    if (!open) return;
+    here.forEach(n => {
+      const num = numOf(n), p = where(n), pin = h('button', 'fb-pin' + (isOpenNote(n) ? '' : ' is-resolved') + (active === n.id ? ' is-active' : ''), num);
       pin.type = 'button'; pin.title = `${n.author || 'Guest'}: ${n.body}`; pin.setAttribute('aria-label', `Note ${num} by ${n.author || 'Guest'}`);
       pin.style.left = p.x + 'px'; pin.style.top = p.y + 'px';
       pin.addEventListener('click', e => { e.stopPropagation(); focusNote(n.id, false); });
       pinLayer.append(pin);
     });
   };
+  $$('.fb-scope button').forEach(b => b.addEventListener('click', () => { scope = b.dataset.scope; try { localStorage.setItem(SKEY, scope); } catch {} render(); }));
   const focusNote = (id, scrollPage) => {
     active = id; render();
-    const n = notes.find(x => x.id === id); if (!n) return;
+    const n = notes.find(x => x.id === id); if (!n || n.page !== page) return;
     if (scrollPage) { const p = where(n); scrollTo({ top: Math.max(0, p.y - innerHeight / 3), behavior: 'smooth' }); }
     const li = list.querySelector(`[data-id="${CSS.escape(id)}"]`); li && li.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   };
-  const load = () => store.list(page).then(r => { notes = r || []; render(); if (location.hash.startsWith('#fb-')) { setOpen(true); setTimeout(() => focusNote(location.hash.slice(4), true), 300); } })
+  const fromHash = () => { if (location.hash.startsWith('#fb-')) { setOpen(true); setTimeout(() => focusNote(location.hash.slice(4), true), 300); } };
+  addEventListener('hashchange', fromHash);
+  const load = () => store.list().then(r => { notes = r || []; render(); fromHash(); })
     .catch(() => { $('.fb-empty').hidden = false; $('.fb-empty').textContent = 'Couldn’t load feedback. Check the connection and refresh.'; });
 
   const setOpen = v => { open = v; drawer.hidden = !v; fab.setAttribute('aria-expanded', v); document.documentElement.classList.toggle('fb-open', v); if (!v) stopPick(); render(); };
