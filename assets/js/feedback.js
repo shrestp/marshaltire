@@ -12,7 +12,7 @@
   };
   const api = (path, opts = {}) => fetch(`${cfg.supabaseUrl.replace(/\/$/, '')}/rest/v1/${path}`, {
     ...opts,
-    headers: { apikey: cfg.anonKey, Authorization: `Bearer ${cfg.anonKey}`, 'Content-Type': 'application/json', Prefer: 'return=representation', ...(opts.headers || {}) }
+    headers: { apikey: cfg.anonKey, ...(cfg.anonKey.startsWith('eyJ') ? { Authorization: `Bearer ${cfg.anonKey}` } : {}), 'Content-Type': 'application/json', Prefer: 'return=representation', ...(opts.headers || {}) }
   }).then(r => { if (!r.ok) throw new Error(`Feedback server error ${r.status}`); return r.status === 204 ? null : r.json(); });
   const store = {
     shared,
