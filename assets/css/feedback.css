@@ -111,3 +111,12 @@ html.fb-picking .fb-root * { cursor: pointer !important; }
 @keyframes fb-in { from { opacity: 0; translate: 0 6px; } }
 @media (prefers-reduced-motion: reduce) { .fb-dot, .fb-nudge, .fb-hint { animation: none; } }
 @media (max-width: 560px) { .fb-hint { right: 12px; bottom: 68px; } }
+
+.fb-ask { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; color: #393939; }
+.fb-ask[hidden] { display: none; }
+.fb-yes { border: 0; background: #b42318; color: #fff; font: 600 12px "Inter", sans-serif; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+.fb-no, .fbr-no { border: 0; background: none; color: #555; font: 600 12px "Inter", sans-serif; padding: 0; cursor: pointer; text-decoration: underline; }
+.fbr-ask { margin-left: auto; display: inline-flex; gap: 14px; align-items: center; }
+.fbr-ask[hidden] { display: none; }
+.fbr-ask .fbr-del { margin-left: 0; }
+.fbr-no { font-size: 14px; }

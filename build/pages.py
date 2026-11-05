@@ -462,8 +462,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const res = el('button', 'btn ' + (n.status === 'resolved' ? 'btn--outline' : 'btn--primary'), n.status === 'resolved' ? 'Reopen' : 'Mark resolved'); res.type = 'button';
         res.onclick = () => { const st = n.status === 'resolved' ? 'open' : 'resolved'; res.disabled = true; store.update(n.id, { status: st }).then(() => { n.status = st; render(); }); };
         const del = el('button', 'fbr-del', 'Delete'); del.type = 'button';
-        del.onclick = () => { if (confirm('Delete this note for everyone? This can’t be undone.')) store.remove(n.id).then(() => { notes = notes.filter(x => x !== n); render(); }); };
-        acts.append(view, res, del);
+        const ask = el('span', 'fbr-ask'); ask.hidden = true;
+        const yes = el('button', 'fbr-del', 'Yes, delete for everyone'), no = el('button', 'fbr-no', 'Cancel'); yes.type = no.type = 'button';
+        ask.append(yes, no);
+        del.onclick = () => { del.hidden = true; ask.hidden = false; };
+        no.onclick = () => { ask.hidden = true; del.hidden = false; };
+        yes.onclick = () => { yes.disabled = true; store.remove(n.id).then(() => { notes = notes.filter(x => x !== n); render(); }).catch(() => { yes.disabled = false; yes.textContent = 'Couldn’t delete. Try again'; }); };
+        acts.append(view, res, del, ask);
         card.append(top, body, acts); grp.append(card);
       });
       box.append(grp);

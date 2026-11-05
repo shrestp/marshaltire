@@ -108,14 +108,18 @@
     const acts = h('div', 'fb-item-acts');
     if (!here) { const go = h('a', 'fb-go', 'Go to note'); go.href = `${n.page}#fb-${n.id}`; go.addEventListener('click', e => e.stopPropagation()); acts.append(go); }
     const del = h('button', 'fb-del', 'Delete'); del.type = 'button'; del.setAttribute('aria-label', `Delete note ${num}`);
-    del.addEventListener('click', e => {
-      e.stopPropagation();
-      if (!confirm('Delete this note? This can’t be undone.')) return;
-      del.disabled = true;
+    // Inline confirm: browsers can block confirm() pop-ups, which would silently cancel every delete.
+    const ask = h('span', 'fb-ask'); ask.hidden = true;
+    const yes = h('button', 'fb-yes', 'Yes, delete'), no = h('button', 'fb-no', 'Cancel'); yes.type = no.type = 'button';
+    ask.append(h('span', null, 'Delete this note?'), yes, no);
+    del.addEventListener('click', e => { e.stopPropagation(); del.hidden = true; ask.hidden = false; yes.focus(); });
+    no.addEventListener('click', e => { e.stopPropagation(); ask.hidden = true; del.hidden = false; });
+    yes.addEventListener('click', e => {
+      e.stopPropagation(); yes.disabled = true; yes.textContent = 'Deleting…';
       store.remove(n.id).then(() => { notes = notes.filter(x => x.id !== n.id); if (active === n.id) active = null; render(); })
-        .catch(() => { del.disabled = false; alert('Couldn’t delete the note. Please try again.'); });
+        .catch(() => { yes.disabled = false; yes.textContent = 'Try again'; });
     });
-    acts.append(del);
+    acts.append(del, ask);
     li.append(top, h('p', null, n.body), acts);
     li.addEventListener('click', () => { if (here) focusNote(n.id, true); else location.href = `${n.page}#fb-${n.id}`; });
     return li;
