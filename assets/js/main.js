@@ -24,7 +24,7 @@
   const page = document.body.dataset.page;
   const menus = [
     { id: 'tires', label: 'Tires', links: [['Marshal All Terrain', 'tire-details.html'], ['Marshal Highway Terrain', 'tire-highway-terrain.html'], ['Marshal Sport A/S', 'tire-sport-as.html'], ['Marshal Tour A/S', 'tire-tour-as.html']], all: ['View All Tires', 'index.html#range'] },
-    { id: 'marshal', label: 'Marshal', links: [['About Us', 'about.html'], ['General Contact Us', 'contact.html'], ['Business Contact Us', 'contact.html?type=business'], ['Become a Dealer', 'contact.html?type=business&request=dealer']] },
+    { id: 'marshal', label: 'Marshal', links: [['About Us', 'about.html'], ['Customer Contact Us', 'contact.html'], ['Business Contact Us', 'contact.html?type=business'], ['Become a Dealer', 'contact.html?type=business&request=dealer']] },
     { id: 'support', label: 'Support', links: [['Warranty', '#warranty'], ['Privacy Policy', '#privacy']] },
   ];
   const current = { 'tire-details': 'tires', about: 'marshal', contact: 'marshal' }[page];
@@ -63,7 +63,7 @@
       <div class="footer-top">
         <div class="footer-brand">${LOGO}<a class="footer-phone" href="tel:18444936277">1-844-493-6277</a><p><a href="mailto:info@marshaltire.com">info@marshaltire.com</a></p><p style="margin-top:12px">1001 Summit Blvd NE,<br>Suite 1800, Atlanta, GA 30319</p></div>
         <div class="footer-col"><h3>Tires</h3><ul><li><a href="tire-details.html">Marshal All Terrain</a></li><li><a href="tire-highway-terrain.html">Marshal Highway Terrain</a></li><li><a href="tire-tour-as.html">Marshal Tour A/S</a></li><li><a href="tire-sport-as.html">Marshal Sport A/S</a></li><li><a href="index.html#finder">Tire Search</a></li></ul></div>
-        <div class="footer-col"><h3>Marshal</h3><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">General Contact Us</a></li><li><a href="contact.html?type=business">Business Contact Us</a></li><li><a href="contact.html?type=business&amp;request=dealer">Become a Dealer</a></li></ul></div>
+        <div class="footer-col"><h3>Marshal</h3><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Customer Contact Us</a></li><li><a href="contact.html?type=business">Business Contact Us</a></li><li><a href="contact.html?type=business&amp;request=dealer">Become a Dealer</a></li></ul></div>
         <div class="footer-col"><h3>Support</h3><ul><li><a href="#warranty">Warranty</a></li><li><a href="#privacy">Privacy Policy</a></li></ul></div>
       </div>
       <div class="footer-bottom"><span>COPYRIGHT © MARSHAL TIRE. All rights reserved.</span><a href="#youtube" aria-label="Marshal Tire on YouTube">${icon.youtube}</a></div></div>`;

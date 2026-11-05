@@ -453,13 +453,13 @@ def ta(id_, ph):
 STATES = [(s, s) for s in 'AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY'.split()]
 contact = f'''
 <section class="page-intro" style="background:var(--surface-subtle)">
-  <div class="container"><h1>Contact us</h1><p>Let us know how we can help. We want to hear from you.<br>Please allow 48 hours for us to respond.</p></div>
+  <div class="container"><h1>Contact Us</h1><p>Let us know how we can help. We want to hear from you.<br>Please allow 48 hours for us to respond.</p></div>
 </section>
 <section style="background:var(--surface-subtle);padding-bottom:96px">
   <div class="container contact-layout">
     <div class="form-card" id="contact-card">
       <div class="aud-tabs" role="tablist" aria-label="Who are you contacting us as?">
-        <button type="button" role="tab" data-type="general" aria-selected="true"><b>General</b><span>Product questions, warranty claims, where to buy</span></button>
+        <button type="button" role="tab" data-type="general" aria-selected="true"><b>Customer</b><span>Product questions, warranty claims, where to buy</span></button>
         <button type="button" role="tab" data-type="business" aria-selected="false"><b>Business</b><span>Dealers, fleets, media and partners</span></button>
       </div>
       <form id="contact-form" novalidate>
@@ -507,7 +507,7 @@ contact = f'''
       <h2 id="talk">Talk to us</h2>
       <div class="side-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg><div><small>Phone</small><a href="tel:18005550142">1-800-555-0142</a></div></div>
       <div class="side-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v12H3zM3 7l9 6 9-6"/></svg><div><small>Email</small><a href="mailto:info@marshaltire.com">info@marshaltire.com</a></div></div>
-      <div class="side-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.5 7-11.5C19 5.4 15.9 3 12 3S5 5.4 5 9.5C5 14.5 12 21 12 21z"/><circle cx="12" cy="9.5" r="2"/></svg><div><small>Mail</small><b>Marshal Tire, 1482 Wazee Street, Denver, CO 80202</b></div></div>
+      <div class="side-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.5 7-11.5C19 5.4 15.9 3 12 3S5 5.4 5 9.5C5 14.5 12 21 12 21z"/><circle cx="12" cy="9.5" r="2"/></svg><div><small>Mail</small><b>Marshal Tire, 1001 Summit Blvd NE, Suite 1800, Atlanta, GA 30319</b></div></div>
     </aside>
   </div>
 </section>'''
@@ -625,7 +625,7 @@ pages = {
   **{t['file']: ('tire-details', f"Marshal {t['name']} {t['code']} | Marshal Tire", f"Marshal {t['name']}: key benefits, warranty and available sizes.", other_details(t), '', SPECS_JS) for t in OTHER_TIRES},
   'dealers.html': ('dealers', 'Find a Dealer | Marshal Tire', 'Find authorized Marshal Tire dealers near you.', dealers, LEAFLET_CSS, LEAFLET_JS),
   'review.html': ('review', 'Client feedback | Marshal Tire mockup', 'All feedback notes left on the mockup.', review, '', ''),
-  'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: general and business inquiries.', contact, '', ''),
+  'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: customer and business inquiries.', contact, '', ''),
 }
 for fn, (pg, t, d, b, eh, ej) in pages.items():
     # cache-bust every local image so replaced photos show up right away instead of a stale cached copy
