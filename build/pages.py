@@ -1,3 +1,4 @@
+import re
 """Generates the mockup's HTML pages from one shared shell. Run: python3 build/pages.py"""
 import pathlib, re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -605,5 +606,7 @@ pages = {
   'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: general and business inquiries.', contact, '', ''),
 }
 for fn, (pg, t, d, b, eh, ej) in pages.items():
-    (ROOT / fn).write_text(shell(pg, t, d, b, eh, ej))
+    # cache-bust every local image so replaced photos show up right away instead of a stale cached copy
+    html = re.sub(r'(assets/img/[\w.-]+\.(?:webp|png|jpg|jpeg|svg|avif))(?![?\w])', lambda m: f"{m.group(1)}?v={ver(m.group(1))}" if (ROOT / m.group(1)).exists() else m.group(1), shell(pg, t, d, b, eh, ej))
+    (ROOT / fn).write_text(html)
     print('wrote', fn)
