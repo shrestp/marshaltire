@@ -119,7 +119,16 @@
       store.remove(n.id).then(() => { notes = notes.filter(x => x.id !== n.id); if (active === n.id) active = null; render(); })
         .catch(() => { yes.disabled = false; yes.textContent = 'Try again'; });
     });
-    acts.append(del, ask);
+    // Resolve toggle: circle-check, filled once the note is resolved. Click again to reopen.
+    const done = !isOpenNote(n), res = h('button', 'fb-res' + (done ? ' is-on' : '')); res.type = 'button';
+    res.title = done ? 'Reopen note' : 'Mark resolved';
+    res.setAttribute('aria-label', `${done ? 'Reopen' : 'Resolve'} note ${num}`); res.setAttribute('aria-pressed', done);
+    res.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>';
+    res.addEventListener('click', e => {
+      e.stopPropagation(); res.disabled = true; const st = done ? 'open' : 'resolved';
+      store.update(n.id, { status: st }).then(() => { n.status = st; render(); }).catch(() => { res.disabled = false; });
+    });
+    acts.append(del, ask, res);
     li.append(top, h('p', null, n.body), acts);
     li.addEventListener('click', () => { if (here) focusNote(n.id, true); else location.href = `${n.page}#fb-${n.id}`; });
     return li;

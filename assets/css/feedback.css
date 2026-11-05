@@ -125,3 +125,13 @@ html.fb-picking .fb-root * { cursor: pointer !important; }
 @media (max-width: 560px) { .fb-banner { display: none !important; } }
 .fb-list:empty { flex: 0 0 auto; }
 .fb-list:empty + .fb-empty { flex: 1; }
+.fb-item-acts { align-items: center; }
+.fb-res { margin-left: auto; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 50%; background: none; display: grid; place-items: center; cursor: pointer; color: #8e8e8e; }
+.fb-res svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.fb-res:hover { color: #1f7a3d; background: #eaf6ee; }
+.fb-res.is-on { color: #1f7a3d; }
+.fb-res.is-on circle { fill: #1f7a3d; }
+.fb-res.is-on path { stroke: #fff; }
+.fb-res:disabled { opacity: .5; cursor: default; }
+.fb-item.is-resolved { opacity: 1; }
+.fb-item.is-resolved > :not(.fb-item-acts), .fb-item.is-resolved .fb-item-acts > :not(.fb-res) { opacity: .55; }
