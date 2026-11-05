@@ -29,6 +29,7 @@ def shell(page, title, desc, body, extra_head='', extra_js=''):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 {extra_head}<link rel="stylesheet" href="assets/css/styles.css?v={ver('assets/css/styles.css')}">
+<link rel="stylesheet" href="assets/css/feedback.css?v={ver('assets/css/feedback.css')}">
 </head>
 <body data-page="{page}">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -39,6 +40,8 @@ def shell(page, title, desc, body, extra_head='', extra_js=''):
 </main>
 <footer id="site-footer"></footer>
 {extra_js}<script src="assets/js/main.js?v={ver('assets/js/main.js')}"></script>
+<script src="assets/js/feedback-config.js?v={ver('assets/js/feedback-config.js')}"></script>
+<script src="assets/js/feedback.js?v={ver('assets/js/feedback.js')}"></script>
 </body>
 </html>
 '''
@@ -414,6 +417,69 @@ HERO_ALT = f'''
 _a = home.index('<section class="hero" data-slider'); _b = home.index('</section>', _a) + len('</section>')
 home_alt = home[:_a] + HERO_ALT.strip() + home[_b:]
 
+# ---------------------------------------------------------------- FEEDBACK REVIEW
+review = """
+<section class="section fbr">
+  <div class="container">
+    <p class="eyebrow">Mockup review</p>
+    <h1 class="fbr-title">Client feedback</h1>
+    <p class="lede fbr-mode"></p>
+    <div class="fbr-bar">
+      <div class="seg" role="tablist" aria-label="Filter notes">
+        <button type="button" role="tab" aria-selected="true" data-f="open">Open</button>
+        <button type="button" role="tab" aria-selected="false" data-f="resolved">Resolved</button>
+        <button type="button" role="tab" aria-selected="false" data-f="all">All</button>
+      </div>
+      <button type="button" class="btn btn--outline fbr-csv">Download CSV</button>
+    </div>
+    <div class="fbr-list" aria-live="polite"><p class="muted">Loading notes…</p></div>
+  </div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const store = window.MTFeedbackStore, box = document.querySelector('.fbr-list');
+  const NAMES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'Tire Details', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us' };
+  document.querySelector('.fbr-mode').textContent = store.shared ? 'Every note your client leaves on the stage site, grouped by page.' : 'Demo mode: this list only shows notes saved in this browser. Connect Supabase in assets/js/feedback-config.js to collect notes from everyone.';
+  let notes = [], filter = 'open';
+  const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+  const when = iso => new Date(iso).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  const render = () => {
+    box.innerHTML = '';
+    const shown = notes.filter(n => filter === 'all' || (filter === 'resolved') === (n.status === 'resolved'));
+    if (!shown.length) { box.append(el('p', 'muted', filter === 'open' ? 'No open notes. Nice.' : 'Nothing here yet.')); return; }
+    const pages = [...new Set(shown.map(n => n.page))];
+    pages.forEach(pg => {
+      const all = notes.filter(n => n.page === pg), grp = el('section', 'fbr-group');
+      const head = el('div', 'fbr-head'); head.append(el('h2', null, NAMES[pg] || pg));
+      const a = el('a', 'link', 'Open page'); a.href = pg; head.append(a); grp.append(head);
+      shown.filter(n => n.page === pg).forEach(n => {
+        const card = el('article', 'fbr-card' + (n.status === 'resolved' ? ' is-resolved' : ''));
+        const top = el('div', 'fbr-top');
+        top.append(el('span', 'fb-num', all.indexOf(n) + 1), el('b', null, n.author || 'Guest'), el('span', 'muted', when(n.created_at) + (n.vw ? ' · ' + (n.vw < 700 ? 'Mobile' : n.vw < 1100 ? 'Tablet' : 'Desktop') + ' ' + n.vw + 'px' : '')));
+        const body = el('p', 'fbr-body', n.body);
+        const acts = el('div', 'fbr-acts');
+        const view = el('a', 'btn btn--outline', 'View on page'); view.href = pg + '#fb-' + n.id;
+        const res = el('button', 'btn ' + (n.status === 'resolved' ? 'btn--outline' : 'btn--primary'), n.status === 'resolved' ? 'Reopen' : 'Mark resolved'); res.type = 'button';
+        res.onclick = () => { const st = n.status === 'resolved' ? 'open' : 'resolved'; res.disabled = true; store.update(n.id, { status: st }).then(() => { n.status = st; render(); }); };
+        const del = el('button', 'fbr-del', 'Delete'); del.type = 'button';
+        del.onclick = () => { if (confirm('Delete this note for everyone? This can’t be undone.')) store.remove(n.id).then(() => { notes = notes.filter(x => x !== n); render(); }); };
+        acts.append(view, res, del);
+        card.append(top, body, acts); grp.append(card);
+      });
+      box.append(grp);
+    });
+  };
+  document.querySelectorAll('.fbr .seg button').forEach(b => b.onclick = () => { filter = b.dataset.f; document.querySelectorAll('.fbr .seg button').forEach(x => x.setAttribute('aria-selected', x === b)); render(); });
+  document.querySelector('.fbr-csv').onclick = () => {
+    const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+    const rows = [['Page', 'Author', 'Date', 'Status', 'Note', 'Screen width'], ...notes.map(n => [NAMES[n.page] || n.page, n.author, n.created_at, n.status, n.body, n.vw])];
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([rows.map(r => r.map(q).join(',')).join('\\n')], { type: 'text/csv' })); a.download = 'marshal-feedback.csv'; a.click();
+  };
+  store.list().then(r => { notes = r || []; render(); }).catch(() => { box.innerHTML = '<p class="muted">Couldn’t load feedback. Check the Supabase settings and refresh.</p>'; });
+});
+</script>
+"""
+
 LEAFLET_CSS = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">\n'
 LEAFLET_JS = '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>\n'
 pages = {
@@ -422,6 +488,7 @@ pages = {
   'about.html': ('about', 'About Us | Marshal Tire', 'Built around your everyday drive.', about, '', ''),
   'tire-details.html': ('tire-details', 'Marshal All Terrain MF41 | Marshal Tire', 'Marshal All Terrain: technology, warranty and all 25 available sizes.', details, '', f'<script src="assets/js/mf41.js?v={ver("assets/js/mf41.js")}"></script>\n'),
   'dealers.html': ('dealers', 'Find a Dealer | Marshal Tire', 'Find authorized Marshal Tire dealers near you.', dealers, LEAFLET_CSS, LEAFLET_JS),
+  'review.html': ('review', 'Client feedback | Marshal Tire mockup', 'All feedback notes left on the mockup.', review, '', ''),
   'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: general and business inquiries.', contact, '', ''),
 }
 for fn, (pg, t, d, b, eh, ej) in pages.items():
