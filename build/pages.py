@@ -217,7 +217,7 @@ def vehicle_icons(names):
     out = []
     for n in sorted(names, key=list(VEHICLE_LABEL).index):
         vb = re.search(r'viewBox="([^"]+)"', (ROOT / f'assets/img/vehicle-{n}.svg').read_text()).group(1).split()
-        w, h = round(float(vb[2]) / 6.5), round(float(vb[3]) / 6.5)
+        w, h = round(float(vb[2]) / 5.8), round(float(vb[3]) / 5.8)
         out.append(f'<div class="vt"><img src="assets/img/vehicle-{n}.svg" alt="" width="{w}" height="{h}"><span>{VEHICLE_LABEL[n]}</span></div>')
     return ''.join(out)
 MF41_BADGE = badge_files('mf41')

@@ -266,8 +266,8 @@ p { margin: 0; }
 .td-attrs { display: flex; flex-wrap: wrap; gap: 24px 40px; margin-bottom: 24px; }
 .td-attrs h2 { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 600; letter-spacing: 0; margin-bottom: 12px; }
 .icon-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.vt { width: 84px; height: 72px; display: grid; grid-template-rows: 1fr auto; justify-items: center; align-items: end; padding: 8px 4px 9px; box-sizing: border-box; border: 1px solid var(--gray-3); border-radius: var(--r-xs); background: #fff; }
-.vt img { display: block; height: auto; max-width: 100%; }
+.vt { width: 84px; height: 84px; display: grid; grid-template-rows: 1fr auto; justify-items: center; align-items: end; padding: 8px 4px 9px; box-sizing: border-box; border: 1px solid var(--gray-3); border-radius: var(--r-xs); background: #fff; }
+.vt img { align-self: center; display: block; height: auto; max-width: 100%; }
 .vt span { margin-top: 6px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #6b6b6b; line-height: 1; }
 .icon-row > img { width: 72px; height: 72px; border: 1px solid var(--gray-3); border-radius: var(--r-xs); background: #fff; }
 .size-hint { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--gray-2); border-radius: var(--r-sm); padding: 10px 14px; font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
@@ -566,4 +566,4 @@ p { margin: 0; }
 .wb-badges--shield img { width: 150px; height: auto; }
 .wb-badges--shield.badge-pair img { width: 100%; }
 .filter-wrap .input:disabled { background: var(--gray-1); cursor: not-allowed; }
-@media (max-width: 420px) { .vt { width: 76px; } }
+@media (max-width: 420px) { .vt { width: 76px; height: 76px; } }
