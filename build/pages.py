@@ -389,7 +389,7 @@ def other_details(t):
 # ---------------------------------------------------------------- DEALERS
 dealers = f'''
 <section class="page-intro" style="background:var(--surface-subtle);padding-bottom:24px">
-  <div class="container"><span class="badge badge--dot">Find Dealer</span><h1>Find a Marshal dealer</h1><p>Use your location to find authorized Marshal Tire dealers.</p></div>
+  <div class="container"><span class="badge badge--dot">Find Dealer</span><h1>Find a Marshal Dealer</h1><p>Use your location to find authorized Marshal Tire dealers.</p></div>
 </section>
 <section style="background:var(--surface-subtle);padding-bottom:80px">
   <div class="container dealer-layout">
@@ -408,11 +408,11 @@ dealers = f'''
 <section class="shop-online" aria-labelledby="shop-title">
   <div class="container">
     <span class="badge badge--dot">Shop online</span>
-    <h2 id="shop-title">Buy Marshal tires online</h2>
+    <h2 id="shop-title">Buy Marshal Tires Online</h2>
     <p class="shop-sub">Pick your tire and shop it at a trusted online retailer.</p>
     <div class="shop-panel">
       <div class="shop-step">
-        <h3><span class="step-num" aria-hidden="true">1</span><label for="shop-tire">Choose your tire</label></h3>
+        <h3><span class="step-num" aria-hidden="true">1</span><label for="shop-tire">Choose Your Tire</label></h3>
         <select class="select" id="shop-tire">
           <option value="Marshal All Terrain">Marshal All Terrain</option>
           <option value="Marshal Highway Terrain">Marshal Highway Terrain</option>
@@ -422,7 +422,7 @@ dealers = f'''
         <p class="help">All four Marshal tire lines are listed.</p>
       </div>
       <div class="shop-step shop-step--retailers">
-        <h3><span class="step-num" aria-hidden="true">2</span>Pick a retailer</h3>
+        <h3><span class="step-num" aria-hidden="true">2</span>Pick a Retailer</h3>
         <div class="retailers">
           <a class="retailer" data-retailer="discounttire" href="https://www.discounttire.com/" target="_blank" rel="noopener"><span class="retailer-logo"><img src="assets/img/retailer-discount-tire.png" alt="" width="200" height="58"></span><span class="retailer-action">Shop at Discount Tire {EXT}<span class="sr-only">(opens in a new tab)</span></span></a>
           <a class="retailer" data-retailer="tirerack" href="https://www.tirerack.com/" target="_blank" rel="noopener"><span class="retailer-logo"><img src="assets/img/retailer-tire-rack.png" alt="" width="200" height="42"></span><span class="retailer-action">Shop at Tire Rack {EXT}<span class="sr-only">(opens in a new tab)</span></span></a>
