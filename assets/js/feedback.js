@@ -102,7 +102,15 @@
       const top = h('div', 'fb-item-top');
       top.append(h('span', 'fb-num', num), h('b', null, n.author || 'Guest'), h('time', null, when(n.created_at)));
       if (n.status === 'resolved') top.append(h('span', 'fb-tag', 'Resolved'));
-      li.append(top, h('p', null, n.body));
+      const del = h('button', 'fb-del', 'Delete'); del.type = 'button'; del.setAttribute('aria-label', `Delete note ${num}`);
+      del.addEventListener('click', e => {
+        e.stopPropagation();
+        if (!confirm('Delete this note? This can’t be undone.')) return;
+        del.disabled = true;
+        store.remove(n.id).then(() => { notes = notes.filter(x => x.id !== n.id); if (active === n.id) active = null; render(); })
+          .catch(() => { del.disabled = false; alert('Couldn’t delete the note. Please try again.'); });
+      });
+      li.append(top, h('p', null, n.body), del);
       li.addEventListener('click', () => focusNote(n.id, true));
       list.append(li);
       if (!open) return;
@@ -157,7 +165,7 @@
     closePop();
     pop = h('form', 'fb-pop');
     pop.innerHTML = `<span class="fb-pin fb-pin--new" aria-hidden="true">+</span>
-      <label>Your name<input name="author" autocomplete="name" placeholder="e.g. Sam from Marshal" required></label>
+      <label>Your name <span class="fb-opt">(optional)</span><input name="author" autocomplete="name" placeholder="e.g. Sam from Marshal"></label>
       <label>Note<textarea name="body" rows="4" placeholder="What should change here?" required></textarea></label>
       <p class="fb-err" hidden></p>
       <div class="fb-actions"><button type="button" class="fb-cancel">Cancel</button><button type="submit" class="fb-save">Save note</button></div>`;
@@ -166,14 +174,14 @@
     pop.style.left = left + 'px'; pop.style.top = y + 'px';
     pop.querySelector('.fb-pin--new').style.left = (x - left) + 'px';
     pop.author.value = getName();
-    (pop.author.value ? pop.body : pop.author).focus({ preventScroll: true });
+    pop.body.focus({ preventScroll: true });
     pop.querySelector('.fb-cancel').addEventListener('click', closePop);
     pop.addEventListener('submit', e => {
       e.preventDefault();
-      const author = pop.author.value.trim(), body = pop.body.value.trim(); if (!author || !body) return;
-      setName(author);
+      const author = pop.author.value.trim(), body = pop.body.value.trim(); if (!body) return;
+      if (author) setName(author);
       const btn = pop.querySelector('.fb-save'); btn.disabled = true; btn.textContent = 'Saving…';
-      store.add({ ...draft, author, body: body.slice(0, 2000) })
+      store.add({ ...draft, author: author || null, body: body.slice(0, 2000) })
         .then(n => { notes.push(n); closePop(); focusNote(n.id, false); })
         .catch(() => { const er = pop.querySelector('.fb-err'); er.hidden = false; er.textContent = 'Couldn’t save. Please try again.'; btn.disabled = false; btn.textContent = 'Save note'; });
     });

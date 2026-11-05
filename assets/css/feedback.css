@@ -79,3 +79,8 @@ html.fb-picking .fb-root * { cursor: pointer !important; }
 .fbr-acts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .fbr-acts .btn { --h: 36px; font-size: 14px; padding: 0 14px; }
 .fbr-del { margin-left: auto; border: 0; background: none; color: #b42318; font: 600 14px "Inter", sans-serif; cursor: pointer; }
+
+.fb-opt { font-weight: 400; color: #8e8e8e; }
+.fb-del { margin: 6px 0 0 30px; padding: 0; border: 0; background: none; color: #b42318; font: 600 12px "Inter", sans-serif; cursor: pointer; }
+.fb-del:hover { text-decoration: underline; }
+.fb-del:disabled { opacity: .5; }
