@@ -73,14 +73,16 @@
     </button>
     <aside class="fb-drawer" id="fb-drawer" hidden aria-label="Feedback">
       <header><div><h2>Feedback</h2><p class="fb-sub"></p></div><button type="button" class="fb-x" aria-label="Close feedback">×</button></header>
-      <button type="button" class="fb-add">+ Add a note</button>
+      <button type="button" class="fb-add" aria-pressed="false"></button>
+      <p class="fb-add-help"></p>
       <p class="fb-mode" hidden></p>
       <div class="fb-scope" role="tablist" aria-label="Which notes to show"><button type="button" role="tab" data-scope="page">This page <span></span></button><button type="button" role="tab" data-scope="all">All pages <span></span></button></div>
       <ol class="fb-list"></ol>
-      <p class="fb-empty">No notes yet. Click “Add a note”, then click the spot on the page you want to talk about.</p>
+      <p class="fb-empty"></p>
       <footer><a href="review.html">See all feedback</a></footer>
     </aside>
-    <div class="fb-banner" hidden role="status">Click the spot you want to comment on. <button type="button">Cancel</button></div>
+    <div class="fb-banner" hidden role="status"><span class="fb-dot" aria-hidden="true"></span>Commenting: click anywhere to leave a note <button type="button">Done</button></div>
+    <div class="fb-hint" hidden role="dialog" aria-label="Leave feedback"><b>Have feedback?</b><p>Click here, then click anywhere on the page to leave a note.</p><button type="button">Got it</button></div>
     <div class="fb-hover" hidden></div>`;
   document.body.appendChild(root);
   const $ = s => root.querySelector(s), $$ = s => [...root.querySelectorAll(s)];
@@ -126,7 +128,7 @@
     list.innerHTML = ''; pinLayer.innerHTML = '';
     const shown = scope === 'page' ? here : notes;
     const empty = $('.fb-empty'); empty.hidden = shown.length > 0;
-    empty.textContent = scope === 'page' && notes.length ? 'No notes on this page yet. Click “Add a note”, then click the spot you want to talk about.' : 'No notes yet. Click “Add a note”, then click the spot on the page you want to talk about.';
+    empty.textContent = scope === 'page' && notes.length ? 'No notes on this page yet. Click anywhere on the page to add one.' : 'No notes yet. Click anywhere on the page to add one.';
     if (scope === 'page') here.forEach(n => list.append(item(n)));
     else {
       const order = [page, ...Object.keys(PAGES), ...notes.map(n => n.page)].filter((p, i, a) => a.indexOf(p) === i);
@@ -157,18 +159,33 @@
   const load = () => store.list().then(r => { notes = r || []; render(); fromHash(); })
     .catch(() => { $('.fb-empty').hidden = false; $('.fb-empty').textContent = 'Couldn’t load feedback. Check the connection and refresh.'; });
 
-  const setOpen = v => { open = v; drawer.hidden = !v; fab.setAttribute('aria-expanded', v); document.documentElement.classList.toggle('fb-open', v); if (!v) stopPick(); render(); };
-  fab.addEventListener('click', () => setOpen(!open));
+  const setOpen = v => { open = v; drawer.hidden = !v; fab.setAttribute('aria-expanded', v); document.documentElement.classList.toggle('fb-open', v); if (v) startPick(); else { closePop(); stopPick(); } render(); };
+  fab.addEventListener('click', () => { hideHint(); setOpen(!open); });
   $('.fb-x').addEventListener('click', () => setOpen(false));
 
   /* pick a spot */
-  const startPick = () => { closePop(); picking = true; banner.hidden = false; document.documentElement.classList.add('fb-picking'); };
-  const stopPick = () => { picking = false; banner.hidden = true; hover.hidden = true; document.documentElement.classList.remove('fb-picking'); };
-  $('.fb-add').addEventListener('click', startPick);
-  banner.querySelector('button').addEventListener('click', stopPick);
+  // Comment mode: while it is on, every click on the page starts a note. It stays on until turned off.
+  const addBtn = $('.fb-add'), addHelp = $('.fb-add-help');
+  const syncMode = () => {
+    addBtn.setAttribute('aria-pressed', picking);
+    addBtn.textContent = picking ? 'Commenting is on' : '+ Add notes';
+    addHelp.textContent = picking ? 'Click anywhere on the page to add a note. Turn this off to click links and buttons normally.' : 'Turn on to click anywhere on the page and leave notes.';
+  };
+  const startPick = () => { picking = true; banner.hidden = false; document.documentElement.classList.add('fb-picking'); syncMode(); };
+  const stopPick = () => { picking = false; banner.hidden = true; hover.hidden = true; document.documentElement.classList.remove('fb-picking'); syncMode(); };
+  addBtn.addEventListener('click', () => (picking ? (closePop(), stopPick()) : startPick()));
+  banner.querySelector('button').addEventListener('click', () => { closePop(); stopPick(); });
+  syncMode();
+
+  /* first-visit hint */
+  const HKEY = 'mt-feedback-hint-seen', hint = $('.fb-hint');
+  const hideHint = () => { hint.hidden = true; try { localStorage.setItem(HKEY, '1'); } catch {} };
+  hint.querySelector('button').addEventListener('click', hideHint);
+  let seen = false; try { seen = !!localStorage.getItem(HKEY); } catch {}
+  if (!seen && !location.hash.startsWith('#fb-')) setTimeout(() => { if (!open) hint.hidden = false; }, 1200);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (pop) closePop(); else if (picking) stopPick(); } });
   document.addEventListener('mousemove', e => {
-    if (!picking || inWidget(e.target)) { hover.hidden = true; return; }
+    if (!picking || pop || inWidget(e.target)) { hover.hidden = true; return; }
     const r = e.target.getBoundingClientRect();
     Object.assign(hover.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' }); hover.hidden = false;
   });
@@ -177,13 +194,15 @@
   document.addEventListener('click', e => {
     if (!picking || inWidget(e.target)) return;
     e.preventDefault(); e.stopPropagation();
+    // a half-written note stays put; an empty one moves to the new spot
+    if (pop && pop.body.value.trim()) { pop.body.focus(); pop.classList.remove('fb-nudge'); void pop.offsetWidth; pop.classList.add('fb-nudge'); return; }
     const t = e.target, r = t.getBoundingClientRect();
     const draft = {
       page, anchor: pathTo(t),
       ax: r.width ? (e.clientX - r.left) / r.width : 0, ay: r.height ? (e.clientY - r.top) / r.height : 0,
       x: e.pageX / docW(), y: e.pageY, vw: innerWidth
     };
-    stopPick(); openPop(draft, e.pageX, e.pageY);
+    hover.hidden = true; openPop(draft, e.pageX, e.pageY);
   }, true);
 
   /* note form */
@@ -192,7 +211,7 @@
     closePop();
     pop = h('form', 'fb-pop');
     pop.innerHTML = `<span class="fb-pin fb-pin--new" aria-hidden="true">+</span>
-      <label>Your name <span class="fb-opt">(optional)</span><input name="author" autocomplete="name" placeholder="e.g. Sam from Marshal"></label>
+      <label><span>Your name <span class="fb-opt">(optional)</span></span><input name="author" autocomplete="name" placeholder="e.g. Sam from Marshal"></label>
       <label>Note<textarea name="body" rows="4" placeholder="What should change here?" required></textarea></label>
       <p class="fb-err" hidden></p>
       <div class="fb-actions"><button type="button" class="fb-cancel">Cancel</button><button type="submit" class="fb-save">Save note</button></div>`;
