@@ -567,7 +567,7 @@ review = """
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const store = window.MTFeedbackStore, box = document.querySelector('.fbr-list');
-  const NAMES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'All Terrain', 'tire-highway-terrain.html': 'Highway Terrain', 'tire-tour-as.html': 'Tour A/S', 'tire-sport-as.html': 'Sport A/S', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us' };
+  const NAMES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'All Terrain', 'tire-highway-terrain.html': 'Highway Terrain', 'tire-tour-as.html': 'Tour A/S', 'tire-sport-as.html': 'Sport A/S', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us', 'tire-registration.html': 'Tire Registration' };
   document.querySelector('.fbr-mode').textContent = store.shared ? 'Every note your client leaves on the stage site, grouped by page.' : 'Demo mode: this list only shows notes saved in this browser. Connect Supabase in assets/js/feedback-config.js to collect notes from everyone.';
   let notes = [], filter = 'open';
   const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
@@ -614,6 +614,97 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 """
 
+# ---------------------------------------------------------------- TIRE REGISTRATION
+DOT_ROWS = [
+  ('1-manufacturing-plant', 'Manufacturing Plant', 'H2', 'identifies the plant that manufactured the tire.', 'Sidewall close-up with H2, the plant code, circled in red'),
+  ('2-tire-size-code', 'Tire Size Code', 'U1', 'is the tire size code.', 'Sidewall close-up with U1, the tire size code, circled in red'),
+  ('3-option-code', 'Option Code', 'YC7L', 'an optional code that refers to a brand or other characteristics specific to the tire.', 'Sidewall close-up with YC7L, the option code, circled in red'),
+  ('4-date-of-manufacturing', 'Date of Manufacturing', '3805', 'identifies the manufacturing date. The first two digits represent the week and the last two digits represent the year. Therefore, in this example, the tire was manufactured in the 38th week of 2005.', 'Sidewall close-up with 3805, the date code, circled in red'),
+]
+def dot_row(f, h, code, text, alt):
+    return f'''<div class="dot-row">
+          <img src="assets/img/dot-{f}.jpg" alt="{alt}" width="584" height="290" loading="lazy">
+          <div class="dot-copy"><span class="bar bar--sm" aria-hidden="true"></span><h4>{h}</h4><p class="dot-point"><b>{code}</b>: {text}</p></div>
+        </div>'''
+def tire_group(n):
+    # one tire entry; JS clones the first one for "Add another DOT code" (up to 8)
+    return f'''<div class="tire-entry" data-entry="{n}">
+              <p class="tire-entry-head" hidden><b>Tire <span class="tire-n">{n}</span></b><button type="button" class="tire-remove link">Remove</button></p>
+              <div class="row-2">{fld(f'r-dot-{n}','DOT Code',inp(f'r-dot-{n}',ph='DOT H2U1 YC7L'))}{fld(f'r-mfg-{n}','Date of MFG',inp(f'r-mfg-{n}',ph='3805',help_=False).replace('type="text"','type="text" inputmode="numeric" maxlength="4" data-rule="mfg"'))}</div>
+              {fld(f'r-qty-{n}','Quantity',sel(f'r-qty-{n}',[(str(i), str(i)) for i in range(1, 9)],'Number of tires'))}
+            </div>'''
+registration = f'''
+<section class="reg-intro">
+  <div class="reg-wrap">
+    <h1>Register your Tire Method</h1>
+    <div class="reg-tabs" role="tablist" aria-label="Tire registration">
+      <button type="button" role="tab" id="tab-method" aria-controls="pane-method" aria-selected="true">REGISTER YOUR TIRE METHOD</button>
+      <button type="button" role="tab" id="tab-register" aria-controls="pane-register" aria-selected="false" tabindex="-1">REGISTER YOUR TIRE</button>
+    </div>
+  </div>
+</section>
+<section class="reg-body">
+  <div class="reg-wrap">
+    <div class="reg-pane" id="pane-method" role="tabpanel" aria-labelledby="tab-method">
+      <p class="reg-lede">All Marshal tires are manufactured to a rigid set of manufacturing standards. In the unlikely event of a tire recall, it’s necessary for us to have your contact information on file, so that Marshal Tire USA can notify you quickly.</p>
+      <div class="reg-block">
+        <span class="bar" aria-hidden="true"></span>
+        <h2>How Will This Information Be Used?</h2>
+        <p>Your information will be used only to contact you in the event of a recall. Marshal Tire will not sell or rent your contact information to any third party.</p>
+        <p>Please enter your contact information and DOT Code(s) below and select “Submit.” Each online submission form allows for up to 8 different DOT Codes to be entered.</p>
+      </div>
+      <div class="reg-block">
+        <span class="bar" aria-hidden="true"></span>
+        <h2>What Is a DOT Code?</h2>
+        <p>The DOT code is an alphanumeric code that appears on the sidewall of the tire. This code is sometimes referred to as a serial number. Mandated by the U.S. Department of Transportation, it identifies where a tire was manufactured, specific characteristics about the tire and its age.</p>
+        <p>The code starts with the DOT designation, followed by a series of letters and numbers. Here’s how to read it.</p>
+      </div>
+      <div class="dot-example">
+        <h3>Example Code: DOT H2U1 YC7L 3805</h3>
+        {''.join(dot_row(*r) for r in DOT_ROWS)}
+      </div>
+    </div>
+    <div class="reg-pane" id="pane-register" role="tabpanel" aria-labelledby="tab-register" hidden>
+      <div class="form-card reg-card" id="reg-card">
+        <form id="reg-form" novalidate>
+          <div class="form-alert" role="alert"></div>
+          <div class="form-section"><h2>Contact Information</h2>
+            <div class="row-2">{fld('r-first','First Name',inp('r-first',ph='ex. James',auto='given-name'))}{fld('r-last','Last Name',inp('r-last',ph='ex. Smith',auto='family-name'))}</div>
+            {fld('r-email','Email',inp('r-email','email','name@example.com',auto='email'))}
+            <div class="row-2">{fld('r-addr','Address',inp('r-addr',ph='Street address',auto='address-line1'))}{fld('r-addr2','Address 2',inp('r-addr2',ph='Apt, suite, unit',req=False,auto='address-line2'),False)}</div>
+            <div class="row-3">{fld('r-city','City',inp('r-city',ph='City',auto='address-level2'))}{fld('r-state','State',sel('r-state',STATES,'Select state').replace('<select','<select autocomplete="address-level1"'))}{fld('r-zip','ZIP Code',inp('r-zip',ph='30319',auto='postal-code').replace('type="text"','type="text" inputmode="numeric" maxlength="10" data-rule="zip"'))}</div>
+          </div>
+          <hr class="reg-rule">
+          <div class="form-section"><h2>Dealer Information</h2>
+            {fld('r-dealer','Dealer Name',inp('r-dealer',ph='Enter store name'))}
+            {fld('r-daddr','Dealer Address',inp('r-daddr',ph='Enter store address'))}
+            <div class="row-3">{fld('r-dcity','City',inp('r-dcity',ph='City'))}{fld('r-dstate','State',sel('r-dstate',STATES,'Select state'))}{fld('r-dzip','ZIP Code',inp('r-dzip',ph='30319').replace('type="text"','type="text" inputmode="numeric" maxlength="10" data-rule="zip"'))}</div>
+          </div>
+          <div class="form-section"><h2>Tire Information</h2>
+            <div class="tire-entries">{tire_group(1)}</div>
+            <div><button type="button" class="add-dot" id="add-dot"><span aria-hidden="true">+</span> Add another DOT code</button> <span class="help add-dot-count" aria-live="polite"></span></div>
+          </div>
+          <div class="reg-consent">
+            <p class="reg-note"><b aria-hidden="true">*</b> This information will only be used for the purpose of notifying you regarding a recall. Marshal Tire will not sell or rent your contact information to third parties.</p>
+            <label class="check reg-check"><input type="checkbox" name="optin"> <span><b>(Optional)</b> Yes, I would like to receive marketing communications from Marshal Tire. My information will be used in accordance with Marshal Tire’s <a class="link" href="#privacy">Privacy Policy</a>. I may unsubscribe at any time.</span></label>
+            <p class="reg-ack">By submitting this form, you acknowledge that your information will be processed in accordance with our <a class="link" href="#privacy">Privacy Policy</a>.</p>
+            <div><button class="btn btn--primary reg-submit" type="submit">SUBMIT</button></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-dark">
+  <div class="container">
+    <h2>Let’s stay connected</h2>
+    <p>Have a question about Marshal tires, warranty coverage, or anything else? We’re here to help.</p>
+    <p>Count on Marshal Tire for reliable tire information, warranty guidance, and customer support, every mile of the way.</p>
+    <a class="btn btn--primary btn--lg" href="contact.html">CONTACT US</a>
+  </div>
+</section>'''
+
 LEAFLET_CSS = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">\n'
 LEAFLET_JS = '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>\n'
 SPECS_JS = f'<script src="assets/js/specs.js?v={ver("assets/js/specs.js")}"></script>\n'
@@ -626,6 +717,7 @@ pages = {
   'dealers.html': ('dealers', 'Find a Dealer | Marshal Tire', 'Find authorized Marshal Tire dealers near you.', dealers, LEAFLET_CSS, LEAFLET_JS),
   'review.html': ('review', 'Client feedback | Marshal Tire mockup', 'All feedback notes left on the mockup.', review, '', ''),
   'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: customer and business inquiries.', contact, '', ''),
+  'tire-registration.html': ('tire-registration', 'Tire Registration | Marshal Tire', 'Register your Marshal tires so we can reach you in the unlikely event of a recall.', registration, '', ''),
 }
 for fn, (pg, t, d, b, eh, ej) in pages.items():
     # cache-bust every local image so replaced photos show up right away instead of a stale cached copy

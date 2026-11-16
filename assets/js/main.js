@@ -63,7 +63,7 @@
       <div class="footer-top">
         <div class="footer-brand">${LOGO}<a class="footer-phone" href="tel:18444936277">1-844-493-6277</a><p><a href="mailto:info@marshaltire.com">info@marshaltire.com</a></p><p style="margin-top:12px">1001 Summit Blvd NE,<br>Suite 1800, Atlanta, GA 30319</p></div>
         <div class="footer-col"><h3>Tires</h3><ul><li><a href="tire-details.html">Marshal All Terrain</a></li><li><a href="tire-highway-terrain.html">Marshal Highway Terrain</a></li><li><a href="tire-tour-as.html">Marshal Tour A/S</a></li><li><a href="tire-sport-as.html">Marshal Sport A/S</a></li><li><a href="index.html#finder">Tire Search</a></li></ul></div>
-        <div class="footer-col"><h3>Marshal</h3><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Customer Contact Us</a></li><li><a href="contact.html?type=business">Business Contact Us</a></li><li><a href="contact.html?type=business&amp;request=dealer">Become a Dealer</a></li></ul></div>
+        <div class="footer-col"><h3>Marshal</h3><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Customer Contact Us</a></li><li><a href="contact.html?type=business">Business Contact Us</a></li><li><a href="contact.html?type=business&amp;request=dealer">Become a Dealer</a></li><li><a href="tire-registration.html">Tire Registration</a></li></ul></div>
         <div class="footer-col"><h3>Support</h3><ul><li><a href="#warranty">Warranty</a></li><li><a href="#privacy">Privacy Policy</a></li></ul></div>
       </div>
       <div class="footer-bottom"><span>COPYRIGHT © MARSHAL TIRE. All rights reserved.</span><a href="#youtube" aria-label="Marshal Tire on YouTube">${icon.youtube}</a></div></div>`;
@@ -311,6 +311,94 @@
     const preReq = qs.get('request'), bReq = $('#b-request');
     if (qs.get('type') === 'business' && preReq && bReq && [...bReq.options].some(o => o.value === preReq)) { bReq.value = preReq; bReq.dispatchEvent(new Event('change')); }
     syncTire();
+  }
+
+  /* ---------- TIRE REGISTRATION: tabs, extra DOT codes, validation ---------- */
+  const regTabs = $$('.reg-tabs [role="tab"]');
+  if (regTabs.length) {
+    const select = (tab, focus) => {
+      regTabs.forEach(t => { const on = t === tab; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; $('#' + t.getAttribute('aria-controls')).hidden = !on; });
+      if (focus) tab.focus();
+      history.replaceState(null, '', tab.id === 'tab-register' ? '#register' : location.pathname + location.search);
+    };
+    regTabs.forEach((t, k) => {
+      t.addEventListener('click', () => select(t));
+      t.addEventListener('keydown', e => {
+        const n = { ArrowRight: k + 1, ArrowLeft: k - 1, Home: 0, End: regTabs.length - 1 }[e.key];
+        if (n === undefined) return; e.preventDefault(); select(regTabs[(n + regTabs.length) % regTabs.length], true);
+      });
+    });
+    const fromHash = () => select(location.hash === '#register' ? regTabs[1] : regTabs[0]);
+    window.addEventListener('hashchange', fromHash); fromHash();
+  }
+  const rform = $('#reg-form');
+  if (rform) {
+    const MAX = 8, box = $('.tire-entries', rform), addBtn = $('#add-dot'), count = $('.add-dot-count');
+    const tpl = $('.tire-entry', box).cloneNode(true);
+    const LABELS = { dot: 'DOT Code', mfg: 'Date of MFG', qty: 'Quantity' };
+    const renumber = () => {
+      const list = $$('.tire-entry', box), many = list.length > 1;
+      list.forEach((en, i) => {
+        $('.tire-entry-head', en).hidden = !many; $('.tire-n', en).textContent = i + 1;
+        $$('label', en).forEach(l => { const kind = l.htmlFor.split('-')[1]; l.firstChild.textContent = LABELS[kind] + ' '; });
+      });
+      addBtn.hidden = list.length >= MAX;
+      count.textContent = list.length >= MAX ? `You’ve added the maximum of ${MAX} DOT codes.` : '';
+    };
+    const rules = {
+      email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) || 'Enter an email like name@example.com.',
+      zip: v => /^\d{5}(-?\d{4})?$/.test(v) || 'Enter a 5-digit ZIP code.',
+      mfg: v => (/^\d{4}$/.test(v) && +v.slice(0, 2) >= 1 && +v.slice(0, 2) <= 53) || 'Enter the 4-digit date code, like 3805 (week, then year).',
+    };
+    const fieldError = el => {
+      const v = el.value.trim();
+      const lab = el.closest('.field').querySelector('label').textContent.replace('*', '').trim();
+      const nice = lab.replace(/^[A-Z][a-z]/, m => m.toLowerCase()).replace(/ ([A-Z])([a-z])/g, (m, a, b) => ' ' + a.toLowerCase() + b);
+      if (el.required && !v) return el.tagName === 'SELECT' ? `Choose the ${nice}.` : `Enter the ${nice}.`;
+      const r = rules[el.dataset.rule || el.type]; if (r && v) { const res = r(v); if (res !== true) return res; }
+      return '';
+    };
+    const show = (el, err) => { const f = el.closest('.field'); f.classList.toggle('has-error', !!err); $('.error-msg span', f).textContent = err; el.setAttribute('aria-invalid', !!err); };
+    const wire = scope => {
+      $$('input,select', scope).forEach(el => {
+        const f = el.closest('.field'); if (!f) return;
+        const old = $('.error-msg', f); if (old) old.parentNode.removeChild(old);
+        const d = document.createElement('p'); d.className = 'error-msg'; d.id = el.id + '-err'; d.innerHTML = icon.alert + '<span></span>'; f.appendChild(d);
+        el.setAttribute('aria-describedby', d.id); f.classList.remove('has-error'); el.removeAttribute('aria-invalid'); el.value = '';
+        if (el.tagName === 'SELECT') { const up = () => el.classList.toggle('is-placeholder', !el.value); el.addEventListener('change', up); up(); }
+        // check on leave only once something was typed, so tabbing past or clicking "Add another" doesn't flag empty fields
+        el.addEventListener('blur', () => { if (el.dataset.dirty) show(el, fieldError(el)); });
+        el.addEventListener('input', () => { el.dataset.dirty = 1; if (f.classList.contains('has-error')) show(el, fieldError(el)); });
+        el.addEventListener('change', () => { el.dataset.dirty = 1; if (f.classList.contains('has-error')) show(el, fieldError(el)); });
+      });
+      $$('[data-rule="mfg"], [data-rule="zip"]', scope).forEach(el => el.addEventListener('input', () => { el.value = el.value.replace(el.dataset.rule === 'zip' ? /[^\d-]/g : /\D/g, ''); }));
+      $$('input[id^="r-dot-"]', scope).forEach(el => el.addEventListener('input', () => { const p = el.selectionStart; el.value = el.value.toUpperCase(); el.setSelectionRange(p, p); }));
+    };
+    let seq = 1;
+    addBtn.addEventListener('click', () => {
+      seq++;
+      const en = tpl.cloneNode(true);
+      en.dataset.entry = seq;
+      en.innerHTML = en.innerHTML.replace(/r-(dot|mfg|qty)-1/g, `r-$1-${seq}`);
+      box.appendChild(en); wire(en); renumber();
+      $('input', en).focus();
+    });
+    box.addEventListener('click', e => {
+      const b = e.target.closest('.tire-remove'); if (!b) return;
+      const en = b.closest('.tire-entry'), next = en.previousElementSibling || en.nextElementSibling;
+      box.removeChild(en); renumber(); if (next) $('input', next).focus();
+    });
+    wire(rform); renumber();
+    rform.addEventListener('submit', e => {
+      e.preventDefault();
+      const bad = $$('input,select', rform).filter(el => el.closest('.field')).map(el => { const err = fieldError(el); show(el, err); return err ? el : null; }).filter(Boolean);
+      const alert = $('.form-alert', rform);
+      if (bad.length) { alert.textContent = `Please fix ${bad.length} field${bad.length > 1 ? 's' : ''} to register your tires.`; alert.classList.add('is-on'); bad[0].focus(); return; }
+      alert.classList.remove('is-on');
+      const name = $('#r-first').value.trim().replace(/[<>&]/g, ''), n = $$('.tire-entry', box).length;
+      $('#reg-card').innerHTML = `<div class="success" role="status"><div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div><h2>Thanks, ${name}. Your tires are registered.</h2><p class="muted">We’ve saved ${n} DOT code${n > 1 ? 's' : ''} and will contact you only in the unlikely event of a recall. This is a mockup, so nothing was actually sent.</p><a class="btn btn--outline" href="index.html">Back to home</a></div>`;
+      $('#reg-card').scrollIntoView({ block: 'start' });
+    });
   }
 
   /* ---------- dealers: shop online ---------- */

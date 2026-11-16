@@ -11,6 +11,7 @@ This is a clickable website mockup built from the Figma frames in *Marshal Tires
 | Highway Terrain ML41, Tour A/S MH41, Sport A/S MU41 (same layout as All Terrain; features, benefits and images from the Marshal product presentation PDF) | `tire-highway-terrain.html`, `tire-tour-as.html`, `tire-sport-as.html` | 326:1002 |
 | Dealer Finder | `dealers.html` | 326:1310 |
 | General Contact Us (Drivers / Business tabs) | `contact.html` | 439:5602 |
+| Tire Registration (Register Your Tire Method / Register Your Tire tabs; footer link under Marshal) | `tire-registration.html` | 685:3726, 687:4738 |
 | Client feedback review (not in the nav) | `review.html` | n/a |
 
 ## What works
