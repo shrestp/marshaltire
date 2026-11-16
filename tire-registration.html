@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, nofollow"><link rel="icon" href="/marshaltire/assets/img/favicon.svg?v=5d037d5a" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css?v=202286b9">
+<link rel="stylesheet" href="assets/css/styles.css?v=d7abea74">
 <link rel="stylesheet" href="assets/css/feedback.css?v=7547e9d7">
 </head>
 <body data-page="tire-registration">
@@ -17,9 +17,10 @@
 <header id="site-header"></header>
 <main id="main">
 
-<section class="reg-intro">
-  <div class="reg-wrap">
+<section class="page-intro reg-intro">
+  <div class="container">
     <h1>Register your Tire Method</h1>
+    <p class="reg-sub">Let us know how we can help. We want to hear from you.<br>Please allow 48 hours for us to respond.</p>
     <div class="reg-tabs" role="tablist" aria-label="Tire registration">
       <button type="button" role="tab" id="tab-method" aria-controls="pane-method" aria-selected="true">REGISTER YOUR TIRE METHOD</button>
       <button type="button" role="tab" id="tab-register" aria-controls="pane-register" aria-selected="false" tabindex="-1">REGISTER YOUR TIRE</button>
@@ -27,7 +28,7 @@
   </div>
 </section>
 <section class="reg-body">
-  <div class="reg-wrap">
+  <div class="container">
     <div class="reg-pane" id="pane-method" role="tabpanel" aria-labelledby="tab-method">
       <p class="reg-lede">All Marshal tires are manufactured to a rigid set of manufacturing standards. In the unlikely event of a tire recall, it’s necessary for us to have your contact information on file, so that Marshal Tire USA can notify you quickly.</p>
       <div class="reg-block">
@@ -40,7 +41,7 @@
         <span class="reg-bar" aria-hidden="true"></span>
         <h2>What Is a DOT Code?</h2>
         <p>The DOT code is an alphanumeric code that appears on the sidewall of the tire. This code is sometimes referred to as a serial number. Mandated by the U.S. Department of Transportation, it identifies where a tire was manufactured, specific characteristics about the tire and its age.</p>
-        <p>The code starts with the DOT designation, followed by a series of letters and numbers. Here’s how to read it.</p>
+        <p>The code starts with the DOT designation, followed by a series of letters and numbers. Here’s how to read it</p>
       </div>
       <div class="dot-example">
         <h3>Example Code: DOT H2U1 YC7L 3805</h3>
@@ -76,18 +77,14 @@
             <div class="row-3"><div class="field"><label for="r-dcity">City <span class="req" aria-hidden="true">*</span></label><input class="input" id="r-dcity" name="r-dcity" type="text" placeholder="City" required></div><div class="field"><label for="r-dstate">State <span class="req" aria-hidden="true">*</span></label><select class="select" id="r-dstate" name="r-dstate" required><option value="">Select state</option><option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option><option value="AR">AR</option><option value="CA">CA</option><option value="CO">CO</option><option value="CT">CT</option><option value="DE">DE</option><option value="FL">FL</option><option value="GA">GA</option><option value="HI">HI</option><option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="IA">IA</option><option value="KS">KS</option><option value="KY">KY</option><option value="LA">LA</option><option value="ME">ME</option><option value="MD">MD</option><option value="MA">MA</option><option value="MI">MI</option><option value="MN">MN</option><option value="MS">MS</option><option value="MO">MO</option><option value="MT">MT</option><option value="NE">NE</option><option value="NV">NV</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option><option value="NY">NY</option><option value="NC">NC</option><option value="ND">ND</option><option value="OH">OH</option><option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option><option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VT">VT</option><option value="VA">VA</option><option value="WA">WA</option><option value="WV">WV</option><option value="WI">WI</option><option value="WY">WY</option></select></div><div class="field"><label for="r-dzip">ZIP Code <span class="req" aria-hidden="true">*</span></label><input class="input" id="r-dzip" name="r-dzip" type="text" inputmode="numeric" maxlength="10" data-rule="zip" placeholder="30319" required></div></div>
           </div>
           <div class="form-section"><h2>Tire Information</h2>
-            <div class="tire-entries"><div class="tire-entry" data-entry="1">
-              <p class="tire-entry-head" hidden><b>Tire <span class="tire-n">1</span></b><button type="button" class="tire-remove link">Remove</button></p>
-              <div class="row-2"><div class="field"><label for="r-dot-1">DOT Code <span class="req" aria-hidden="true">*</span></label><input class="input" id="r-dot-1" name="r-dot-1" type="text" placeholder="DOT H2U1 YC7L" required></div><div class="field"><label for="r-mfg-1">Date of MFG <span class="req" aria-hidden="true">*</span></label><input class="input" id="r-mfg-1" name="r-mfg-1" type="text" inputmode="numeric" maxlength="4" data-rule="mfg" placeholder="3805" required></div></div>
-              <div class="field"><label for="r-qty-1">Quantity <span class="req" aria-hidden="true">*</span></label><select class="select" id="r-qty-1" name="r-qty-1" required><option value="">Number of tires</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select></div>
-            </div></div>
-            <div><button type="button" class="add-dot" id="add-dot"><span aria-hidden="true">+</span> Add another DOT code</button> <span class="help add-dot-count" aria-live="polite"></span></div>
+            <div class="row-2"><div class="field"><label for="r-dot">DOT Code <span class="req" aria-hidden="true">*</span></label><input class="input" id="r-dot" name="r-dot" type="text" placeholder="DOT H2U1 YC7L" required></div><div class="field"><label for="r-mfg">Date of MFG <span class="req" aria-hidden="true">*</span></label><input class="input" id="r-mfg" name="r-mfg" type="text" inputmode="numeric" maxlength="4" data-rule="mfg" placeholder="3805" required></div></div>
+            <div class="field"><label for="r-qty">Quantity <span class="req" aria-hidden="true">*</span></label><select class="select" id="r-qty" name="r-qty" required><option value="">Number of tires</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select></div>
           </div>
           <div class="reg-consent">
             <p class="reg-note"><b aria-hidden="true">*</b> This information will only be used for the purpose of notifying you regarding a recall. Marshal Tire will not sell or rent your contact information to third parties.</p>
             <label class="check reg-check"><input type="checkbox" name="optin"> <span><b>(Optional)</b> Yes, I would like to receive marketing communications from Marshal Tire. My information will be used in accordance with Marshal Tire’s <a class="link" href="#privacy">Privacy Policy</a>. I may unsubscribe at any time.</span></label>
             <p class="reg-ack">By submitting this form, you acknowledge that your information will be processed in accordance with our <a class="link" href="#privacy">Privacy Policy</a>.</p>
-            <div><button class="btn btn--primary reg-submit" type="submit">SUBMIT</button></div>
+            <div><button class="btn btn--primary btn--lg reg-submit" type="submit">SUBMIT</button></div>
           </div>
         </form>
       </div>
@@ -105,7 +102,7 @@
 </section>
 </main>
 <footer id="site-footer"></footer>
-<script src="assets/js/main.js?v=8c02050f"></script>
+<script src="assets/js/main.js?v=dc9f7cfd"></script>
 <script src="assets/js/feedback-config.js?v=12d93610"></script>
 <script src="assets/js/feedback.js?v=0d0998d8"></script>
 </body>

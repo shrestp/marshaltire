@@ -626,17 +626,13 @@ def dot_row(f, h, code, text, alt):
           <img src="assets/img/dot-{f}.jpg" alt="{alt}" width="584" height="290" loading="lazy">
           <div class="dot-copy"><span class="reg-bar reg-bar--sm" aria-hidden="true"></span><h4>{h}</h4><p class="dot-point"><b>{code}</b>: {text}</p></div>
         </div>'''
-def tire_group(n):
-    # one tire entry; JS clones the first one for "Add another DOT code" (up to 8)
-    return f'''<div class="tire-entry" data-entry="{n}">
-              <p class="tire-entry-head" hidden><b>Tire <span class="tire-n">{n}</span></b><button type="button" class="tire-remove link">Remove</button></p>
-              <div class="row-2">{fld(f'r-dot-{n}','DOT Code',inp(f'r-dot-{n}',ph='DOT H2U1 YC7L'))}{fld(f'r-mfg-{n}','Date of MFG',inp(f'r-mfg-{n}',ph='3805',help_=False).replace('type="text"','type="text" inputmode="numeric" maxlength="4" data-rule="mfg"'))}</div>
-              {fld(f'r-qty-{n}','Quantity',sel(f'r-qty-{n}',[(str(i), str(i)) for i in range(1, 9)],'Number of tires'))}
-            </div>'''
+TIRE_FIELDS = f'''<div class="row-2">{fld('r-dot','DOT Code',inp('r-dot',ph='DOT H2U1 YC7L'))}{fld('r-mfg','Date of MFG',inp('r-mfg',ph='3805').replace('type="text"','type="text" inputmode="numeric" maxlength="4" data-rule="mfg"'))}</div>
+            {fld('r-qty','Quantity',sel('r-qty',[(str(i), str(i)) for i in range(1, 9)],'Number of tires'))}'''
 registration = f'''
-<section class="reg-intro">
-  <div class="reg-wrap">
+<section class="page-intro reg-intro">
+  <div class="container">
     <h1>Register your Tire Method</h1>
+    <p class="reg-sub">Let us know how we can help. We want to hear from you.<br>Please allow 48 hours for us to respond.</p>
     <div class="reg-tabs" role="tablist" aria-label="Tire registration">
       <button type="button" role="tab" id="tab-method" aria-controls="pane-method" aria-selected="true">REGISTER YOUR TIRE METHOD</button>
       <button type="button" role="tab" id="tab-register" aria-controls="pane-register" aria-selected="false" tabindex="-1">REGISTER YOUR TIRE</button>
@@ -644,7 +640,7 @@ registration = f'''
   </div>
 </section>
 <section class="reg-body">
-  <div class="reg-wrap">
+  <div class="container">
     <div class="reg-pane" id="pane-method" role="tabpanel" aria-labelledby="tab-method">
       <p class="reg-lede">All Marshal tires are manufactured to a rigid set of manufacturing standards. In the unlikely event of a tire recall, it’s necessary for us to have your contact information on file, so that Marshal Tire USA can notify you quickly.</p>
       <div class="reg-block">
@@ -657,7 +653,7 @@ registration = f'''
         <span class="reg-bar" aria-hidden="true"></span>
         <h2>What Is a DOT Code?</h2>
         <p>The DOT code is an alphanumeric code that appears on the sidewall of the tire. This code is sometimes referred to as a serial number. Mandated by the U.S. Department of Transportation, it identifies where a tire was manufactured, specific characteristics about the tire and its age.</p>
-        <p>The code starts with the DOT designation, followed by a series of letters and numbers. Here’s how to read it.</p>
+        <p>The code starts with the DOT designation, followed by a series of letters and numbers. Here’s how to read it</p>
       </div>
       <div class="dot-example">
         <h3>Example Code: DOT H2U1 YC7L 3805</h3>
@@ -681,14 +677,13 @@ registration = f'''
             <div class="row-3">{fld('r-dcity','City',inp('r-dcity',ph='City'))}{fld('r-dstate','State',sel('r-dstate',STATES,'Select state'))}{fld('r-dzip','ZIP Code',inp('r-dzip',ph='30319').replace('type="text"','type="text" inputmode="numeric" maxlength="10" data-rule="zip"'))}</div>
           </div>
           <div class="form-section"><h2>Tire Information</h2>
-            <div class="tire-entries">{tire_group(1)}</div>
-            <div><button type="button" class="add-dot" id="add-dot"><span aria-hidden="true">+</span> Add another DOT code</button> <span class="help add-dot-count" aria-live="polite"></span></div>
+            {TIRE_FIELDS}
           </div>
           <div class="reg-consent">
             <p class="reg-note"><b aria-hidden="true">*</b> This information will only be used for the purpose of notifying you regarding a recall. Marshal Tire will not sell or rent your contact information to third parties.</p>
             <label class="check reg-check"><input type="checkbox" name="optin"> <span><b>(Optional)</b> Yes, I would like to receive marketing communications from Marshal Tire. My information will be used in accordance with Marshal Tire’s <a class="link" href="#privacy">Privacy Policy</a>. I may unsubscribe at any time.</span></label>
             <p class="reg-ack">By submitting this form, you acknowledge that your information will be processed in accordance with our <a class="link" href="#privacy">Privacy Policy</a>.</p>
-            <div><button class="btn btn--primary reg-submit" type="submit">SUBMIT</button></div>
+            <div><button class="btn btn--primary btn--lg reg-submit" type="submit">SUBMIT</button></div>
           </div>
         </form>
       </div>

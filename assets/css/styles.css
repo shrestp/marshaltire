@@ -569,62 +569,48 @@ p { margin: 0; }
 @media (max-width: 420px) { .vt { width: 76px; height: 76px; } }
 
 /* ---------- Tire registration (Figma 685:3726 / 687:4738) ---------- */
-.reg-wrap { width: 100%; max-width: calc(1280px + var(--gutter) * 2); margin: 0 auto; padding: 0 var(--gutter); }
-.reg-intro, .reg-body { background: #fafafa; }
-.reg-intro { padding: 80px 0 40px; }
-.reg-intro h1 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; margin: 0 0 48px; }
-.reg-tabs { display: flex; gap: 8px; border-bottom: 1px solid #c5c5c5; }
+/* Uses the site .container and the Contact page's intro, spacing and form card so widths line up with every other page */
+.reg-intro, .reg-body { background: var(--surface-subtle); }
+.reg-intro { padding-bottom: 0; }
+.reg-sub { display: none; }
+.reg-tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border-default); margin-top: 32px; }
 .reg-tabs button { background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; padding: 16px 24px; font-family: inherit; font-size: 16px; font-weight: 600; line-height: 1.2; letter-spacing: .5px; color: #8a8a8a; cursor: pointer; transition: color .15s, border-color .15s; }
 .reg-tabs button:hover { color: var(--text-primary); }
-.reg-tabs button[aria-selected="true"] { color: #1e1e1e; font-weight: 700; border-bottom-color: var(--brand-4); }
-.reg-body { padding-bottom: 112px; }
+.reg-tabs button[aria-selected="true"] { color: var(--text-primary); font-weight: 700; border-bottom-color: var(--brand-4); }
+.reg-body { padding: 40px 0 96px; }
 .reg-pane { display: grid; gap: 48px; }
 .reg-pane[hidden] { display: none; }
-.reg-lede, .reg-block p { font-size: 18px; line-height: 30px; color: #393939; }
+.reg-lede, .reg-block p { font-size: 18px; line-height: 30px; color: var(--text-secondary); }
 .reg-block { display: grid; gap: 16px; justify-items: start; }
 .reg-block h2 { font-size: 32px; line-height: 42px; font-weight: 700; letter-spacing: 0; }
-.reg-block p + p { margin-top: 0; }
 .reg-bar { display: block; width: 40px; height: 4px; border-radius: 2px; background: var(--brand-4); }
 .reg-bar--sm { width: 32px; }
 .dot-example { display: grid; gap: 32px; }
 .dot-example h3 { font-size: 24px; line-height: 32px; font-weight: 700; letter-spacing: 0; }
 .dot-row { display: grid; grid-template-columns: 464px 1fr; gap: 48px; align-items: start; }
-.dot-row img { width: 100%; height: 230px; object-fit: cover; border-radius: 8px; background: #d9d9d9; }
+.dot-row img { width: 100%; height: 230px; object-fit: cover; border-radius: var(--r-md); background: #d9d9d9; }
 .dot-copy { display: grid; gap: 16px; padding-top: 8px; }
 .dot-copy h4 { font-size: 24px; line-height: 32px; font-weight: 700; letter-spacing: 0; margin: 0; }
-.dot-point { position: relative; padding-left: 18px; font-size: 18px; line-height: 28px; color: #393939; }
+.dot-point { position: relative; padding-left: 18px; font-size: 18px; line-height: 28px; color: var(--text-secondary); }
 .dot-point::before { content: ""; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; background: var(--brand-4); }
-.dot-point b { color: #1e1e1e; }
-.reg-card { border-color: #c5c5c5; gap: 0; }
-#reg-form { display: grid; gap: 40px; }
-.reg-card .form-section h2 { line-height: 28px; }
+.dot-point b { color: var(--text-primary); }
+.reg-card { gap: 0; }
+#reg-form { display: grid; gap: 32px; }
 .reg-card .row-2 > *, .reg-card .row-3 > * { min-width: 0; }
 .row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.reg-card .input, .reg-card .select { border-color: #c5c5c5; }
-.reg-card .input::placeholder { color: #8e8e8e; }
-.reg-rule { border: 0; border-top: 1px solid #e4e4e4; margin: 0; }
-.tire-entries { display: grid; gap: 20px; }
-.tire-entry { display: grid; gap: 20px; }
-.tire-entry + .tire-entry { border-top: 1px dashed #e4e4e4; padding-top: 20px; }
-.tire-entry-head { display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
-.tire-entry-head .link { font-size: 14px; color: var(--text-secondary); }
-.add-dot { background: none; border: 0; padding: 0; font-family: inherit; font-size: 14px; font-weight: 600; line-height: 1.5; color: var(--text-strong); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-.add-dot:hover { color: var(--text-on-brand); }
-.add-dot[hidden] { display: none; }
-.reg-consent { border-top: 1px solid #e4e4e4; padding-top: 24px; display: grid; gap: 24px; }
-.reg-note { font-size: 14px; line-height: 21px; color: #555; }
+.reg-rule { border: 0; border-top: 1px solid var(--gray-3); margin: 0; }
+.reg-consent { border-top: 1px solid var(--gray-3); padding-top: 24px; display: grid; gap: 16px; }
+.reg-note { font-size: 14px; color: var(--text-secondary); }
 .reg-note b { color: #c8102e; }
-.reg-check, .reg-ack { font-size: 16px; line-height: 24px; color: #393939; }
-.reg-check b, .reg-ack a, .reg-check a { color: #1e1e1e; font-weight: 600; }
-.reg-check input { margin-top: 2px; }
-.reg-submit { height: 48px; padding: 0 40px; font-size: 14px; letter-spacing: .2px; }
+.reg-check, .reg-ack { font-size: 14px; color: var(--text-secondary); }
+.reg-check b, .reg-check a, .reg-ack a { color: var(--text-primary); font-weight: 600; }
+.reg-check input { margin-top: 1px; }
 @media (max-width: 1024px) { .dot-row { grid-template-columns: minmax(0, 380px) 1fr; gap: 32px; } .dot-row img { height: auto; aspect-ratio: 2 / 1; } }
 @media (max-width: 760px) {
-  .reg-intro { padding: 40px 0 24px; }
-  .reg-intro h1 { margin-bottom: 32px; }
-  .reg-tabs { gap: 0; }
+  .reg-sub { display: block; font-size: 16px; }
+  .reg-tabs { gap: 0; margin-top: 24px; }
   .reg-tabs button { flex: 1 1 0; padding: 14px 8px; font-size: 13px; text-align: center; }
-  .reg-body { padding-bottom: 64px; }
+  .reg-body { padding: 32px 0 64px; }
   .reg-pane { gap: 40px; }
   .reg-lede, .reg-block p { font-size: 16px; line-height: 26px; }
   .reg-block h2 { font-size: 24px; line-height: 32px; }
@@ -636,6 +622,4 @@ p { margin: 0; }
   .dot-point { padding-left: 0; font-size: 16px; line-height: 26px; }
   .dot-point::before { display: none; }
   .row-3 { grid-template-columns: 1fr; gap: 20px; }
-  #reg-form { gap: 32px; }
-  .reg-check, .reg-ack { font-size: 14px; line-height: 21px; }
 }
