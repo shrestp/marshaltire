@@ -584,8 +584,8 @@ p { margin: 0; }
 .reg-block { display: grid; gap: 16px; justify-items: start; }
 .reg-block h2 { font-size: 32px; line-height: 42px; font-weight: 700; letter-spacing: 0; }
 .reg-block p + p { margin-top: 0; }
-.bar { display: block; width: 40px; height: 4px; border-radius: 2px; background: var(--brand-4); }
-.bar--sm { width: 32px; }
+.reg-bar { display: block; width: 40px; height: 4px; border-radius: 2px; background: var(--brand-4); }
+.reg-bar--sm { width: 32px; }
 .dot-example { display: grid; gap: 32px; }
 .dot-example h3 { font-size: 24px; line-height: 32px; font-weight: 700; letter-spacing: 0; }
 .dot-row { display: grid; grid-template-columns: 464px 1fr; gap: 48px; align-items: start; }
@@ -631,7 +631,7 @@ p { margin: 0; }
   .dot-example h3 { font-size: 20px; line-height: 28px; }
   .dot-row { grid-template-columns: 1fr; gap: 16px; }
   .dot-copy { gap: 12px; padding-top: 0; }
-  .dot-copy .bar { display: none; }
+  .dot-copy .reg-bar { display: none; }
   .dot-copy h4 { font-size: 20px; line-height: 28px; }
   .dot-point { padding-left: 0; font-size: 16px; line-height: 26px; }
   .dot-point::before { display: none; }

@@ -624,7 +624,7 @@ DOT_ROWS = [
 def dot_row(f, h, code, text, alt):
     return f'''<div class="dot-row">
           <img src="assets/img/dot-{f}.jpg" alt="{alt}" width="584" height="290" loading="lazy">
-          <div class="dot-copy"><span class="bar bar--sm" aria-hidden="true"></span><h4>{h}</h4><p class="dot-point"><b>{code}</b>: {text}</p></div>
+          <div class="dot-copy"><span class="reg-bar reg-bar--sm" aria-hidden="true"></span><h4>{h}</h4><p class="dot-point"><b>{code}</b>: {text}</p></div>
         </div>'''
 def tire_group(n):
     # one tire entry; JS clones the first one for "Add another DOT code" (up to 8)
@@ -648,13 +648,13 @@ registration = f'''
     <div class="reg-pane" id="pane-method" role="tabpanel" aria-labelledby="tab-method">
       <p class="reg-lede">All Marshal tires are manufactured to a rigid set of manufacturing standards. In the unlikely event of a tire recall, it’s necessary for us to have your contact information on file, so that Marshal Tire USA can notify you quickly.</p>
       <div class="reg-block">
-        <span class="bar" aria-hidden="true"></span>
+        <span class="reg-bar" aria-hidden="true"></span>
         <h2>How Will This Information Be Used?</h2>
         <p>Your information will be used only to contact you in the event of a recall. Marshal Tire will not sell or rent your contact information to any third party.</p>
         <p>Please enter your contact information and DOT Code(s) below and select “Submit.” Each online submission form allows for up to 8 different DOT Codes to be entered.</p>
       </div>
       <div class="reg-block">
-        <span class="bar" aria-hidden="true"></span>
+        <span class="reg-bar" aria-hidden="true"></span>
         <h2>What Is a DOT Code?</h2>
         <p>The DOT code is an alphanumeric code that appears on the sidewall of the tire. This code is sometimes referred to as a serial number. Mandated by the U.S. Department of Transportation, it identifies where a tire was manufactured, specific characteristics about the tire and its age.</p>
         <p>The code starts with the DOT designation, followed by a series of letters and numbers. Here’s how to read it.</p>
