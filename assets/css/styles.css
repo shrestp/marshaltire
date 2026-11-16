@@ -582,7 +582,7 @@ p { margin: 0; }
 .reg-pane[hidden] { display: none; }
 .reg-lede, .reg-block p { font-size: 18px; line-height: 30px; color: var(--text-secondary); }
 .reg-block { display: grid; gap: 16px; justify-items: start; }
-.reg-block h2 { font-size: 32px; line-height: 42px; font-weight: 700; letter-spacing: 0; }
+.reg-block h2 { font-size: 24px; line-height: 32px; font-weight: 700; letter-spacing: 0; }
 .reg-bar { display: block; width: 40px; height: 4px; border-radius: 2px; background: var(--brand-4); }
 .reg-bar--sm { width: 32px; }
 .dot-example { display: grid; gap: 32px; }
