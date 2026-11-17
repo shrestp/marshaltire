@@ -282,12 +282,12 @@
     msg.forEach(t => { const c = t.closest('.field').querySelector('.counter'); const up = () => (c.textContent = `${t.value.length} / 1,000`); t.addEventListener('input', up); up(); });
     $$('select', cform).forEach(s => { const up = () => s.classList.toggle('is-placeholder', !s.value); s.addEventListener('change', up); up(); });
     // validation
-    const rules = { email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) || 'Enter an email like name@example.com.', tel: v => !v || v.replace(/\D/g, '').length >= 10 || 'Enter a 10-digit phone number.' };
+    const rules = { email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) || 'Enter an email like name@example.com.', tel: v => !v || v.replace(/\D/g, '').length >= 10 || 'Enter a 10-digit phone number.', zip: v => /^\d{5}(-?\d{4})?$/.test(v) || 'Enter a 5-digit ZIP code.' };
     const fieldError = el => {
       if (el.disabled) return '';
       const v = el.value.trim(); const lab = el.closest('.field').querySelector('label').textContent.replace('*', '').trim();
       if (el.required && !v) return el.tagName === 'SELECT' ? `Choose a ${lab.toLowerCase()}.` : `Enter your ${lab.toLowerCase()}.`;
-      const r = rules[el.type]; if (r && v) { const res = r(v); if (res !== true) return res; }
+      const r = rules[el.dataset.rule || el.type]; if (r && v) { const res = r(v); if (res !== true) return res; }
       return '';
     };
     const show = (el, err) => { const f = el.closest('.field'); f.classList.toggle('has-error', !!err); $('.error-msg span', f).textContent = err; el.setAttribute('aria-invalid', !!err); };

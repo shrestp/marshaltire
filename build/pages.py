@@ -466,27 +466,29 @@ contact = f'''
         <div class="form-alert" role="alert"></div>
         <div data-pane="general" style="display:grid;gap:32px">
           <div class="form-section"><h2>How can we help?</h2>
-            {fld('g-request','Request type',sel('g-request',[('support','Technical support'),('warranty','Warranty claim')],'Choose request type',True,'support'))}
+            {fld('g-request','Request type',sel('g-request',[('support','Technical support'),('warranty','Warranty'),('other','Other questions')],'Choose request type',True,'support'))}
           </div>
           <div class="form-section"><h2>Your details</h2>
             <div class="row-2">{fld('g-first','First name',inp('g-first',ph='ex. James',auto='given-name'))}{fld('g-last','Last name',inp('g-last',ph='ex. Smith',auto='family-name'))}</div>
             <div class="row-2">{fld('g-email','Email',inp('g-email','email','name@example.com',auto='email'))}{fld('g-phone','Phone',inp('g-phone','tel','(555) 555-0123',False,'tel'),False)}</div>
+            <div class="row-2">{fld('g-zip','ZIP code',inp('g-zip',ph='ex. 80202',auto='postal-code').replace('type="text"','type="text" inputmode="numeric" maxlength="10" data-rule="zip"'))}</div>
           </div>
           <div class="form-section panel" id="tire-details"><h2>Tire details</h2><p class="muted">Shown for warranty claims and product questions.</p>
-            <div class="row-2">{fld('g-line','Tire line',sel('g-line',[('mf41','All Terrain (MF41)'),('ml41','Highway Terrain (ML41)'),('mh41','Tour A/S (MH41)'),('mu41','Sport A/S (MU41)')],'Choose tire line'))}
+            <div class="row-2">{fld('g-line','Tire line',sel('g-line',[('mf41','Marshal All-Terrain'),('ml41','Marshal Highway Terrain'),('mh41','Marshal Tour A/S'),('mu41','Marshal Sport A/S')],'Choose tire line'))}
             <div class="field"><label for="g-size">Tire size</label>{inp('g-size',ph='ex. 265/70R17',req=False,help_=True)}<p class="help" id="g-size-help">Printed on the sidewall. <a class="link" href="tire-details.html#available-sizes" style="font-weight:600">Not sure?</a></p></div></div>
+            <div class="row-2">{fld('g-dot','DOT code',inp('g-dot',ph='ex. DOT H2U1 YC7L',req=False,help_=True),False,'Printed on the sidewall after the letters DOT.')}</div>
             <div class="row-2" id="warranty-extra" hidden>{fld('g-date','Purchase date',inp('g-date','date'))}{fld('g-dealer','Where you bought them',inp('g-dealer',ph='Dealer name and city',req=False),False)}</div>
           </div>
           {fld('g-message','Message',ta('g-message','Please leave a message.'))}
         </div>
         <div data-pane="business" hidden style="display:grid;gap:32px">
           <div class="form-section"><h2>How can we help?</h2>
-            {fld('b-request','Request type',sel('b-request',[('dealer','Become a Marshal dealer'),('volume','Distributor or volume pricing'),('fleet','Fleet sales'),('pop','Merchandising and POP materials'),('media','Media and press'),('other','Something else')],'Choose request type'))}
+            {fld('b-request','Request type',sel('b-request',[('dealer','Become a Marshal dealer'),('fleet','Fleet sales'),('pop','Merchandising and POP materials'),('media','Media and press'),('other','Something else')],'Choose request type'))}
           </div>
           <div class="form-section"><h2>Your business</h2>
             {fld('b-company','Company name',inp('b-company',ph='ex. Front Range Tire &amp; Auto',auto='organization'))}
             <div class="row-2">{fld('b-type','Business type',sel('b-type',[('dealer','Tire dealer'),('service','Auto service'),('dist','Distributor'),('fleet','Fleet'),('media','Media'),('other','Other')]))}{fld('b-web','Website',inp('b-web','url','www.example.com',False,'url'),False)}</div>
-            <div class="row-2">{fld('b-city','City',inp('b-city',ph='ex. Denver',auto='address-level2'))}{fld('b-state','State',sel('b-state',STATES))}</div>
+            <div class="row-3">{fld('b-city','City',inp('b-city',ph='ex. Denver',auto='address-level2'))}{fld('b-state','State',sel('b-state',STATES))}{fld('b-zip','ZIP code',inp('b-zip',ph='ex. 80202',auto='postal-code').replace('type="text"','type="text" inputmode="numeric" maxlength="10" data-rule="zip"'))}</div>
             <div class="row-2">{fld('b-locations','Number of locations',sel('b-locations',[('1','1'),('2-5','2–5'),('6-20','6–20'),('20+','More than 20')],req=False),False)}{fld('b-brands','Tire brands you carry now',inp('b-brands',ph='List your main brands',req=False),False)}</div>
           </div>
           <div class="form-section"><h2>Your details</h2>
