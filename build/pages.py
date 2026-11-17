@@ -108,7 +108,7 @@ home = f'''
         <p class="eyebrow">Mileage warranty</p>
         <h2>Confidence for the miles ahead.</h2>
         <p>Dependable performance. Extensive coverage. Backed by US support.</p>
-        <div class="actions"><a class="btn btn--primary btn--lg" href="#warranty">VIEW WARRANTY DETAILS {ARROW}</a></div>
+        <div class="actions"><a class="btn btn--primary btn--lg" href="warranty.html#replacement">VIEW WARRANTY DETAILS {ARROW}</a></div>
       </div>
       <div class="slide-photo" style="background-image:url(assets/img/hero-warranty.jpg)"></div>
       <div class="slide-art slide-art--shield"><img class="shield" src="{HERO_BADGE}" alt="Limited treadwear warranty: up to 60,000 miles" width="100" height="134"></div>
@@ -266,7 +266,7 @@ details = f'''
         <img class="wb-wordmark" src="assets/img/wordmark-all-terrain.png" alt="Marshal All Terrain" width="193" height="34" loading="lazy">
         <h3>Limited treadwear warranty</h3>
         <p>Marshal All Terrain comes with a limited treadwear warranty. P-metric and LT sizes carry different mileage, so check the size chart for yours.</p>
-        <a class="link wb-link" href="#warranty">See full warranty terms <span aria-hidden="true">{ARROW_R}</span></a>
+        <a class="link wb-link" href="warranty.html#replacement">See full warranty terms <span aria-hidden="true">{ARROW_R}</span></a>
       </div>
     </div>
   </div>
@@ -365,7 +365,7 @@ def other_details(t):
         <p class="wb-name">{full.upper()}</p>
         <h3>Limited treadwear warranty</h3>
         <p>{full} comes with a limited treadwear warranty. {t['war_note']}</p>
-        <a class="link wb-link" href="#warranty">See full warranty terms <span aria-hidden="true">{ARROW_R}</span></a>
+        <a class="link wb-link" href="warranty.html#replacement">See full warranty terms <span aria-hidden="true">{ARROW_R}</span></a>
       </div>
     </div>
   </div>
@@ -498,7 +498,7 @@ contact = f'''
         </div>
         <div class="consent" style="margin-top:32px">
           <label class="check"><input type="checkbox" name="optin"> <span>Send me Marshal Tire news and offers (optional). You can unsubscribe at any time.</span></label>
-          <p>By submitting this form, you agree that Marshal Tire will use your information as described in our <a class="link" href="#privacy">Privacy Policy</a>.</p>
+          <p>By submitting this form, you agree that Marshal Tire will use your information as described in our <a class="link" href="privacy-policy.html">Privacy Policy</a>.</p>
           <div><button class="btn btn--primary btn--lg" type="submit"><span id="submit-label">SEND MESSAGE</span></button></div>
         </div>
       </form>
@@ -531,7 +531,7 @@ HERO_ALT = f'''
         <h2>Confidence for the miles ahead.</h2>
         <p>Dependable performance. Extensive coverage.<br>Backed by US support.</p>
         <p class="warranty-stat"><span class="ws-prefix">Up to</span><span class="ws-row"><b>60,000</b><span class="ws-unit">Miles<br>Warranty</span></span></p>
-        <div class="actions"><a class="btn btn--primary btn--lg" href="#warranty">VIEW WARRANTY DETAILS {ARROW}</a><a class="hero-link" href="#warranty">See coverage</a></div>
+        <div class="actions"><a class="btn btn--primary btn--lg" href="warranty.html#replacement">VIEW WARRANTY DETAILS {ARROW}</a><a class="hero-link" href="warranty.html#replacement">See coverage</a></div>
       </div>
     </div>
   </div>
@@ -567,7 +567,7 @@ review = """
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const store = window.MTFeedbackStore, box = document.querySelector('.fbr-list');
-  const NAMES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'All Terrain', 'tire-highway-terrain.html': 'Highway Terrain', 'tire-tour-as.html': 'Tour A/S', 'tire-sport-as.html': 'Sport A/S', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us', 'tire-registration.html': 'Tire Registration' };
+  const NAMES = { 'index.html': 'Home', 'index-alt.html': 'Home (split hero)', 'about.html': 'About Us', 'tire-details.html': 'All Terrain', 'tire-highway-terrain.html': 'Highway Terrain', 'tire-tour-as.html': 'Tour A/S', 'tire-sport-as.html': 'Sport A/S', 'dealers.html': 'Find a Dealer', 'contact.html': 'Contact Us', 'tire-registration.html': 'Tire Registration', 'warranty.html': 'Warranty', 'privacy-policy.html': 'Privacy Policy' };
   document.querySelector('.fbr-mode').textContent = store.shared ? 'Every note your client leaves on the stage site, grouped by page.' : 'Demo mode: this list only shows notes saved in this browser. Connect Supabase in assets/js/feedback-config.js to collect notes from everyone.';
   let notes = [], filter = 'open';
   const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
@@ -635,7 +635,7 @@ registration = f'''
     <p class="reg-sub">Let us know how we can help. We want to hear from you.<br>Please allow 48 hours for us to respond.</p>
     <div class="reg-tabs" role="tablist" aria-label="Tire registration">
       <button type="button" role="tab" id="tab-method" aria-controls="pane-method" aria-selected="true">REGISTER YOUR TIRE METHOD</button>
-      <button type="button" role="tab" id="tab-register" aria-controls="pane-register" aria-selected="false" tabindex="-1">REGISTER YOUR TIRE</button>
+      <button type="button" role="tab" id="tab-register" aria-controls="pane-register" aria-selected="false" tabindex="-1" data-hash="register">REGISTER YOUR TIRE</button>
     </div>
   </div>
 </section>
@@ -681,8 +681,8 @@ registration = f'''
           </div>
           <div class="reg-consent">
             <p class="reg-note"><b aria-hidden="true">*</b> This information will only be used for the purpose of notifying you regarding a recall. Marshal Tire will not sell or rent your contact information to third parties.</p>
-            <label class="check reg-check"><input type="checkbox" name="optin"> <span><b>(Optional)</b> Yes, I would like to receive marketing communications from Marshal Tire. My information will be used in accordance with Marshal Tire’s <a class="link" href="#privacy">Privacy Policy</a>. I may unsubscribe at any time.</span></label>
-            <p class="reg-ack">By submitting this form, you acknowledge that your information will be processed in accordance with our <a class="link" href="#privacy">Privacy Policy</a>.</p>
+            <label class="check reg-check"><input type="checkbox" name="optin"> <span><b>(Optional)</b> Yes, I would like to receive marketing communications from Marshal Tire. My information will be used in accordance with Marshal Tire’s <a class="link" href="privacy-policy.html">Privacy Policy</a>. I may unsubscribe at any time.</span></label>
+            <p class="reg-ack">By submitting this form, you acknowledge that your information will be processed in accordance with our <a class="link" href="privacy-policy.html">Privacy Policy</a>.</p>
             <div><button class="btn btn--primary btn--lg reg-submit" type="submit">SUBMIT</button></div>
           </div>
         </form>
@@ -700,6 +700,216 @@ registration = f'''
   </div>
 </section>'''
 
+CTA_DARK = '''<section class="cta-dark">
+  <div class="container">
+    <h2>Let’s stay connected</h2>
+    <p>Have a question about Marshal tires, warranty coverage, or anything else? We’re here to help.</p>
+    <p>Count on Marshal Tire for reliable tire information, warranty guidance, and customer support, every mile of the way.</p>
+    <a class="btn btn--primary btn--lg" href="contact.html">CONTACT US</a>
+  </div>
+</section>'''
+# ---------------------------------------------------------------- WARRANTY + PRIVACY (Figma 697:3624, 697:4155, 698:4464)
+# Copy for accordion I and the page heads is from the Marshal Tires file; accordions II+ come from the
+# open-state frames in Claude Explorations (92:1246, 93:1253), with Kumho changed to Marshal as in item I.
+DOWNLOAD_ICO = '<svg viewBox="0 0 14 15" width="12" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 1v9M3 6.5 7 10.5l4-4M1 14h12"/></svg>'
+CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>'
+ARROW_DN = '<svg viewBox="0 0 10 12" width="10" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 1v10M1.5 7.5 5 11l3.5-3.5"/></svg>'
+FOOT = '<p class="w-foot">* See warranty brochure PDF for further details.</p>'
+
+def dots(items):
+    return '<ul class="w-dots">' + ''.join(f'<li>{i}</li>' for i in items) + '</ul>'
+def letters(items):
+    # items: list of (letter, html)
+    return '<ol class="w-letters">' + ''.join(f'<li><b class="w-ltr" aria-hidden="true">{l}.</b><div>{h}</div></li>' for l, h in items) + '</ol>'
+def sub(t):
+    return f'<p class="w-sub">{t}</p>'
+def note(t='* Not available on Original Equipment Tires'):
+    return f'<p class="w-note">{t}</p>'
+def wtable(head, rows, cls=''):
+    th = ''.join(f'<th scope="col">{h}</th>' for h in head)
+    tb = ''.join('<tr>' + ''.join(f'<td>{c}</td>' for c in r) + '</tr>' for r in rows)
+    return f'<div class="w-table-wrap"><table class="w-table {cls}"><thead><tr>{th}</tr></thead><tbody>{tb}</tbody></table></div>'
+def acc(pfx, n, roman, title, body, open_=False):
+    i = f'{pfx}-acc-{n}'
+    return f'''<div class="w-acc{' is-open' if open_ else ''}">
+          <h3><button type="button" class="w-acc-head" aria-expanded="{'true' if open_ else 'false'}" aria-controls="{i}"><span class="w-roman">{roman}</span><span class="w-acc-title">{title}</span><span class="w-chev">{CHEV}</span></button></h3>
+          <div class="w-acc-body" id="{i}" role="region"{'' if open_ else ' hidden'}>{body}</div>
+        </div>'''
+EXAMPLE = '<p class="w-example">If R.T.D. = 5 and O.T.D. = 10, the calculation is (5 – 2 : remaining usable tread depth) ÷ (10 – 2 : {w} tread depth) = 38%</p>'
+DEALER_LINK = '<a class="w-link" href="dealers.html">www.marshaltireusa.com/dealers</a>'
+
+OE_ACCS = [
+  ('I.', 'What Is Covered and for How Long', '<p>Marshal warrants that a tire manufactured by Marshal and/or equipped originally on the vehicle is free from defects in materials and/or workmanship in normal use for the life of the original usable tread. The life of the original usable tread ends when the tire tread has been worn down with only 2/32” (1.6 mm) remaining, at which point the tire is considered to be fully worn out.</p>'
+    + sub('PASSENGER AND LIGHT TRUCK TIRES')
+    + letters([('A', '<p class="w-strong">Free replacement</p><p>If a Marshal Radial Passenger or Light Truck tire fails as a result of defect in materials and/or workmanship within the first 2/32” of the original tread depth, the tire will be replaced with a new, comparable Marshal tire at no charge including mounting and balancing charges.</p>'),
+               ('B', '<p class="w-strong">Pro-rata replacement</p><p>A tire not qualifying for free replacement will be given a credit toward the purchase of a new, comparable Marshal tire based upon the amount of tread actually worn. The cost of mounting, balancing and any other service charges or applicable taxes should be paid by the user. Otherwise adjustment for compensation will be made on a pro-rata basis calculated by multiplying the actual current dealer selling price by the percentage of remaining usable tread depth.</p><p>To obtain the credit percentage, please refer to Adjustment Credit Percentage Table or utilize the following example:</p>' + dots(['R.T.D.: Remaining Tread Depth', 'O.T.D.: Original Tread Depth']) + EXAMPLE.format(w='original usable'))])
+    + sub('MARSHAL TEMPORARY TIRE')
+    + letters([('A', '<p>A Temporary Tire weighs less and provides more trunk storage space than a conventional tire. To conserve tire tread life, the temporary tire should be returned to the trunk as soon as it is convenient to have your standard tire repaired or replaced.</p>'),
+               ('B', '<p>If a Marshal Temporary Tire fails as a result of defect in materials and/or workmanship during the first 50% of usable tread wear, the tire will be replaced with a new, comparable tire at no charge including mounting and balancing charges. No adjustment will be made for tires that are worn more than 50%.</p>')])
+    + FOOT),
+  ('II.', 'What Is Not Covered by the Warranty', letters([
+      ('A', '<p>Irregular wear or tire damage due to:</p>' + dots(['Road hazards such as punctures, cuts, snags, scuffs, carcass bruised or impact breaks.', 'Fire, wreck or collision.', 'Improper inflation, overloading, high speed spinning, improper mounting or demounting, running flat, off-road use, racing, vandalism, willful damage or abuse.', 'Misalignment, wheel imbalance, defective brakes or shock absorber use of tire chains.', 'Any tire which has failed as a result of adding material(e.g. tire fillers, sealant, or balancing substances)'])),
+      ('B', '<p>Tires fitted on anything other than original vehicle.</p>'),
+      ('C', '<p>Tire worn beyond tread wear indicator (2/32" or 1.6 mm).</p>'),
+      ('D', '<p>Tire presented by anyone other than the actual owner-user.</p>'),
+      ('E', '<p>Tire branded "NA" (meaning non-adjustable) or "blem" (meaning blemished).</p>'),
+      ('F', '<p>Loss of time inconvenience, use of vehicle, or consequential damage.</p>'),
+      ('G', '<p>Ride disturbance after free-replacement period.</p>'),
+      ('H', '<p>Ozone or weather cracking on tires over four (4) years from the date of manufacture stamped on the tire.</p>'),
+      ('I', '<p>No Flat Spot Warranty.</p>'),
+      ('J', '<p>NO extended warranties on original equipment tires.</p>'),
+      ('K', '<p>Limited warranty applies only to the original owner and is non-transferable.</p>')]) + FOOT),
+  ('III.', 'Marshal Obligations', '<p>Replacement tires qualifying under this warranty will be made by a participating Marshal Dealer or a participating Car Dealer.</p>' + FOOT),
+  ('IV.', 'Owner’s Obligations', letters([
+      ('A', '<p>Conform to all pertaining policies detailed herein.</p>'),
+      ('B', '<p>Present tire to any authorized Marshal dealer or a participating Car Dealer along with proof indicating you are the original vehicle owner. Respective dealer will inspect tire in order to identify whether or not it qualifies for warranty based on the policies detailed herein.</p>'),
+      ('C', f'<p>To locate an authorized Marshal dealer, use our web address {DEALER_LINK} or call 1-800-HI-MARSHAL (445-8646).</p>')])
+    + sub('WARNING FOR YOUR SAFETY') + dots(['AIR PRESSURE', 'LOAD LIMITS', 'SPEED-RATED TIRES', 'HAZARDS', 'DISMOUNTING AND MOUNTING', 'WORN TIRES', 'RIDE DISTURBANCE', 'FOAM TIRE', 'TIRE ROTATION'])),
+]
+MARSHAL_LINES = 'ALL TERRAIN | HIGHWAY TERRAIN | TOUR A/S | SPORT A/S'
+RE_ACCS = [
+  ('I.', 'What Is Covered by the Warranty and How Long', '<p>Marshal Tire U.S.A. Inc, 1001 Summit Blvd., NE Suite 1800 Atlanta, GA, 30319, warrants to the original consumer purchaser that all MARSHAL replacement radial tires either directly or through an authorized MARSHAL dealer, and which are mounted on cars within the U.S.A., and becomes unserviceable for any reason within the manufacturers control, such tire will be replaced with an equivalent MARSHAL tire. Should any tire manufactured by Marshal Tire Co., Inc. covered by this warranty become unserviceable due to a material or workmanship condition during its useable tread life (more than 2/32" remaining tread) before 6 years from the date of manufacture or purchase date supported with proof of purchase for every passenger and light truck tire (whichever comes first), and before 5 years (6 years of KLS02e, KLD11e, KLD02(e), KLD01e and KLT12e) from the date of manufacture or purchase date for commercial truck tires (whichever comes first), MARSHAL will do either of the following:</p>'
+    + letters([('A', '<p>During the first 2/32" of the original usable tread, Marshal will replace such tire with a comparable new MARSHAL or Marshal tire free of charge. Applicable taxes on the new tire and costs of mounting and balancing and any other service charges are payable by the owner.</p>'),
+               ('B', '<p>After the first 2/32" of the original usable tread, a credit percentage will be given toward the purchase price of a comparable new Marshal or Marshal tire effective at the time of adjustment. Applicable taxes on the new tire and costs of mounting and balancing service are payable by the owner.</p><p>To obtain the credit percentage, please refer to Adjustment Credit Percentage Table or utilize the following example:</p>' + dots(['R.T.D.: Remaining Tread Depth', 'O.T.D.: Original Tread Depth']) + EXAMPLE.format(w='original useable')),
+               ('C', '<p>Temporary Spare Tire<br>During the first 1/32" of the original usable tread, Marshal will replace such temporary tire with a comparable new Marshal temporary tire free of charge. After the first 1/32" of the original usable tread, but less than 2/32", a credit of 50% towards a comparable new Marshal temporary tire will be given. Applicable taxes and costs of mounting and balancing and any other service charges are payable by the owner.</p>'),
+               ('D', '<p>Adjustment on ride complaint or out-of-round is allowed only during the first 2/32" of the original tread depth, and a max of 2 tire can be adjusted per vehicle.</p>')])
+    + '<p>The authorized MARSHAL or Marshal dealer will determine the adjustment cost by multiplying the percentage of the original usable tread worn by the current MARSHAL or Marshal dealer\'s price list in effect at the time of adjustment.</p>' + FOOT),
+  ('II.', 'What Is Not Covered by the Warranty', letters([
+      ('A', '<p>This limited warranty is applicable only in the United States, and any tires used or equipped on a vehicle registered or operated outside the U.S. are not covered by this warranty.</p>'),
+      ('B', '<p>Tires branded or marked "Non-Adjustable" (NA) or Blemished (Blem) or DOT/Serial numbers previously cut will not be adjusted.</p>'),
+      ('C', '<p>Any tire worn beyond the wear bars (less than 2/32" remaining tread).</p>'),
+      ('D', '<p>The cost of applicable taxes and mounting and balancing and any other service charges (Only available for OE tires within 2/32" of original tread depth).</p>'),
+      ('E', '<p>Ride Disturbance</p>' + dots(['Worn past the first 2/32nd of tread', 'Three (3) or more tires per vehicle'])),
+      ('F', '<p>Tire damage or irregular wear due to:</p>' + dots(['Road hazard, including puncture, cut, impact break, bulge, snag, stone drill, and/or collision.', 'Continued use while run flat or under acute under-inflation.', 'Improper use or operation, without limitation, improper inflation pressure, overloading, use of an improper rim, tire/wheel assembly imbalance or other vehicle condition, worn suspension components, improper mounting or de-mounting, misuse, misapplication, fire or other externally generated heat, water or other material trapped inside the tire during mounting, tire alteration, racing or competition purposes, improper inserting of sealant, balance filler materials and/or chemical corrosion.'])),
+      ('G', '<p>Failure to rotate tires at least every 5,000 to 7,500 or according to owner\'s manual.</p>'),
+      ('H', '<p>Ozone or weather cracking on tires over four (4) years from the date of manufacture.</p>'),
+      ('J', '<p>Loss of time, use, or inconvenience, due to any incidental or consequential damage.</p>'),
+      ('K', '<p>Tires that have been modified by the addition or removal of material or any tire intentionally altered to change its appearance.</p>'),
+      ('L', '<p>Tire unserviceability caused by tire operation in excess of tire/wheel manufacturers specifications and recommendations.</p>'),
+      ('M', '<p>Tires that have become unserviceable due to chemical corrosion, vandalism, chains and flat spotting.</p>'),
+      ('N', '<p>Tires involved in any racing-related and commercial activities.</p>'),
+      ('O', '<p>This limited warranty applies only to the original purchaser and is non-transferable.</p>')]) + FOOT),
+  ('III.', 'Limited Tread Wear Warranty', note()
+    + wtable(['TREADWEAR<br>WARRANTY', 'PATTERN', 'COMMENTS'], [
+        ['60,000', 'HIGHWAY TERRAIN (ML41)', 'P-METRIC'],
+        ['60,000', 'TOUR A/S (MH41)', ''],
+        ['55,000', 'ALL TERRAIN (MF41)', 'P-METRIC'],
+        ['50,000', 'ALL TERRAIN (MF41) | HIGHWAY TERRAIN (ML41)', 'LT-METRIC'],
+        ['50,000', 'SPORT A/S (MU41)', '']], 'w-table--3')
+    + FOOT),
+  ('IV.', 'Road Hazard Protection', note() + wtable(['BRAND', 'MODEL'], [['MARSHAL', MARSHAL_LINES]]) + FOOT),
+  ('V.', '30-Day Satisfaction Guaranteed Trial Warranty', note()
+    + '<p>MARSHAL TIRE\'s 30-Day Satisfaction Guaranteed Trial Warranty covers a complete set of four (4) or more of the following:</p>'
+    + wtable(['BRAND', 'MODEL'], [['MARSHAL', MARSHAL_LINES]])
+    + sub('Limitations and Requirements:')
+    + letters([('A', '<p>This trial warranty only applies to the original purchaser of a set of four (4) or more eligible tires returned within 30 days from the date of purchase and is non-transferable; any return of less than a full set of tires will not be accepted. Original purchaser must present their original sales receipt and completed survey to their selling dealer at the time of replacement.</p>'),
+               ('B', '<p>Tires must be returned undamaged. Tires exhibiting road hazard, mounting damage, vehicle mechanical-related problems, repairs, improper inflation, vandalism, run flat, racing or any tires removed from the original vehicle are excluded from this trial warranty.</p>'),
+               ('C', '<p>Original purchaser pays the amounts due on a new replacement tire, less the amount of credit, including applicable taxes, mounting and balancing charges and/or the cost of other services ordered.</p>'),
+               ('D', '<p>Tires measuring more than 1/32" of tread wear from original tread depth are excluded from trial warranty.</p>'),
+               ('E', '<p>30 Day Satisfaction Survey must be completed by the customer to qualify. Lack of completed survey can result in disqualification of guarantee.</p>')])
+    + FOOT),
+  ('VI.', 'Unauthorized Dealer', '<p>Tires purchased from unauthorized MARSHAL dealers do not qualify for the MARSHAL Replacement Equipment Warranty. It is impossible for us to verify that these tires were stored properly, mounted correctly, or originally intended for sale in the United States. For this reason, MARSHAL cannot guarantee the safety or quality of the products purchased from unauthorized marketplace.</p>'
+    + '<p>As a consumer, you should only purchase MARSHAL products from an authorized MARSHAL Dealer in order to ensure that the manufacturer\'s warranty is preserved. Please see the Dealer Locator on our website to find an authorized MARSHAL dealer near you.</p>'
+    + f'<p>To locate an authorized MARSHAL dealer, use our web address<br>{DEALER_LINK} or call (800) HI-MARSHAL (445-8646).</p>' + FOOT),
+  ('VII.', 'Replacement Recommendations', letters([
+      ('A', '<p>Replacement of two tires: Marshal Tire recommends replacing all four tires at the same time. However, when only two tires are replaced, the new tires should be put on the rear. The newer tires, with deeper tread, may provide better grip and water evacuation in wet driving conditions.</p>'),
+      ('B', '<p>Mixing tire manufacturers or models can cause the vehicle to ride differently, depending on the location of the tire.</p>'),
+      ('C', '<p>When replacing existing tires, note that different categories like Performance, Touring and Grand Touring have their own characteristics and are not designed to perform the same.</p>'),
+      ('D', '<p>Changing performance categories and/or performance ranges can change the way the vehicle performs and can increase noise, harshness, and vibrations (NHV). You should NOT have tires installed that do not meet the requirements of the vehicle.</p>')]) + FOOT),
+]
+def dl_btn(label):
+    return f'<a class="btn btn--primary w-dl" href="#brochure">{DOWNLOAD_ICO}<span>{label}</span></a>'
+CALLOUT = '<div class="w-callout"><p>All warranties claims are facilitated by the original seller of the tires. For the most immediate assistance please contact the original retailer.</p></div>'
+warranty = f'''
+<section class="page-intro reg-intro">
+  <div class="container">
+    <h1 id="w-title">Original Equipment Tire Warranty</h1>
+    <div class="reg-tabs" role="tablist" aria-label="Warranty type">
+      <button type="button" role="tab" id="tab-oe" aria-controls="pane-oe" aria-selected="true" data-title="Original Equipment Tire Warranty">ORIGINAL EQUIPMENT TIRE WARRANTY</button>
+      <button type="button" role="tab" id="tab-re" aria-controls="pane-re" aria-selected="false" tabindex="-1" data-hash="replacement" data-title="Replacement Equipment Tire Warranty">REPLACEMENT EQUIPMENT TIRE WARRANTY</button>
+    </div>
+  </div>
+</section>
+<section class="reg-body w-body">
+  <div class="container">
+    <div class="reg-pane" id="pane-oe" role="tabpanel" aria-labelledby="tab-oe">
+      <div class="w-head">
+        <h2>Original Equipment Warranty Policies</h2>
+        <p class="w-kicker">Consumer Limited Warranty for Original Equipment Passenger &amp; Light Truck Tires Including Temporary Tires</p>
+        {CALLOUT}
+      </div>
+      <div class="w-contact">
+        <h3>Warranty Contact Information</h3>
+        <p class="w-contact-org">Marshal Tire U.S.A., Incorporated Warranty Department</p>
+        <ul class="w-dots">
+          <li>1001 Summit Boulevard NE, Suite 1800, Georgia 30319</li>
+          <li><a href="tel:18004458646">(800) HI-MARSHAL (445-8646)</a></li>
+          <li><a class="w-link" href="mailto:warranty@Marshaltire.com">warranty@Marshaltire.com</a></li>
+        </ul>
+        <div class="w-dls">{dl_btn('MARSHAL WARRANTY BROCHURE PDF')}</div>
+      </div>
+      <div class="w-accs">{''.join(acc('oe', k, *a, open_=(k == 0)) for k, a in enumerate(OE_ACCS))}</div>
+    </div>
+    <div class="reg-pane" id="pane-re" role="tabpanel" aria-labelledby="tab-re" hidden>
+      <div class="w-head">
+        <h2>Replacement Equipment Warranty Policies</h2>
+        <p class="w-kicker">Marshal Consumer Warranty for Passenger and Light Truck Tires Marshal Limited Warranty</p>
+        <p class="w-lede">Congratulations! You have just purchased high quality tires from Marshal Tire U.S.A. Inc. This limited warranty covers the MARSHAL passenger and light truck tires.</p>
+        {CALLOUT}
+        <div class="w-dls">{dl_btn('PCR/LTR WARRANTY BROCHURE PDF')}{dl_btn('TBR WARRANTY BROCHURE PDF')}{dl_btn('30 DAY TRIAL SURVEY PDF')}</div>
+      </div>
+      <div class="w-details">
+        <p class="w-effective">Effective : Tires sold on or after Jan 1, 2023</p>
+        <div class="w-accs">{''.join(acc('re', k, *a, open_=(k == 0)) for k, a in enumerate(RE_ACCS))}</div>
+      </div>
+    </div>
+  </div>
+</section>
+{CTA_DARK}'''
+
+PP_SECTIONS = [
+  ('legal-notices', 'I.', 'LEGAL NOTICES', 'I. Legal Notices', ''.join(f'<div class="pp-item"><h3>{h}</h3>{b}</div>' for h, b in [
+    ('Forward Cross', '<p>Except as otherwise noted, all content and the arrangement of content included on this site, such as text, graphics, logos, icons and images ("Content") is the property of Marshal Tire U.S.A. ("Marshal Tire").</p>'),
+    ('Use Limitation', '<p>Unless specifically authorized, you may use this content only for personal, non-commercial purposes, provided this copyright permission notice is included in any copies made for such use. This foregoing limited right does not give you ownership of or a license in any content. You may not otherwise copy, modify, distribute, transmit, display, perform, reproduce, publish, license, any content of this site, or create derivative works from such content, transfer or sell any images, graphics, files, products, information, or services obtained from this site without the express prior written permission of Marshal Tire. By using this site you further agree that you will not "frame" any of the content of this site with advertising, promotional material, information, or other content without the express prior written consent of Marshal Tire. Your unauthorized use of content may violate intellectual property and other laws and may result in your personal, including criminal, liability.</p>'),
+    ('No Unlawful or Prohibited Use', '<p>As a condition of your use of this site you guarantee to Marshal Tire that you will not use this site for any purpose that is unlawful or prohibited by these terms, conditions and notices, including, but not limited to, using the copyrighted material, trademarks and trade dress of Marshal Tire without express prior authorization. Further, by using this site you agree that you will not violate or attempt to violate the security or integrity of the site, including, without limitation, accessing data not intended for users of the site; attempting to probe, scan, or test the vulnerability of the site to security breaches; attempting to interfere with service to users of the site (including, without limitation, submitting a virus or corrupted data to the site, overloading the site, or continuously posting repetitive material on the site); attempting to decompile, disassemble, or otherwise reverse engineer the content or software comprising or making up any part of the site; and sending unsolicited advertising or other communications to users of the site.</p>'),
+    ('Liability and Warranties Disclaimer', '<p>Marshal Tire makes no representations or warranties of any kind, express or implied, as to the operation of the site, or the information, content, materials, or products included herein that are provided on an "as is" basis. While Marshal Tire endeavors to provide accurate and up-to-date information on this site, this site is provided to you "as is" and "as available" and any use of this site is entirely at your own risk. TO THE FULL EXTENT PERMISSIBLE BY APPLICABLE LAW, MARSHAL TIRE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, AND MERCHANTABILITY. MARSHAL TIRE WILL NOT BE LIABLE FOR DAMAGES OF ANY KIND ARISING FROM THE USE OF THIS SITE, INCLUDING BUT NOT LIMITED TO DIRECT, INDIRECT, INCIDENTAL, PUNITIVE AND CONSEQUENTIAL DAMAGES OR DAMAGES FOR LOSS OF USE, DATA, OR PROFITS ARISING IN ANY WAY CONNECTED WITH THE USE OR PERFORMANCE OF THIS SITE. The information on this site is of a general nature. Individual driving patterns, tire care, vehicle care and other factors may affect recommendations. Please consult your authorized Marshal Tire dealer before deciding to purchase a tire.</p><p>Marshal Tire also does not represent that any material or products displayed on this site are appropriate or available in any locations outside the United States. Persons outside the United States accessing this site do so at their own risk and are solely responsible for compliance with applicable local laws.</p>'),
+    ('Links to Third-Party Vendor Sites', '<p>This site contains links to third-party vendor sites for purposes of tire education and offering merchandise, among others. These links are provided solely as a convenience to you, and the inclusion of any such link does not imply endorsement by Marshal Tire of such third-party site(s) or the contents thereof. MARSHAL TIRE IS NOT RESPONSIBLE FOR THE CONTENTS OF THE LINKED THIRD-PARTY VENDOR SITE(S) AND MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, REGARDING THE CONTENTS, ACCURACY, OR FUNCTIONALITY OF THE LINKED THIRD-PARTY VENDOR SITE(S). IF YOU USE THE LINKED THIRD-PARTY VENDOR SITE(S), YOU DO SO AT YOUR OWN RISK.</p>'),
+    ('Access Restriction', '<p>Marshal Tire, in its sole discretion, reserves the right to deny any user access to this site or any portion thereof without notice.</p>'),
+    ('Modification of These Terms and Conditions', '<p>Marshal Tire reserves the right to make changes to this site and the disclaimers, terms and conditions herein at any time. Any amendments to these terms will posted on this site and will become effective when posted.</p>'),
+    ('Applicable Law', '<p>This site is created and controlled by Marshal Tire U.S.A. Corp., which is located in California. Consequently, the laws of the state of California will govern the use of this site, the Marshal Tire privacy policy, these terms of use and all disclaimers, terms and conditions herein without giving effect to any conflicts of laws rules.</p><p>Effective Date: September 13, 2011</p>')])),
+  ('privacy-policy', 'II.', 'PRIVACY POLICY', 'II. Privacy Policy',
+    '<p class="pp-lede">Marshal Tire is committed to protecting your privacy. We use any information we obtain about you to communicate with you only. Please read on for more details about our privacy &amp; use policy. Please note that this privacy policy applies only to this website for the United States, and does not apply to information we may obtain from other sources or locations.</p>'
+    + '<div class="pp-item"><h3>Marshal Tire’s Collection and Use of Information</h3><div class="pp-subs">'
+    + ''.join(f'<div class="pp-sub"><h4>{h}</h4>{b}</div>' for h, b in [
+      ('A. Personally Identifiable Information', '<p>We will collect personally identifiable information about you, such as your name, postal address, telephone and mobile numbers, email address, when you provide it to us while on this site such as when you create an account, enter a sweepstake, sign up for newsletters, participate in a survey, contact customer service or otherwise interact with this website. Your personally identifiable information may be used by us for all legal purposes, which may include, but are not limited to, responding to your requests, processing your transactions, for administrative purposes such as conducting contests, tracking which parts of the site are of interest to you and processing prizes. If you choose to opt-in, we may share your personally identifiable information with Marshal Tire\'s subsidiaries or affiliated entities ("Affiliated Entities") for purposes of sending you information about the programs of Marshal Tire or its affiliated entities and, occasionally, sending you advertising/promotional material from some of their advertising and strategic partners. We may also use your personally identifiable information for internal business purposes, such as optimizing site experiences and analyzing and managing our businesses. You may opt-in to receive certain future information or communications (see the Opt-In/Choice section below).</p>'),
+      ('B. Demographic Information', '<p>We may also collect demographic data, such as your date of birth, gender and zipcode. Demographic data may be used to tailor your experience at this site, such as showing you content including special events and advertising that you might be interested in, and displaying the content according to your zipcode.</p><p>On occasion, aggregate information that does not identify any particular user may be compiled and shared with subsidiaries and affiliates of Marshal Tire, strategic partners, merchants and advertisers.</p>'),
+      ('C. Passive Collection of Non-Personal Information', '<p>This site often requires the use of encrypted or non-encrypted cookies. Cookies are data that a web server transfers to an individual\'s computer for recordkeeping purposes. Cookies are an industry standard used by most websites and help facilitate users\' ongoing access to and use of a particular website; for example, by providing information used to deliver content specific to your interests and for other purposes, such as security and other account administrative functions, and which may track personal identifying information.</p><p>Cookies do not cause damage to your computer systems or files, and only the website that transferred a particular cookie to you can read, modify or delete such cookie. If you do not want information collected through the use of cookies, there are simple procedures in most browsers that allow you to delete existing cookies, to automatically decline cookies or to be given the choice of declining or accepting the transfer of particular cookies to your computer. Please refer to your browser instructions or help screen to learn more about these functions. You should note, however, that declining cookies may make it difficult or impossible for you to use portions of the site.</p><p>Some uses of cookies in connection with the site may be under the control of unaffiliated entities that the company retains for the management of certain programs and fulfillment of specific visitor/customer requests. The company requires these entities to confine their use of cookies to the uses permitted by this policy, but the company cannot be responsible for third-party uses of cookies.</p><p>This information is collected for Marshal Tire\'s internal use such as to enhance website security, to detect broad demographic trends, to assist Marshal Tire in providing content tailored to your interests and to otherwise enhance your experience on this site. This information may also be shared with third parties on an aggregate and non-personally identifiable basis.</p>')])
+    + '</div></div>'),
+  ('links-third-parties', 'III.', 'LINKS AND THIRD PARTIES\' PRIVACY PRACTICES', 'III. Links and Third Parties’ Privacy Practices',
+    '<p class="pp-lede">This site may contain links to other sites that are not operated by Marshal Tire. <b>MARSHAL TIRE U.S.A. COMPANY IS NOT RESPONSIBLE FOR THE PRIVACY PRACTICES OR THE CONTENT OF SUCH OTHER WEBSITES, INCLUDING WEBSITES OPERATED BY AFFILIATED ENTITIES.</b> We provide such links only as a convenience and the inclusion of a link on the site does not imply endorsement of the linked site by Marshal Tire. If you provide any personally identifiable information through any such third-party website, your transaction will occur on such third-party\'s website (and not on this site) and the personally identifiable information you provide will be collected by and controlled by the privacy policy of that third-party. Marshal Tire recommends that you review the privacy policy of third-party websites arrived at from links on this site.</p>'),
+  ('security', 'IV.', 'SECURITY', 'IV. Security', '<p class="pp-lede">This site has security measures in place to help protect against the loss, misuse and alteration of the personally identifiable information under its control. Marshal Tire employs security measures consistent with standard industry practice to help protect against public access to personally identifiable and account activity information collected on and used by Marshal Tire at this site.</p>'),
+  ('opt-in-choice', 'V.', 'OPT-IN/CHOICE', 'V. Opt-In/Choice', '<p class="pp-lede">This site may provide you with the opportunity to opt-in to receive marketing communications from Marshal Tire. If you do not opt-in, Marshal Tire will not send you its promotional offers. However, regardless of your opt-in preferences, Marshal Tire may still at times need to send program emails for administrative reasons. If you opt to receive communications and then change your election, your opt-out preference may not be effective in certain instances where you agreed to receive brand-specific communications.</p>'),
+  ('updates', 'VI.', 'UPDATES TO THIS PRIVACY POLICY', 'VI. Updates to This Privacy Policy', '<p class="pp-lede">Marshal Tire reserves the right to make changes in this privacy policy. In the event that Marshal Tire makes a material change to this privacy policy, it will be posted here. We encourage you to check this page regularly since your continued use of this site following any changes to this privacy policy will be deemed to constitute your acceptance of such change. In the event that Marshal Tire makes a material change to this privacy policy, a notice will be posted regarding such a change.</p>'),
+  ('contacting-marshal-tire', 'VII.', 'CONTACTING MARSHAL TIRE', 'VII. Contacting Marshal Tire', '<p class="pp-lede">If you have any questions about this privacy policy or the practices of this site, you may contact:</p><address class="pp-card"><b>Marshal Tire U.S.A.</b><span>Website Customer Care</span><span>1001 Summit Boulevard NE, Suite 1800</span><span>Atlanta, GA 30319</span><span>TEL : <a href="tel:18004458646">1-800-445-8646</a></span></address>'),
+]
+def toc_link(s):
+    return f'<li><a href="#{s[0]}"><span class="pp-roman">{s[1]}</span><span class="pp-toc-t">{s[2]}</span>{ARROW_DN}</a></li>'
+privacy = f'''
+<section class="page-intro reg-intro">
+  <div class="container"><h1>Privacy Policy</h1></div>
+</section>
+<section class="reg-body pp-body">
+  <div class="container pp">
+    <p class="pp-intro">The Marshal Tire Company, headquartered in the United States (the "Company"), has created this privacy policy for www.Marshaltireusa.com (the "Site") in order to demonstrate its firm commitment to privacy. The following discloses Marshal Tire's information gathering and dissemination practices for the information collected through this site. We encourage you to read this policy before using this site. Your use of this site signifies that you agree with all terms of this policy, so please do not use this site if you disagree with any part of this policy.</p>
+    <nav class="pp-toc" aria-label="On this page">
+      <ul>{''.join(toc_link(s) for s in PP_SECTIONS[:4])}</ul>
+      <ul>{''.join(toc_link(s) for s in PP_SECTIONS[4:])}</ul>
+    </nav>
+    {''.join(f'<section class="pp-sec" id="{s[0]}" aria-labelledby="{s[0]}-h"><span class="reg-bar" aria-hidden="true"></span><h2 id="{s[0]}-h">{s[3]}</h2><div class="pp-sec-body">{s[4]}</div></section>' for s in PP_SECTIONS)}
+  </div>
+</section>
+{CTA_DARK}'''
+
 LEAFLET_CSS = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">\n'
 LEAFLET_JS = '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>\n'
 SPECS_JS = f'<script src="assets/js/specs.js?v={ver("assets/js/specs.js")}"></script>\n'
@@ -713,6 +923,8 @@ pages = {
   'review.html': ('review', 'Client feedback | Marshal Tire mockup', 'All feedback notes left on the mockup.', review, '', ''),
   'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: customer and business inquiries.', contact, '', ''),
   'tire-registration.html': ('tire-registration', 'Tire Registration | Marshal Tire', 'Register your Marshal tires so we can reach you in the unlikely event of a recall.', registration, '', ''),
+  'warranty.html': ('warranty', 'Warranty | Marshal Tire', 'Marshal Original Equipment and Replacement Equipment tire warranty policies.', warranty, '', ''),
+  'privacy-policy.html': ('privacy', 'Privacy Policy | Marshal Tire', 'How Marshal Tire collects, uses and protects your information.', privacy, '', ''),
 }
 for fn, (pg, t, d, b, eh, ej) in pages.items():
     # cache-bust every local image so replaced photos show up right away instead of a stale cached copy

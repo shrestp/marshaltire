@@ -12,6 +12,8 @@ This is a clickable website mockup built from the Figma frames in *Marshal Tires
 | Dealer Finder | `dealers.html` | 326:1310 |
 | General Contact Us (Drivers / Business tabs) | `contact.html` | 439:5602 |
 | Tire Registration (Register Your Tire Method / Register Your Tire tabs; footer link under Marshal) | `tire-registration.html` | 685:3726, 687:4738 |
+| Warranty (Original / Replacement Equipment tabs, accordions; footer + Support menu) | `warranty.html` | 697:3624, 697:4155 |
+| Privacy Policy (I–VII jump links; footer + Support menu) | `privacy-policy.html` | 698:4464 |
 | Client feedback review (not in the nav) | `review.html` | n/a |
 
 ## What works

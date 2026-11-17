@@ -25,7 +25,7 @@
   const menus = [
     { id: 'tires', label: 'Tires', links: [['Marshal All Terrain', 'tire-details.html'], ['Marshal Highway Terrain', 'tire-highway-terrain.html'], ['Marshal Sport A/S', 'tire-sport-as.html'], ['Marshal Tour A/S', 'tire-tour-as.html']], all: ['View All Tires', 'index.html#range'] },
     { id: 'marshal', label: 'Marshal', links: [['About Us', 'about.html'], ['Customer Contact Us', 'contact.html'], ['Business Contact Us', 'contact.html?type=business'], ['Become a Dealer', 'contact.html?type=business&request=dealer']] },
-    { id: 'support', label: 'Support', links: [['Warranty', '#warranty'], ['Privacy Policy', '#privacy']] },
+    { id: 'support', label: 'Support', links: [['Warranty', 'warranty.html'], ['Privacy Policy', 'privacy-policy.html']] },
   ];
   const current = { 'tire-details': 'tires', about: 'marshal', contact: 'marshal' }[page];
   const header = $('#site-header');
@@ -64,14 +64,14 @@
         <div class="footer-brand">${LOGO}<a class="footer-phone" href="tel:18444936277">1-844-493-6277</a><p><a href="mailto:info@marshaltire.com">info@marshaltire.com</a></p><p style="margin-top:12px">1001 Summit Blvd NE,<br>Suite 1800, Atlanta, GA 30319</p></div>
         <div class="footer-col"><h3>Tires</h3><ul><li><a href="tire-details.html">Marshal All Terrain</a></li><li><a href="tire-highway-terrain.html">Marshal Highway Terrain</a></li><li><a href="tire-tour-as.html">Marshal Tour A/S</a></li><li><a href="tire-sport-as.html">Marshal Sport A/S</a></li><li><a href="index.html#finder">Tire Search</a></li></ul></div>
         <div class="footer-col"><h3>Marshal</h3><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Customer Contact Us</a></li><li><a href="contact.html?type=business">Business Contact Us</a></li><li><a href="contact.html?type=business&amp;request=dealer">Become a Dealer</a></li><li><a href="tire-registration.html">Tire Registration</a></li></ul></div>
-        <div class="footer-col"><h3>Support</h3><ul><li><a href="#warranty">Warranty</a></li><li><a href="#privacy">Privacy Policy</a></li></ul></div>
+        <div class="footer-col"><h3>Support</h3><ul><li><a href="warranty.html">Warranty</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li></ul></div>
       </div>
       <div class="footer-bottom"><span>COPYRIGHT © MARSHAL TIRE. All rights reserved.</span><a href="#youtube" aria-label="Marshal Tire on YouTube">${icon.youtube}</a></div></div>`;
   }
   // pages not in this mockup
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href^="#"]');
-    if (a && ['#warranty', '#privacy', '#youtube', '#terms'].includes(a.getAttribute('href'))) { e.preventDefault(); toast('That page isn’t part of this mockup yet.'); }
+    if (a && ['#brochure', '#youtube', '#terms'].includes(a.getAttribute('href'))) { e.preventDefault(); toast('That page isn’t part of this mockup yet.'); }
   });
   function toast(msg) {
     let t = $('#toast'); if (!t) { t = document.createElement('div'); t.id = 'toast'; t.setAttribute('role', 'status'); t.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#111;color:#fff;padding:12px 18px;border-radius:8px;font-size:14px;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.2);transition:opacity .2s'; document.body.appendChild(t); }
@@ -313,13 +313,15 @@
     syncTire();
   }
 
-  /* ---------- TIRE REGISTRATION: tabs, extra DOT codes, validation ---------- */
+  /* ---------- TABS (tire registration, warranty): data-hash deep-links the 2nd+ tab, data-title swaps the h1 ---------- */
   const regTabs = $$('.reg-tabs [role="tab"]');
   if (regTabs.length) {
+    const title = $('#w-title');
     const select = (tab, focus) => {
       regTabs.forEach(t => { const on = t === tab; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; $('#' + t.getAttribute('aria-controls')).hidden = !on; });
+      if (title && tab.dataset.title) title.textContent = tab.dataset.title;
       if (focus) tab.focus();
-      history.replaceState(null, '', tab.id === 'tab-register' ? '#register' : location.pathname + location.search);
+      history.replaceState(null, '', tab.dataset.hash ? '#' + tab.dataset.hash : location.pathname + location.search);
     };
     regTabs.forEach((t, k) => {
       t.addEventListener('click', () => select(t));
@@ -328,9 +330,23 @@
         if (n === undefined) return; e.preventDefault(); select(regTabs[(n + regTabs.length) % regTabs.length], true);
       });
     });
-    const fromHash = () => select(location.hash === '#register' ? regTabs[1] : regTabs[0]);
+    const fromHash = () => select(regTabs.find(t => t.dataset.hash && '#' + t.dataset.hash === location.hash) || regTabs[0]);
     window.addEventListener('hashchange', fromHash); fromHash();
   }
+  /* ---------- WARRANTY: accordions ---------- */
+  $$('.w-acc-head').forEach(b => b.addEventListener('click', () => {
+    const open = b.getAttribute('aria-expanded') !== 'true';
+    b.setAttribute('aria-expanded', open);
+    $('#' + b.getAttribute('aria-controls')).hidden = !open;
+    b.closest('.w-acc').classList.toggle('is-open', open);
+  }));
+  /* ---------- PRIVACY: jump links (scroll-margin-top keeps headings clear of the sticky header) ---------- */
+  $$('.pp-toc a').forEach(a => a.addEventListener('click', e => {
+    const t = $(a.getAttribute('href')); if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    history.replaceState(null, '', a.getAttribute('href'));
+  }));
   const rform = $('#reg-form');
   if (rform) {
     const rules = {
