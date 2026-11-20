@@ -18,6 +18,7 @@
     alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>',
     youtube: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="5" fill="#1e1e1e"/><path d="M10 8.5v7l6-3.5z" fill="#fff"/></svg>',
   };
+  const SHOW_FIND_DEALER = false; // hidden for now at the client's request; set true to bring the header button back
   const LOGO = document.getElementById('logo-tpl')?.innerHTML || '';
 
   /* ---------- header + footer ---------- */
@@ -25,7 +26,7 @@
   const menus = [
     { id: 'tires', label: 'Tires', links: [['Marshal All Terrain', 'tire-details.html'], ['Marshal Highway Terrain', 'tire-highway-terrain.html'], ['Marshal Sport A/S', 'tire-sport-as.html'], ['Marshal Tour A/S', 'tire-tour-as.html']], all: ['View All Tires', 'index.html#range'] },
     { id: 'marshal', label: 'Marshal', links: [['About Us', 'about.html'], ['Customer Contact Us', 'contact.html'], ['Business Contact Us', 'contact.html?type=business'], ['Become a Dealer', 'contact.html?type=business&request=dealer']] },
-    { id: 'support', label: 'Support', links: [['Warranty', 'warranty.html'], ['Privacy Policy', 'privacy-policy.html']] },
+    { id: 'support', label: 'Support', links: [['Warranty', 'warranty.html'], ['Tire Registration', 'tire-registration.html'], ['Privacy Policy', 'privacy-policy.html']] },
   ];
   const current = { 'tire-details': 'tires', about: 'marshal', contact: 'marshal' }[page];
   const header = $('#site-header');
@@ -39,7 +40,7 @@
           <button class="nav-trigger${current === m.id ? ' is-current' : ''}" aria-expanded="false" aria-controls="menu-${m.id}">${m.label}${icon.chevDown}</button>
           <div class="mega" id="menu-${m.id}">${m.links.map(([t, h]) => `<a href="${h}">${t}</a>`).join('')}${m.all ? `<a class="mega-all" href="${m.all[1]}">${m.all[0]}</a>` : ''}</div>
         </li>`).join('')}</ul>
-        <a class="btn btn--primary btn--sm" href="dealers.html">FIND DEALER</a>
+        ${SHOW_FIND_DEALER ? '<a class="btn btn--primary btn--sm" href="dealers.html">FIND DEALER</a>' : ''}
       </nav></div>`;
     const triggers = $$('.nav-trigger', header);
     const closeAll = except => triggers.forEach(t => { if (t !== except) { t.setAttribute('aria-expanded', 'false'); $('#' + t.getAttribute('aria-controls')).classList.remove('is-open'); } });

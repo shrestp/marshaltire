@@ -17,6 +17,12 @@ UPCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 EXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>'
 DLD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>'
 
+# Client asked (Nov 2026) to hide every Find Dealer / Dealer Locator button for now.
+# Flip to True to bring them all back (the header button is SHOW_FIND_DEALER in assets/js/main.js).
+SHOW_DEALER_BUTTONS = False
+FIND_DEALER_BTN = '<a class="btn btn--primary btn--sm" href="dealers.html">FIND DEALER</a>' if SHOW_DEALER_BUTTONS else ''
+DEALER_LOCATOR_BTN = f'      <div><a class="btn btn--primary btn--sm" href="dealers.html">DEALER LOCATOR {ARROW}</a></div>\n' if SHOW_DEALER_BUTTONS else ''
+
 def shell(page, title, desc, body, extra_head='', extra_js=''):
     logo = LOGO.replace('role="img" aria-label="Marshal Tire"', 'aria-hidden="true" focusable="false"')
     return f'''<!doctype html>
@@ -130,7 +136,7 @@ home = f'''
         <span class="badge badge--dot">Tire Finder</span>
         <h2 id="finder-title">Find your fit</h2>
         <p>Search by vehicle or tire size to find the right Marshal tires for your drive.</p>
-        <div class="actions"><a class="btn btn--primary btn--sm" href="dealers.html">FIND DEALER</a><a class="btn btn--outline btn--sm" href="#range">SEE ALL TIRES</a></div>
+        <div class="actions">{FIND_DEALER_BTN}<a class="btn btn--outline btn--sm" href="#range">SEE ALL TIRES</a></div>
       </div>
       <div>
         <div class="seg" role="tablist" aria-label="Search by">
@@ -242,8 +248,7 @@ details = f'''
         <div><h2><span class="dash"></span>Vehicle Type</h2><div class="icon-row">{vehicle_icons(['truck', 'suv', 'van'])}</div></div>
       </div>
       <div class="size-hint">{INFO}<div><p>Your size is on your tire’s sidewall, like 225/35 R18 or check the vehicle manual.</p><a href="#available-sizes">See available sizes {DOWN}</a></div></div>
-      <div><a class="btn btn--primary btn--sm" href="dealers.html">DEALER LOCATOR {ARROW}</a></div>
-    </div>
+{DEALER_LOCATOR_BTN}    </div>
   </div>
 </section>
 <section class="section">
@@ -344,8 +349,7 @@ def other_details(t):
         <div><h2><span class="dash"></span>Vehicle Type</h2><div class="icon-row">{vehicle_icons(t['vehicles'])}</div></div>
       </div>
       <div class="size-hint">{INFO}<div><p>Your size is on your tire’s sidewall, like 225/35 R18 or check the vehicle manual.</p><a href="#available-sizes">See available sizes {DOWN}</a></div></div>
-      <div><a class="btn btn--primary btn--sm" href="dealers.html">DEALER LOCATOR {ARROW}</a></div>
-    </div>
+{DEALER_LOCATOR_BTN}    </div>
   </div>
 </section>
 <section class="section">
@@ -799,21 +803,10 @@ RE_ACCS = [
         ['50,000', 'ALL TERRAIN (MF41) | HIGHWAY TERRAIN (ML41)', 'LT-METRIC'],
         ['50,000', 'SPORT A/S (MU41)', '']], 'w-table--3')
     + FOOT),
-  ('IV.', 'Road Hazard Protection', note() + wtable(['BRAND', 'MODEL'], [['MARSHAL', MARSHAL_LINES]]) + FOOT),
-  ('V.', '30-Day Satisfaction Guaranteed Trial Warranty', note()
-    + '<p>MARSHAL TIRE\'s 30-Day Satisfaction Guaranteed Trial Warranty covers a complete set of four (4) or more of the following:</p>'
-    + wtable(['BRAND', 'MODEL'], [['MARSHAL', MARSHAL_LINES]])
-    + sub('Limitations and Requirements:')
-    + letters([('A', '<p>This trial warranty only applies to the original purchaser of a set of four (4) or more eligible tires returned within 30 days from the date of purchase and is non-transferable; any return of less than a full set of tires will not be accepted. Original purchaser must present their original sales receipt and completed survey to their selling dealer at the time of replacement.</p>'),
-               ('B', '<p>Tires must be returned undamaged. Tires exhibiting road hazard, mounting damage, vehicle mechanical-related problems, repairs, improper inflation, vandalism, run flat, racing or any tires removed from the original vehicle are excluded from this trial warranty.</p>'),
-               ('C', '<p>Original purchaser pays the amounts due on a new replacement tire, less the amount of credit, including applicable taxes, mounting and balancing charges and/or the cost of other services ordered.</p>'),
-               ('D', '<p>Tires measuring more than 1/32" of tread wear from original tread depth are excluded from trial warranty.</p>'),
-               ('E', '<p>30 Day Satisfaction Survey must be completed by the customer to qualify. Lack of completed survey can result in disqualification of guarantee.</p>')])
-    + FOOT),
-  ('VI.', 'Unauthorized Dealer', '<p>Tires purchased from unauthorized MARSHAL dealers do not qualify for the MARSHAL Replacement Equipment Warranty. It is impossible for us to verify that these tires were stored properly, mounted correctly, or originally intended for sale in the United States. For this reason, MARSHAL cannot guarantee the safety or quality of the products purchased from unauthorized marketplace.</p>'
+  ('IV.', 'Unauthorized Dealer', '<p>Tires purchased from unauthorized MARSHAL dealers do not qualify for the MARSHAL Replacement Equipment Warranty. It is impossible for us to verify that these tires were stored properly, mounted correctly, or originally intended for sale in the United States. For this reason, MARSHAL cannot guarantee the safety or quality of the products purchased from unauthorized marketplace.</p>'
     + '<p>As a consumer, you should only purchase MARSHAL products from an authorized MARSHAL Dealer in order to ensure that the manufacturer\'s warranty is preserved. Please see the Dealer Locator on our website to find an authorized MARSHAL dealer near you.</p>'
     + f'<p>To locate an authorized MARSHAL dealer, use our web address<br>{DEALER_LINK} or call (800) HI-MARSHAL (445-8646).</p>' + FOOT),
-  ('VII.', 'Replacement Recommendations', letters([
+  ('V.', 'Replacement Recommendations', letters([
       ('A', '<p>Replacement of two tires: Marshal Tire recommends replacing all four tires at the same time. However, when only two tires are replaced, the new tires should be put on the rear. The newer tires, with deeper tread, may provide better grip and water evacuation in wet driving conditions.</p>'),
       ('B', '<p>Mixing tire manufacturers or models can cause the vehicle to ride differently, depending on the location of the tire.</p>'),
       ('C', '<p>When replacing existing tires, note that different categories like Performance, Touring and Grand Touring have their own characteristics and are not designed to perform the same.</p>'),
@@ -825,20 +818,18 @@ CALLOUT = '<div class="w-callout"><p>All warranties claims are facilitated by th
 warranty = f'''
 <section class="page-intro reg-intro">
   <div class="container">
-    <h1 id="w-title">Original Equipment Tire Warranty</h1>
-    <div class="reg-tabs" role="tablist" aria-label="Warranty type">
-      <button type="button" role="tab" id="tab-oe" aria-controls="pane-oe" aria-selected="true" data-title="Original Equipment Tire Warranty">ORIGINAL EQUIPMENT TIRE WARRANTY</button>
-      <button type="button" role="tab" id="tab-re" aria-controls="pane-re" aria-selected="false" tabindex="-1" data-hash="replacement" data-title="Replacement Equipment Tire Warranty">REPLACEMENT EQUIPMENT TIRE WARRANTY</button>
-    </div>
+    <h1 id="w-title">Replacement Equipment Tire Warranty</h1>
   </div>
 </section>
 <section class="reg-body w-body">
   <div class="container">
-    <div class="reg-pane" id="pane-oe" role="tabpanel" aria-labelledby="tab-oe">
+    <div class="reg-pane" id="pane-re">
       <div class="w-head">
-        <h2>Original Equipment Warranty Policies</h2>
-        <p class="w-kicker">Consumer Limited Warranty for Original Equipment Passenger &amp; Light Truck Tires Including Temporary Tires</p>
+        <h2>Replacement Equipment Warranty Policies</h2>
+        <p class="w-kicker">Marshal Consumer Warranty for Passenger and Light Truck Tires Marshal Limited Warranty</p>
+        <p class="w-lede">Congratulations! You have just purchased high quality tires from Marshal Tire U.S.A. Inc. This limited warranty covers the MARSHAL passenger and light truck tires.</p>
         {CALLOUT}
+        <div class="w-dls">{dl_btn('PCR/LTR WARRANTY BROCHURE PDF')}</div>
       </div>
       <div class="w-contact">
         <h3>Warranty Contact Information</h3>
@@ -848,17 +839,6 @@ warranty = f'''
           <li><a href="tel:18004458646">(800) HI-MARSHAL (445-8646)</a></li>
           <li><a class="w-link" href="mailto:warranty@Marshaltire.com">warranty@Marshaltire.com</a></li>
         </ul>
-        <div class="w-dls">{dl_btn('MARSHAL WARRANTY BROCHURE PDF')}</div>
-      </div>
-      <div class="w-accs">{''.join(acc('oe', k, *a, open_=(k == 0)) for k, a in enumerate(OE_ACCS))}</div>
-    </div>
-    <div class="reg-pane" id="pane-re" role="tabpanel" aria-labelledby="tab-re" hidden>
-      <div class="w-head">
-        <h2>Replacement Equipment Warranty Policies</h2>
-        <p class="w-kicker">Marshal Consumer Warranty for Passenger and Light Truck Tires Marshal Limited Warranty</p>
-        <p class="w-lede">Congratulations! You have just purchased high quality tires from Marshal Tire U.S.A. Inc. This limited warranty covers the MARSHAL passenger and light truck tires.</p>
-        {CALLOUT}
-        <div class="w-dls">{dl_btn('PCR/LTR WARRANTY BROCHURE PDF')}{dl_btn('TBR WARRANTY BROCHURE PDF')}{dl_btn('30 DAY TRIAL SURVEY PDF')}</div>
       </div>
       <div class="w-details">
         <p class="w-effective">Effective : Tires sold on or after Jan 1, 2023</p>
@@ -902,7 +882,7 @@ privacy = f'''
 </section>
 <section class="reg-body pp-body">
   <div class="container pp">
-    <p class="pp-intro">The Marshal Tire Company, headquartered in the United States (the "Company"), has created this privacy policy for www.Marshaltireusa.com (the "Site") in order to demonstrate its firm commitment to privacy. The following discloses Marshal Tire's information gathering and dissemination practices for the information collected through this site. We encourage you to read this policy before using this site. Your use of this site signifies that you agree with all terms of this policy, so please do not use this site if you disagree with any part of this policy.</p>
+    <p class="pp-intro">Kumho Tire Company, headquartered in the United States (the "Company"), has created this privacy policy for www.Marshaltireusa.com (the "Site") in order to demonstrate its firm commitment to privacy. The following discloses Marshal Tire's information gathering and dissemination practices for the information collected through this site. We encourage you to read this policy before using this site. Your use of this site signifies that you agree with all terms of this policy, so please do not use this site if you disagree with any part of this policy.</p>
     <nav class="pp-toc" aria-label="On this page">
       <ul>{''.join(toc_link(s) for s in PP_SECTIONS[:4])}</ul>
       <ul>{''.join(toc_link(s) for s in PP_SECTIONS[4:])}</ul>
@@ -925,7 +905,7 @@ pages = {
   'review.html': ('review', 'Client feedback | Marshal Tire mockup', 'All feedback notes left on the mockup.', review, '', ''),
   'contact.html': ('contact', 'Contact Us | Marshal Tire', 'Contact Marshal Tire: customer and business inquiries.', contact, '', ''),
   'tire-registration.html': ('tire-registration', 'Tire Registration | Marshal Tire', 'Register your Marshal tires so we can reach you in the unlikely event of a recall.', registration, '', ''),
-  'warranty.html': ('warranty', 'Warranty | Marshal Tire', 'Marshal Original Equipment and Replacement Equipment tire warranty policies.', warranty, '', ''),
+  'warranty.html': ('warranty', 'Warranty | Marshal Tire', 'Marshal Replacement Equipment tire warranty policies.', warranty, '', ''),
   'privacy-policy.html': ('privacy', 'Privacy Policy | Marshal Tire', 'How Marshal Tire collects, uses and protects your information.', privacy, '', ''),
 }
 for fn, (pg, t, d, b, eh, ej) in pages.items():
