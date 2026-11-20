@@ -772,6 +772,83 @@ OE_ACCS = [
       ('C', f'<p>To locate an authorized Marshal dealer, use our web address {DEALER_LINK} or call 1-800-HI-MARSHAL (445-8646).</p>')])
     + sub('WARNING FOR YOUR SAFETY') + dots(['AIR PRESSURE', 'LOAD LIMITS', 'SPEED-RATED TIRES', 'HAZARDS', 'DISMOUNTING AND MOUNTING', 'WORN TIRES', 'RIDE DISTURBANCE', 'FOAM TIRE', 'TIRE ROTATION'])),
 ]
+# Section III wording: client's "LIMITED TREADWEAR WARRANTY_MARSHAL_11182026_v1.docx" (Nov 2026), verbatim.
+TW = '2/32" (1.6 mm)'
+TREADWEAR_BODY = (
+    note('Not available on Original Equipment (OE) tires.')
+    + '<p>Actual tire mileage will vary. Driving habits, vehicle type, road and weather conditions, tire inflation, wheel alignment, tire rotation, vehicle maintenance, and other factors can significantly affect tire life. Accordingly, KUMHO TIRE U.S.A., Inc. cannot guarantee that every tire will achieve a specific number of miles.</p>'
+    + f'<p>However, eligible MARSHAL replacement tires are covered by the mileage warranties listed below. If an eligible tire wears evenly to the treadwear indicators - <strong>{TW} of remaining tread depth</strong> - before reaching its warranted mileage, KUMHO will provide a prorated credit toward the purchase of a <strong>comparable new MARSHAL replacement tire</strong>, provided all terms and conditions of this Limited Treadwear Warranty have been met.</p>'
+    + '<p>Coverage is limited to the stated mileage or <strong>72 months from the original date of purchase, whichever occurs first</strong>.</p>'
+    + sub('TREADWEAR WARRANTY COVERAGE')
+    + wtable(['MILEAGE WARRANTY', 'PATTERN', 'APPLICATION / COMMENTS'], [
+        ['50,000 miles', 'Marshal Sport A/S', '—'],
+        ['60,000 miles', 'Marshal Tour A/S', '—'],
+        ['60,000 miles', 'Marshal Highway Terrain', 'P-Metric'],
+        ['50,000 miles', 'Marshal Highway Terrain', 'LT-Metric'],
+        ['55,000 miles', 'Marshal All Terrain', 'P-Metric'],
+        ['50,000 miles', 'Marshal All Terrain', 'LT-Metric']], 'w-table--3')
+    + sub('ELIGIBILITY')
+    + '<p>This Limited Treadwear Warranty applies only when all of the following requirements are met:</p>'
+    + dots(['The claimant is the <strong>original purchaser</strong> of the eligible MARSHAL replacement tire.',
+            'The tire was purchased new and was not supplied as Original Equipment (OE) on a new vehicle.',
+            'The tire has remained installed on the vehicle on which it was originally fitted, except during normal tire rotation.',
+            'The tire has been used in normal passenger or light-truck service and in accordance with MARSHAL and vehicle manufacturer recommendations.',
+            f'The tire has worn <strong>evenly across the tread</strong> to the treadwear indicators at {TW} of remaining tread depth before reaching the applicable warranted mileage.',
+            'The tire is within <strong>72 months of the original purchase date</strong>.',
+            'The owner can provide the original dated sales invoice showing the tire description, date of installation, and vehicle mileage at the time of installation.',
+            'The owner can provide documentation demonstrating that required tire rotations and maintenance were performed at the recommended intervals.'])
+    + '<p>The warranty is <strong>non-transferable</strong> and applies only to the original purchaser.</p>'
+    + sub('PRORATED REPLACEMENT CREDIT')
+    + f'<p>If an eligible tire reaches {TW} of remaining tread depth before delivering its warranted mileage, KUMHO will provide a prorated credit representing the portion of the warranted mileage not received.</p>'
+    + '<p>The credit will be calculated as follows:</p>'
+    + '<p class="w-example">Warranted Mileage − Actual Mileage Received<br>÷ Warranted Mileage<br>× Original Purchase Price of the Tire<br>= Prorated Warranty Credit</p>'
+    + '<p class="w-strong">Example</p>'
+    + '<p>If a tire carries a <strong>55,000-mile warranty</strong>, reaches the treadwear indicators after <strong>40,000 miles</strong>, and originally cost <strong>$200</strong>:</p>'
+    + dots(['15,000 warranted miles were not received.', '15,000 ÷ 55,000 = 27%.', '27% × $200 = <strong>$54 warranty credit</strong>.'])
+    + '<p>The approved credit may be applied <strong>only toward the purchase of a comparable new MARSHAL replacement tire</strong>.</p>'
+    + '<p>If the original tire is no longer available, KUMHO may authorize a comparable MARSHAL tire of similar size, construction, application, and performance characteristics.</p>'
+    + '<p>The customer is responsible for any difference between the warranty credit and the selling price of the replacement MARSHAL tire, as well as all applicable mounting, balancing, valve stem or TPMS service, disposal/recycling fees, taxes, government-mandated fees, and other services.</p>'
+    + '<p>The prorated credit has <strong>no cash value</strong> and may not be applied toward tires manufactured or sold under another brand, except where otherwise required by applicable law.</p>'
+    + sub('TIRE ROTATION AND MAINTENANCE REQUIREMENTS')
+    + '<p>Proper tire maintenance is necessary to qualify for coverage under this Limited Treadwear Warranty.</p>'
+    + '<p>Tires must be rotated in accordance with the vehicle manufacturer\'s recommendations or MARSHAL\'s recommended rotation schedule. The owner is responsible for maintaining appropriate documentation of tire rotations and other required maintenance.</p>'
+    + '<p>The owner is also responsible for maintaining:</p>'
+    + dots(['Proper tire inflation;', 'Proper wheel alignment and balancing;', 'Proper vehicle loading;', 'Proper tire and wheel fitment; and', 'The vehicle\'s steering, braking, and suspension systems in appropriate operating condition.'])
+    + '<p>Failure to properly maintain or rotate the tires may result in denial of treadwear warranty coverage when the lack of maintenance contributed to premature or irregular wear.</p>'
+    + sub('STAGGERED AND NON-ROTATABLE FITMENTS')
+    + '<p>Vehicles equipped with different tire sizes on the front and rear axles, or other configurations that prevent tires from being rotated according to the recommended rotation pattern, may experience significantly different treadwear rates.</p>'
+    + '<p class="w-strong">For staggered or other non-rotatable fitments, the applicable mileage warranty for tires that cannot be rotated will be reduced to 50% of the mileage warranty stated for the applicable tire.</p>'
+    + sub('WHAT IS NOT COVERED')
+    + '<p>This Limited Treadwear Warranty does not cover:</p>'
+    + dots(['Original Equipment (OE) tires;',
+            f'Tires that have not worn evenly to the treadwear indicators at {TW};',
+            'Irregular or premature wear caused by improper inflation, overloading, improper alignment, wheel imbalance, or vehicle mechanical conditions;',
+            'Damage caused by road hazards, including punctures, cuts, snags, bruises, or impact breaks;',
+            'Damage or wear caused by accident, collision, fire, vandalism, theft, or intentional damage;',
+            'Tires damaged by improper mounting, demounting, repair, alteration, or maintenance;',
+            'Tires used for racing, competition, drifting, track events, or other abusive or improper use;',
+            'Tires used in commercial applications, including taxi, ride-for-hire, delivery, police, emergency, government, fleet, or similar commercial service;',
+            'Tires installed on a vehicle other than the vehicle on which they were originally installed;',
+            'Tires that have been retreaded, regrooved, altered, modified, or had the tread pattern changed;',
+            'Tires damaged through continued operation while flat or severely underinflated;',
+            'Tires used contrary to the tire\'s specified load, speed, size, or application requirements;',
+            'Cosmetic conditions that do not affect tread life or tire performance;',
+            'Tires for which required mileage, purchase, rotation, or maintenance documentation cannot be provided; or',
+            'Tires that have been in service for more than <strong>72 months from the original date of purchase</strong>, regardless of mileage.'])
+    + '<p>This Limited Treadwear Warranty covers <strong>premature treadwear only</strong> and does not provide coverage for road-hazard damage, workmanship or material conditions, ride disturbance, or other conditions that may be covered under a separate KUMHO warranty or program.</p>'
+    + sub('OWNER\'S OBLIGATIONS')
+    + '<p>To submit a claim under this Limited Treadwear Warranty, the original purchaser must present the tire to an <strong>authorized MARSHAL dealer or participating dealer</strong> for inspection.</p>'
+    + '<p>The owner must provide:</p>'
+    + dots(['The original dated sales receipt or invoice;', 'The vehicle mileage at the time the tires were originally installed;', 'The vehicle\'s current mileage at the time of the claim;', 'Tire rotation and maintenance records; and', 'The tire or tires being submitted for adjustment.'])
+    + '<p>The dealer will inspect the tire to verify tread depth, wear pattern, mileage, maintenance history, and eligibility.</p>'
+    + '<p>All claims are subject to verification and approval in accordance with MARSHAL\'s applicable warranty policies and procedures. KUMHO reserves the right to make the final determination regarding eligibility for coverage.</p>'
+    + sub('ADDITIONAL TERMS')
+    + '<p>This Limited Treadwear Warranty applies only to eligible MARSHAL replacement tires purchased and used in the United States.</p>'
+    + '<p>A replacement tire provided through a prorated adjustment will be covered by the MARSHAL warranty terms in effect for that replacement tire at the time of replacement.</p>'
+    + '<p>KUMHO is not responsible for incidental or consequential expenses arising from tire replacement, including loss of vehicle use, towing, lodging, transportation, or other related expenses, except where otherwise required by applicable law.</p>'
+    + '<p>No dealer, distributor, retailer, employee, or other representative is authorized to alter, modify, or extend the terms of this Limited Treadwear Warranty unless expressly authorized in writing by KUMHO TIRE U.S.A., Inc.</p>'
+    + FOOT)
+
 MARSHAL_LINES = 'ALL TERRAIN | HIGHWAY TERRAIN | TOUR A/S | SPORT A/S'
 RE_ACCS = [
   ('I.', 'What Is Covered by the Warranty and How Long', '<p>Marshal Tire U.S.A. Inc, 1001 Summit Blvd., NE Suite 1800 Atlanta, GA, 30319, warrants to the original consumer purchaser that all MARSHAL replacement radial tires either directly or through an authorized MARSHAL dealer, and which are mounted on cars within the U.S.A., and becomes unserviceable for any reason within the manufacturers control, such tire will be replaced with an equivalent MARSHAL tire. Should any tire manufactured by Marshal Tire Co., Inc. covered by this warranty become unserviceable due to a material or workmanship condition during its useable tread life (more than 2/32" remaining tread) before 6 years from the date of manufacture or purchase date supported with proof of purchase for every passenger and light truck tire (whichever comes first), and before 5 years (6 years of KLS02e, KLD11e, KLD02(e), KLD01e and KLT12e) from the date of manufacture or purchase date for commercial truck tires (whichever comes first), MARSHAL will do either of the following:</p>'
@@ -795,14 +872,7 @@ RE_ACCS = [
       ('M', '<p>Tires that have become unserviceable due to chemical corrosion, vandalism, chains and flat spotting.</p>'),
       ('N', '<p>Tires involved in any racing-related and commercial activities.</p>'),
       ('O', '<p>This limited warranty applies only to the original purchaser and is non-transferable.</p>')]) + FOOT),
-  ('III.', 'Limited Tread Wear Warranty', note()
-    + wtable(['TREADWEAR<br>WARRANTY', 'PATTERN', 'COMMENTS'], [
-        ['60,000', 'HIGHWAY TERRAIN (ML41)', 'P-METRIC'],
-        ['60,000', 'TOUR A/S (MH41)', ''],
-        ['55,000', 'ALL TERRAIN (MF41)', 'P-METRIC'],
-        ['50,000', 'ALL TERRAIN (MF41) | HIGHWAY TERRAIN (ML41)', 'LT-METRIC'],
-        ['50,000', 'SPORT A/S (MU41)', '']], 'w-table--3')
-    + FOOT),
+  ('III.', 'Limited Tread Wear Warranty', TREADWEAR_BODY),
   ('IV.', 'Unauthorized Dealer', '<p>Tires purchased from unauthorized MARSHAL dealers do not qualify for the MARSHAL Replacement Equipment Warranty. It is impossible for us to verify that these tires were stored properly, mounted correctly, or originally intended for sale in the United States. For this reason, MARSHAL cannot guarantee the safety or quality of the products purchased from unauthorized marketplace.</p>'
     + '<p>As a consumer, you should only purchase MARSHAL products from an authorized MARSHAL Dealer in order to ensure that the manufacturer\'s warranty is preserved. Please see the Dealer Locator on our website to find an authorized MARSHAL dealer near you.</p>'
     + f'<p>To locate an authorized MARSHAL dealer, use our web address<br>{DEALER_LINK} or call (800) HI-MARSHAL (445-8646).</p>' + FOOT),
